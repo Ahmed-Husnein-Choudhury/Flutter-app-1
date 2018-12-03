@@ -16,10 +16,85 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   String _gender;
   List<String> _genderOptions = new List<String>();
 
+  String memberId, dateOfBirth, firstName, lastName, gender, email, confirmEmail, mobileNumber;
+
+  // member id controller
+  final memberIdController = TextEditingController();
+
+  // date of birth controller
+  final dobController = TextEditingController();
+
+  // first name controller
+  final firstNameController = TextEditingController();
+
+  // last name controller
+  final lastNameController = TextEditingController();
+
+  // gender controller
+  final genderController = TextEditingController();
+
+  // email controller
+  final emailController = TextEditingController();
+
+  // confirm email controller
+  final confirmEmailController = TextEditingController();
+
+  // mobile number controller
+  final mobileNumberController = TextEditingController();
+
+
   @override
   void initState() {
     _genderOptions.addAll(["--Select a gender--","Male", "Female"]);
     _gender = _genderOptions.elementAt(0);
+  }
+
+  @override
+  void dispose() {
+    memberIdController.dispose();
+    dobController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    genderController.dispose();
+    emailController.dispose();
+    confirmEmailController.dispose();
+    mobileNumberController.dispose();
+    super.dispose();
+  }
+
+  // method to check whether the email and the confirm email is same or not
+  bool isEmailMatched(String email, String confirmEmail) {
+    if (email == confirmEmail) {
+      return true;
+    }
+    return false;
+  }
+
+  void saveMemberInfo() {
+    this.memberId = memberIdController.text;
+    this.dateOfBirth = dobController.text;
+    this.firstName = firstNameController.text;
+    this.lastName = lastNameController.text;
+    this.gender = genderController.text;
+    this.email = emailController.text.toLowerCase();
+    this.confirmEmail = confirmEmailController.text.toLowerCase();
+    this.mobileNumber = mobileNumberController.text;
+
+    print("Member ID: $memberId");
+    print("DOB : $dateOfBirth");
+    print("First Name: $firstName");
+    print("Last Name: $lastName");
+    print("Gender: $_gender");
+    print("Email: $email");
+    print("Confirm Email: $confirmEmail");
+    print("Mobile NO: $mobileNumber");
+
+    // matching the given email and confirm email here
+    if (this.isEmailMatched(email.toLowerCase(), confirmEmail.toLowerCase())) {
+      print("both are matched");
+    } else {
+      print("both are mismatched");
+    }
   }
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -56,7 +131,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   }
 
   // widget for choosing date of birth
-  Widget dob(BuildContext context) {
+  Widget dobField(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
         labelText: "Date of Birth*",
@@ -75,10 +150,11 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   }
 
   // member id widget
-  Widget memberId () {
+  Widget memberIdField () {
     return Container(
       alignment: Alignment.topLeft,
       child: TextField(
+        controller: memberIdController,
         decoration: InputDecoration(
           labelText: "Member ID/Medicaid ID*",
           /*border: OutlineInputBorder(
@@ -93,8 +169,9 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   }
 
   // first name widget
-  Widget firstName() {
+  Widget firstNameField() {
     return TextField(
+      controller: firstNameController,
       decoration: InputDecoration(
           labelText: "First name*"
       ),
@@ -102,8 +179,9 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   }
 
   // last name widget
-  Widget lastName() {
+  Widget lastNameField() {
     return TextField(
+      controller: lastNameController,
       decoration: InputDecoration(
           labelText: "Last name*"
       ),
@@ -116,7 +194,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: firstName(),
+            child: firstNameField(),
             flex: 3,
           ),
           Expanded(
@@ -125,7 +203,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
             flex: 1,
           ),
           Expanded(
-            child: lastName(),
+            child: lastNameField(),
             flex: 3,
           ),
         ],
@@ -162,6 +240,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // email widget
   Widget emailField() {
     return TextField(
+      controller: emailController,
       decoration: InputDecoration(
           labelText: "Email Address*"
       ),
@@ -171,6 +250,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // confirm email widget
   Widget confirmEmailField() {
     return TextField(
+      controller: confirmEmailController,
       decoration: InputDecoration(
           labelText: "Confirm Email Address*"
       ),
@@ -180,6 +260,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // Mobile number widget
   Widget mobileNumberField() {
     return TextField(
+      controller: mobileNumberController,
       decoration: InputDecoration(
           labelText: "Mobile Number*"
       ),
@@ -193,7 +274,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () => "something",
+        onPressed: saveMemberInfo,
         child: Text(
           "Continue",
           style: TextStyle(
@@ -223,9 +304,9 @@ class _MemberRegistrationState extends State<MemberRegistration> {
             spacer(gapHeight: 20.0),
             instructionalText(),
             spacer(gapHeight: 20.0),
-            memberId(),
+            memberIdField(),
             spacer(gapHeight: 20.0),
-            dob(context),
+            dobField(context),
             spacer(gapHeight: 20.0),
             nameFieldRow(),
             spacer(gapHeight: 20.0),

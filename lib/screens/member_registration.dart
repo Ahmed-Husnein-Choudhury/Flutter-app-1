@@ -18,7 +18,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   @override
   void initState() {
-    _genderOptions.addAll(["Male", "Female"]);
+    _genderOptions.addAll(["--Select a gender--","Male", "Female"]);
     _gender = _genderOptions.elementAt(0);
   }
 
@@ -77,6 +77,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // member id widget
   Widget memberId () {
     return Container(
+      alignment: Alignment.topLeft,
       child: TextField(
         decoration: InputDecoration(
           labelText: "Member ID/Medicaid ID*",
@@ -95,7 +96,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   Widget firstName() {
     return TextField(
       decoration: InputDecoration(
-          labelText: "First name"
+          labelText: "First name*"
       ),
     );
   }
@@ -104,7 +105,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   Widget lastName() {
     return TextField(
       decoration: InputDecoration(
-          labelText: "Last name"
+          labelText: "Last name*"
       ),
     );
   }
@@ -134,6 +135,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   void _setGender(String gender) {
     setState(() {
+      print(gender);
       this._gender = gender;
     });
   }
@@ -141,12 +143,71 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // gender widget
   Widget genderWidget () {
     return Container(
-        child: DropdownButton(
-          items: _genderOptions.map((String gender) {
-            return DropdownMenuItem(child: null);
-          }).toList(),
-          onChanged: null,
-        )
+      width: 300.0,
+      child: DropdownButton(
+        value: _gender,
+        items: _genderOptions.map((String gender) {
+          return DropdownMenuItem(
+              value: gender,
+              child: Text(""+gender)
+          );
+        }).toList(),
+        onChanged: (String gender) {
+          _setGender(gender);
+        },
+      )
+    );
+  }
+
+  // email widget
+  Widget emailField() {
+    return TextField(
+      decoration: InputDecoration(
+          labelText: "Email Address*"
+      ),
+    );
+  }
+
+  // confirm email widget
+  Widget confirmEmailField() {
+    return TextField(
+      decoration: InputDecoration(
+          labelText: "Confirm Email Address*"
+      ),
+    );
+  }
+
+  // Mobile number widget
+  Widget mobileNumberField() {
+    return TextField(
+      decoration: InputDecoration(
+          labelText: "Mobile Number*"
+      ),
+    );
+  }
+
+  // defining the register button widget
+  Widget confirmationButton() {
+    return Container(
+      height: 50.0,
+      width: 250.0,
+      child: RaisedButton(
+        color: Color(0XFF00AFDF),
+        onPressed: () => "something",
+        child: Text(
+          "Continue",
+          style: TextStyle(
+              fontSize: 18.0,
+              color: Colors.white
+          ),
+        ),
+        shape: StadiumBorder(
+          side: BorderSide(
+            width: 1.0,
+            color: Color(0XFF00AFDF),
+          ),
+        ),
+      ),
     );
   }
 
@@ -157,7 +218,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         padding: EdgeInsets.all(20.0),
         child: Column(
           children: <Widget>[
-            spacer(gapHeight: 10.0),
+            spacer(gapHeight: 20.0),
             logo(),
             spacer(gapHeight: 20.0),
             instructionalText(),
@@ -168,7 +229,16 @@ class _MemberRegistrationState extends State<MemberRegistration> {
             spacer(gapHeight: 20.0),
             nameFieldRow(),
             spacer(gapHeight: 20.0),
-            //genderWidget(),
+            genderWidget(),
+            spacer(gapHeight: 20.0),
+            emailField(),
+            spacer(gapHeight: 20.0),
+            confirmEmailField(),
+            spacer(gapHeight: 20.0),
+            mobileNumberField(),
+            spacer(gapHeight: 20.0),
+            confirmationButton(),
+            spacer(gapHeight: 20.0),
           ],
         ),
       ),

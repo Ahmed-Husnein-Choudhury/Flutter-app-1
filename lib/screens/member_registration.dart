@@ -12,54 +12,20 @@ class MemberRegistration extends StatefulWidget {
 
 class _MemberRegistrationState extends State<MemberRegistration> {
 
+  // global form key to validate input fields
+  GlobalKey<FormState> formKey = new GlobalKey();
+  bool _validate = false;
+
   DateTime _date = new DateTime.now();
-  String _gender;
   List<String> _genderOptions = new List<String>();
 
+  // form fields
   String memberId, dateOfBirth, firstName, lastName, gender, email, confirmEmail, mobileNumber;
-
-  // member id controller
-  final memberIdController = TextEditingController();
-
-  // date of birth controller
-  final dobController = TextEditingController();
-
-  // first name controller
-  final firstNameController = TextEditingController();
-
-  // last name controller
-  final lastNameController = TextEditingController();
-
-  // gender controller
-  final genderController = TextEditingController();
-
-  // email controller
-  final emailController = TextEditingController();
-
-  // confirm email controller
-  final confirmEmailController = TextEditingController();
-
-  // mobile number controller
-  final mobileNumberController = TextEditingController();
-
 
   @override
   void initState() {
     _genderOptions.addAll(["--Select a gender--","Male", "Female"]);
-    _gender = _genderOptions.elementAt(0);
-  }
-
-  @override
-  void dispose() {
-    memberIdController.dispose();
-    dobController.dispose();
-    firstNameController.dispose();
-    lastNameController.dispose();
-    genderController.dispose();
-    emailController.dispose();
-    confirmEmailController.dispose();
-    mobileNumberController.dispose();
-    super.dispose();
+    gender = _genderOptions.elementAt(0);
   }
 
   // method to check whether the email and the confirm email is same or not
@@ -70,30 +36,105 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     return false;
   }
 
-  void saveMemberInfo() {
-    this.memberId = memberIdController.text;
-    this.dateOfBirth = dobController.text;
-    this.firstName = firstNameController.text;
-    this.lastName = lastNameController.text;
-    this.gender = genderController.text;
-    this.email = emailController.text.toLowerCase();
-    this.confirmEmail = confirmEmailController.text.toLowerCase();
-    this.mobileNumber = mobileNumberController.text;
-
-    print("Member ID: $memberId");
-    print("DOB : $dateOfBirth");
-    print("First Name: $firstName");
-    print("Last Name: $lastName");
-    print("Gender: $_gender");
-    print("Email: $email");
-    print("Confirm Email: $confirmEmail");
-    print("Mobile NO: $mobileNumber");
-
-    // matching the given email and confirm email here
-    if (this.isEmailMatched(email.toLowerCase(), confirmEmail.toLowerCase())) {
-      print("both are matched");
+  // validation rules for memberID field
+  String validateMemberID(String memberID) {
+    if (memberID.length == 0) {
+      return "Member ID required";
+    } else if (memberID.length != 9) {
+      return "Invalid Member ID";
     } else {
-      print("both are mismatched");
+      return null;
+    }
+  }
+
+  // validation rules for dateOfBirth field
+  String validateDateOfBirth(String dob) {
+    if (dob.length == 0) {
+      return "DOB is required";
+    }
+    return null;
+  }
+
+  // validation rules for firstName field
+  String validateFirstName(String firstName) {
+    if (firstName.length == 0) {
+      return "First name is required";
+    }
+    return null;
+  }
+
+  // validation rules for lastName field
+  String validateLastName(String lastName) {
+    if (lastName.length == 0) {
+      return "Last name is required";
+    }
+    return null;
+  }
+
+  // validation rules for email address
+  String validateEmail(String email) {
+    if (email.length == 0) {
+      return "Email is required";
+    } else {
+      Pattern pattern =
+          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regex = new RegExp(pattern);
+      if (!regex.hasMatch(email))
+        return 'Enter valid email';
+      else
+        return null;
+    }
+  }
+
+  // validation rules for email confirmation
+  String validateEmailConfirmation(String email) {
+    if (email.length == 0) {
+      return "Confirm email is required";
+    } else {
+      Pattern pattern =
+          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regex = new RegExp(pattern);
+      if (!regex.hasMatch(email))
+        return 'Enter valid email';
+      else
+        return null;
+    }
+  }
+
+  // validation rules for phone number
+  String validatePhoneNumber(String phoneNumber) {
+    if (phoneNumber.length == 0) {
+      return "Mobile number is required";
+    } else if (phoneNumber.length != 10) {
+      return "Invalid mobile number length";
+    } else {
+      return null;
+    }
+  }
+
+  void saveMemberInfo() {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+
+      // matching the given email and confirm email here
+      if (this.isEmailMatched(email, confirmEmail)) {
+        print("both are matched");
+      } else {
+        print("both are mismatched");
+      }
+
+      print("Member ID: $memberId");
+      print("DOB : $dateOfBirth");
+      print("First Name: $firstName");
+      print("Last Name: $lastName");
+      print("Gender: $gender");
+      print("Email: $email");
+      print("Confirm Email: $confirmEmail");
+      print("Mobile NO: $mobileNumber");
+    } else {
+      setState(() {
+        _validate = true;
+      });
     }
   }
 
@@ -132,7 +173,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // widget for choosing date of birth
   Widget dobField(BuildContext context) {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(
         labelText: "Date of Birth*",
       ),
@@ -153,16 +194,14 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   Widget memberIdField () {
     return Container(
       alignment: Alignment.topLeft,
-      child: TextField(
-        controller: memberIdController,
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        validator: validateMemberID,
+        onSaved: (String memberId) {
+          this.memberId = memberId;
+        },
         decoration: InputDecoration(
           labelText: "Member ID/Medicaid ID*",
-          /*border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(2.0)),
-            borderSide: BorderSide(
-              width: 1.0
-            )
-          )*/
         ),
       ),
     );
@@ -170,8 +209,11 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // first name widget
   Widget firstNameField() {
-    return TextField(
-      controller: firstNameController,
+    return TextFormField(
+      validator: validateFirstName,
+      onSaved: (String firstName) {
+        this.firstName = firstName;
+      },
       decoration: InputDecoration(
           labelText: "First name*"
       ),
@@ -180,8 +222,11 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // last name widget
   Widget lastNameField() {
-    return TextField(
-      controller: lastNameController,
+    return TextFormField(
+      validator: validateLastName,
+      onSaved: (String lastName) {
+        this.lastName = lastName;
+      },
       decoration: InputDecoration(
           labelText: "Last name*"
       ),
@@ -213,8 +258,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   void _setGender(String gender) {
     setState(() {
-      print(gender);
-      this._gender = gender;
+      this.gender = gender;
     });
   }
 
@@ -223,7 +267,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     return Container(
       width: 300.0,
       child: DropdownButton(
-        value: _gender,
+        value: this.gender,
         items: _genderOptions.map((String gender) {
           return DropdownMenuItem(
               value: gender,
@@ -239,8 +283,12 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // email widget
   Widget emailField() {
-    return TextField(
-      controller: emailController,
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      validator: validateEmail,
+      onSaved: (String email) {
+        this.email = email;
+      },
       decoration: InputDecoration(
           labelText: "Email Address*"
       ),
@@ -249,8 +297,12 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // confirm email widget
   Widget confirmEmailField() {
-    return TextField(
-      controller: confirmEmailController,
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      validator: validateEmailConfirmation,
+      onSaved: (String confirmedEmail) {
+        this.confirmEmail = confirmedEmail;
+      },
       decoration: InputDecoration(
           labelText: "Confirm Email Address*"
       ),
@@ -259,8 +311,14 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // Mobile number widget
   Widget mobileNumberField() {
-    return TextField(
-      controller: mobileNumberController,
+    return TextFormField(
+      keyboardType: TextInputType.phone,
+      maxLength: 10,
+      validator: validatePhoneNumber,
+
+      onSaved: (String phoneNumber) {
+        this.mobileNumber = phoneNumber;
+      },
       decoration: InputDecoration(
           labelText: "Mobile Number*"
       ),
@@ -297,31 +355,35 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: <Widget>[
-            spacer(gapHeight: 20.0),
-            logo(),
-            spacer(gapHeight: 20.0),
-            instructionalText(),
-            spacer(gapHeight: 20.0),
-            memberIdField(),
-            spacer(gapHeight: 20.0),
-            dobField(context),
-            spacer(gapHeight: 20.0),
-            nameFieldRow(),
-            spacer(gapHeight: 20.0),
-            genderWidget(),
-            spacer(gapHeight: 20.0),
-            emailField(),
-            spacer(gapHeight: 20.0),
-            confirmEmailField(),
-            spacer(gapHeight: 20.0),
-            mobileNumberField(),
-            spacer(gapHeight: 20.0),
-            confirmationButton(),
-            spacer(gapHeight: 20.0),
-          ],
-        ),
+        child: Form(
+          key: formKey,
+          autovalidate: _validate,
+          child: Column(
+            children: <Widget>[
+              spacer(gapHeight: 20.0),
+              logo(),
+              spacer(gapHeight: 20.0),
+              instructionalText(),
+              spacer(gapHeight: 20.0),
+              memberIdField(),
+              spacer(gapHeight: 20.0),
+              dobField(context),
+              spacer(gapHeight: 20.0),
+              nameFieldRow(),
+              spacer(gapHeight: 20.0),
+              genderWidget(),
+              spacer(gapHeight: 20.0),
+              emailField(),
+              spacer(gapHeight: 20.0),
+              confirmEmailField(),
+              spacer(gapHeight: 20.0),
+              mobileNumberField(),
+              spacer(gapHeight: 20.0),
+              confirmationButton(),
+              spacer(gapHeight: 20.0),
+            ],
+          ),
+        )
       ),
     );
   }

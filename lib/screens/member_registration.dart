@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 
 class MemberRegistration extends StatefulWidget {
 
@@ -12,28 +12,187 @@ class MemberRegistration extends StatefulWidget {
 
 class _MemberRegistrationState extends State<MemberRegistration> {
 
-  DateTime _date = new DateTime.now();
-  String _gender;
+  // global form key to validate input fields
+  GlobalKey<FormState> formKey = new GlobalKey();
+  bool _validate = false;
   List<String> _genderOptions = new List<String>();
+
+  // form fields
+  String memberId, dateOfBirth, firstName, lastName, gender, email, confirmEmail, mobileNumber;
+
+  int _year;
+  int _month;
+  int _date;
+  String _format = 'yyyy-mm-dd';
+
+  // controller for dateOfBirth
+  final dobController = new TextEditingController();
 
   @override
   void initState() {
-    _genderOptions.addAll(["--Select a gender--","Male", "Female"]);
-    _gender = _genderOptions.elementAt(0);
+    super.initState();
+
+    DateTime now = DateTime.now();
+    _year = now.year;
+    _month = now.month;
+    _date = now.day;
+
+    dobController.text = "$_year-$_month-$_date";
+
+    _genderOptions.addAll(["Male", "Female"]);
+    gender = _genderOptions.elementAt(0);
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: _date,
-        firstDate: new DateTime(1950),
-        lastDate: new DateTime(2018)
+  /// Display date picker.
+  void _showDatePicker() {
+    print("logging from date picker");
+    DatePicker.showDatePicker(
+      context,
+      minYear: 1970,
+      maxYear: 2020,
+      initialYear: _year,
+      initialMonth: _month,
+      initialDate: _date,
+      locale: 'en',
+      confirm: Text(
+        'Ok',
+        style: TextStyle(color: Colors.green),
+      ),
+      cancel: Text(
+        'Cancel',
+        style: TextStyle(color: Colors.cyan),
+      ),
+      dateFormat: _format,
+      onChanged: (year, month, date) {
+        debugPrint('onChanged date: $year-$month-$date');
+        setState(() {
+          dobController.text = "$year-$month-$date";
+        });
+      },
+      onConfirm: (year, month, date) {
+        _changeDatetime(year, month, date);
+        setState(() {
+          dobController.text = "$year-$month-$date";
+        });
+      },
     );
+  }
 
-    if (picked != null && picked != _date) {
-      print("Date is: "+_date.toString());
+  void _changeDatetime(int year, int month, int date) {
+    setState(() {
+      _year = year;
+      _month = month;
+      _date = date;
+      this.dateOfBirth = '$year-$month-$date';
+    });
+  }
+
+  // method to check whether the email and the confirm email is same or not
+  bool isEmailMatched(String email, String confirmEmail) {
+    if (email == confirmEmail) {
+      return true;
+    }
+    return false;
+  }
+
+  // validation rules for memberID field
+  String validateMemberID(String memberID) {
+    if (memberID.length == 0) {
+      return "Member ID required";
+    } else if (memberID.length != 9) {
+      return "Invalid Member ID";
+    } else {
+      return null;
+    }
+  }
+
+  // validation rules for dateOfBirth field
+  String validateDateOfBirth(String dob) {
+    if (dob.length == 0) {
+      return "DOB is required";
+    }
+    return null;
+  }
+
+  // validation rules for firstName field
+  String validateFirstName(String firstName) {
+    if (firstName.length == 0) {
+      return "First name is required";
+    }
+    return null;
+  }
+
+  // validation rules for lastName field
+  String validateLastName(String lastName) {
+    if (lastName.length == 0) {
+      return "Last name is required";
+    }
+    return null;
+  }
+
+  // validation rules for email address
+  String validateEmail(String email) {
+    if (email.length == 0) {
+      return "Email is required";
+    } else {
+      Pattern pattern =
+          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regex = new RegExp(pattern);
+      if (!regex.hasMatch(email))
+        return 'Enter valid email';
+      else
+        return null;
+    }
+  }
+
+  // validation rules for email confirmation
+  String validateEmailConfirmation(String email) {
+    if (email.length == 0) {
+      return "Confirm email is required";
+    } else {
+      Pattern pattern =
+          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regex = new RegExp(pattern);
+      if (!regex.hasMatch(email))
+        return 'Enter valid email';
+      else
+        return null;
+    }
+  }
+
+  // validation rules for phone number
+  String validatePhoneNumber(String phoneNumber) {
+    if (phoneNumber.length == 0) {
+      return "Mobile number is required";
+    } else if (phoneNumber.length != 10) {
+      return "Invalid mobile number length";
+    } else {
+      return null;
+    }
+  }
+
+  void saveMemberInfo() {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+
+      // matching the given email and confirm email here
+      if (this.isEmailMatched(email, confirmEmail)) {
+        print("both are matched");
+      } else {
+        print("both are mismatched");
+      }
+
+      print("Member ID: $memberId");
+      print("DOB : $dateOfBirth");
+      print("First Name: $firstName");
+      print("Last Name: $lastName");
+      print("Gender: $gender");
+      print("Email: $email");
+      print("Confirm Email: $confirmEmail");
+      print("Mobile NO: $mobileNumber");
+    } else {
       setState(() {
-        _date = picked;
+        _validate = true;
       });
     }
   }
@@ -56,10 +215,16 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   }
 
   // widget for choosing date of birth
-  Widget dob(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: "Date of Birth*",
+  Widget dobField(BuildContext context) {
+    return GestureDetector(
+      onTap: _showDatePicker,
+      onDoubleTap: _showDatePicker,
+      child: TextFormField(
+        controller: dobController,
+        validator: validateDateOfBirth,
+        decoration: InputDecoration(
+          labelText: "Date of Birth*",
+        ),
       ),
     );
   }
@@ -75,26 +240,29 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   }
 
   // member id widget
-  Widget memberId () {
+  Widget memberIdField () {
     return Container(
       alignment: Alignment.topLeft,
-      child: TextField(
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        validator: validateMemberID,
+        onSaved: (String memberId) {
+          this.memberId = memberId;
+        },
         decoration: InputDecoration(
           labelText: "Member ID/Medicaid ID*",
-          /*border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(2.0)),
-            borderSide: BorderSide(
-              width: 1.0
-            )
-          )*/
         ),
       ),
     );
   }
 
   // first name widget
-  Widget firstName() {
-    return TextField(
+  Widget firstNameField() {
+    return TextFormField(
+      validator: validateFirstName,
+      onSaved: (String firstName) {
+        this.firstName = firstName;
+      },
       decoration: InputDecoration(
           labelText: "First name*"
       ),
@@ -102,8 +270,12 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   }
 
   // last name widget
-  Widget lastName() {
-    return TextField(
+  Widget lastNameField() {
+    return TextFormField(
+      validator: validateLastName,
+      onSaved: (String lastName) {
+        this.lastName = lastName;
+      },
       decoration: InputDecoration(
           labelText: "Last name*"
       ),
@@ -116,7 +288,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: firstName(),
+            child: firstNameField(),
             flex: 3,
           ),
           Expanded(
@@ -125,7 +297,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
             flex: 1,
           ),
           Expanded(
-            child: lastName(),
+            child: lastNameField(),
             flex: 3,
           ),
         ],
@@ -135,17 +307,16 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   void _setGender(String gender) {
     setState(() {
-      print(gender);
-      this._gender = gender;
+      this.gender = gender;
     });
   }
 
   // gender widget
   Widget genderWidget () {
     return Container(
-      width: 300.0,
+      width: 320.0,
       child: DropdownButton(
-        value: _gender,
+        value: this.gender,
         items: _genderOptions.map((String gender) {
           return DropdownMenuItem(
               value: gender,
@@ -161,7 +332,12 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // email widget
   Widget emailField() {
-    return TextField(
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      validator: validateEmail,
+      onSaved: (String email) {
+        this.email = email;
+      },
       decoration: InputDecoration(
           labelText: "Email Address*"
       ),
@@ -170,7 +346,12 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // confirm email widget
   Widget confirmEmailField() {
-    return TextField(
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      validator: validateEmailConfirmation,
+      onSaved: (String confirmedEmail) {
+        this.confirmEmail = confirmedEmail;
+      },
       decoration: InputDecoration(
           labelText: "Confirm Email Address*"
       ),
@@ -179,7 +360,14 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // Mobile number widget
   Widget mobileNumberField() {
-    return TextField(
+    return TextFormField(
+      keyboardType: TextInputType.phone,
+      maxLength: 10,
+      validator: validatePhoneNumber,
+
+      onSaved: (String phoneNumber) {
+        this.mobileNumber = phoneNumber;
+      },
       decoration: InputDecoration(
           labelText: "Mobile Number*"
       ),
@@ -193,7 +381,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () => "something",
+        onPressed: saveMemberInfo,
         child: Text(
           "Continue",
           style: TextStyle(
@@ -216,31 +404,35 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: <Widget>[
-            spacer(gapHeight: 20.0),
-            logo(),
-            spacer(gapHeight: 20.0),
-            instructionalText(),
-            spacer(gapHeight: 20.0),
-            memberId(),
-            spacer(gapHeight: 20.0),
-            dob(context),
-            spacer(gapHeight: 20.0),
-            nameFieldRow(),
-            spacer(gapHeight: 20.0),
-            genderWidget(),
-            spacer(gapHeight: 20.0),
-            emailField(),
-            spacer(gapHeight: 20.0),
-            confirmEmailField(),
-            spacer(gapHeight: 20.0),
-            mobileNumberField(),
-            spacer(gapHeight: 20.0),
-            confirmationButton(),
-            spacer(gapHeight: 20.0),
-          ],
-        ),
+        child: Form(
+          key: formKey,
+          autovalidate: _validate,
+          child: Column(
+            children: <Widget>[
+              spacer(gapHeight: 20.0),
+              logo(),
+              spacer(gapHeight: 20.0),
+              instructionalText(),
+              spacer(gapHeight: 20.0),
+              memberIdField(),
+              spacer(gapHeight: 20.0),
+              dobField(context),
+              spacer(gapHeight: 20.0),
+              nameFieldRow(),
+              spacer(gapHeight: 20.0),
+              genderWidget(),
+              spacer(gapHeight: 20.0),
+              emailField(),
+              spacer(gapHeight: 20.0),
+              confirmEmailField(),
+              spacer(gapHeight: 20.0),
+              mobileNumberField(),
+              spacer(gapHeight: 20.0),
+              confirmationButton(),
+              spacer(gapHeight: 20.0),
+            ],
+          ),
+        )
       ),
     );
   }

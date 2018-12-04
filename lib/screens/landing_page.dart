@@ -58,7 +58,7 @@ class _LandingPageState extends State<LandingPage> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF1EE3B7),
-        onPressed: () => "jdjdnc",
+        onPressed: () => Navigator.of(context).pushReplacementNamed("/memberRegistration"),
         child: Text(
           "Register",
           style: TextStyle(

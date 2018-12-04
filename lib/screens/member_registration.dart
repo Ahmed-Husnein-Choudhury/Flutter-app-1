@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 
 class MemberRegistration extends StatefulWidget {
 
@@ -15,17 +15,76 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // global form key to validate input fields
   GlobalKey<FormState> formKey = new GlobalKey();
   bool _validate = false;
-
-  DateTime _date = new DateTime.now();
   List<String> _genderOptions = new List<String>();
 
   // form fields
   String memberId, dateOfBirth, firstName, lastName, gender, email, confirmEmail, mobileNumber;
 
+  int _year;
+  int _month;
+  int _date;
+  String _format = 'yyyy-mm-dd';
+
+  // controller for dateOfBirth
+  final dobController = new TextEditingController();
+
   @override
   void initState() {
-    _genderOptions.addAll(["--Select a gender--","Male", "Female"]);
+    super.initState();
+
+    DateTime now = DateTime.now();
+    _year = now.year;
+    _month = now.month;
+    _date = now.day;
+
+    dobController.text = "$_year-$_month-$_date";
+
+    _genderOptions.addAll(["Male", "Female"]);
     gender = _genderOptions.elementAt(0);
+  }
+
+  /// Display date picker.
+  void _showDatePicker() {
+    print("logging from date picker");
+    DatePicker.showDatePicker(
+      context,
+      minYear: 1970,
+      maxYear: 2020,
+      initialYear: _year,
+      initialMonth: _month,
+      initialDate: _date,
+      locale: 'en',
+      confirm: Text(
+        'Ok',
+        style: TextStyle(color: Colors.green),
+      ),
+      cancel: Text(
+        'Cancel',
+        style: TextStyle(color: Colors.cyan),
+      ),
+      dateFormat: _format,
+      onChanged: (year, month, date) {
+        debugPrint('onChanged date: $year-$month-$date');
+        setState(() {
+          dobController.text = "$year-$month-$date";
+        });
+      },
+      onConfirm: (year, month, date) {
+        _changeDatetime(year, month, date);
+        setState(() {
+          dobController.text = "$year-$month-$date";
+        });
+      },
+    );
+  }
+
+  void _changeDatetime(int year, int month, int date) {
+    setState(() {
+      _year = year;
+      _month = month;
+      _date = date;
+      this.dateOfBirth = '$year-$month-$date';
+    });
   }
 
   // method to check whether the email and the confirm email is same or not
@@ -138,22 +197,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     }
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: _date,
-        firstDate: new DateTime(1950),
-        lastDate: new DateTime(2018)
-    );
-
-    if (picked != null && picked != _date) {
-      print("Date is: "+_date.toString());
-      setState(() {
-        _date = picked;
-      });
-    }
-  }
-
   // widget for showing logo
   Widget logo() {
     return Center(
@@ -173,9 +216,15 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // widget for choosing date of birth
   Widget dobField(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: "Date of Birth*",
+    return GestureDetector(
+      onTap: _showDatePicker,
+      onDoubleTap: _showDatePicker,
+      child: TextFormField(
+        controller: dobController,
+        validator: validateDateOfBirth,
+        decoration: InputDecoration(
+          labelText: "Date of Birth*",
+        ),
       ),
     );
   }
@@ -265,7 +314,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // gender widget
   Widget genderWidget () {
     return Container(
-      width: 300.0,
+      width: 320.0,
       child: DropdownButton(
         value: this.gender,
         items: _genderOptions.map((String gender) {

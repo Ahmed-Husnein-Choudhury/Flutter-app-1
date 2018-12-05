@@ -3,6 +3,7 @@ import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart
 import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:medicaid/screens/member_verification.dart';
 
 class MemberRegistration extends StatefulWidget {
 
@@ -197,7 +198,12 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     );
 
     if (response.statusCode == 200) {
-      print("verified");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MemberVerification(email: this.email, mobile: this.mobileNumber),
+        ),
+      );
     } else {
       _showVerificationErrorDialog();
     }

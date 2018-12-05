@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medicaid/screens/landing_page.dart';
 import 'package:medicaid/screens/member_registration.dart';
+import 'package:medicaid/screens/member_verification.dart';
 
 /*import 'package:behold/screens/search.dart';
 import 'package:behold/screens/upcoming_appointments_details.dart';
@@ -17,8 +18,8 @@ class Routes {
   static final routeList = <String, WidgetBuilder> {
     LandingPage.routeName: (context) => LandingPage(),
     MemberRegistration.routeName: (context) => MemberRegistration(),
-    /*Contact.routeName: (context) => Contact(),
-    HomePage.routeName: (context) => HomePage(),
+    MemberVerification.routeName: (context) => MemberVerification(),
+    /*HomePage.routeName: (context) => HomePage(),
     ClaimsAndAppointments.routeName: (context) => ClaimsAndAppointments(),
     ClaimAndAppointmentsDetails.routeName: (context) => ClaimAndAppointmentsDetails(),
     UpcomingAppointments.routeName: (context) => UpcomingAppointments(),

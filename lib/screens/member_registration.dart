@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'dart:async';
+import 'package:http/http.dart';
+import 'dart:convert';
 
 class MemberRegistration extends StatefulWidget {
 
@@ -18,7 +21,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   List<String> _genderOptions = new List<String>();
 
   // form fields
-  String memberId, dateOfBirth, firstName, lastName, gender, email, confirmEmail, mobileNumber;
+  String memberId, dateOfBirth, firstName, lastName, gender, email, confirmEmail, mobileNumber, processedGender;
 
   int _year;
   int _month;
@@ -37,10 +40,167 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     _month = now.month;
     _date = now.day;
 
-    dobController.text = "$_year-$_month-$_date";
+    dobController.text = "$_month/$_date/$_year";
+    this.dateOfBirth = "$_year-$_month-$_date";
 
-    _genderOptions.addAll(["Male", "Female"]);
+    _genderOptions.addAll(["Male", "Female", "Transgender", "Non-Conforming"]);
     gender = _genderOptions.elementAt(0);
+  }
+
+  // alert dialog if date is invalid
+  void _showInvalidDateDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Invalid Date",
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+              fontSize: 16.0
+            ),
+          ),
+          content: Text(
+            "You can't choose a future date!!!",
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      }
+    );
+  }
+
+  // alert dialog if email and confirm email do not match
+  void _showMismatchEmailDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Email Mismatch!",
+              style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0
+              ),
+            ),
+            content: Text(
+              "Your given email and confirm email do not match each other",
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
+
+  // success alert upon compilation of member registration
+  void _showVerificationErrorDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Verification Error',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top:10.0),
+                ),
+                Divider(
+                  height: 2.0,
+                )
+              ],
+            ),
+          ),
+          content: Container(
+            height: 180.0,
+            child: Column(
+              children : <Widget>[
+                Text(
+                  "Please recheck the information entered and resubmit. If you continue to receive this message,"
+                      "please contact us at Customer Service (880) 555-2222",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 15.0
+                  ),
+                ),
+                spacer(gapHeight: 25.0),
+                RaisedButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })
+              ],
+            ),
+          )
+        );
+      },
+    );
+  }
+
+  // process gender for sending to server
+  void processGender(String gender) {
+    if (gender == "Male") {
+      this.processedGender = "M";
+    } else if (gender == "Female") {
+      this.processedGender = "F";
+    } else if (gender == "Transgender") {
+      this.processedGender = "T";
+    } else if (gender == "Non-Conforming") {
+      this.processedGender = "N";
+    }
+  }
+
+  // send data to server
+  Future _sendDataToServer() async {
+    // url to hit
+    final String url = "http://192.168.1.37:8008/api/v1/verify_member_account/";
+
+    var body = {
+      "member_number": this.memberId,
+      "date_of_birth": this.dateOfBirth,
+      "first_name": this.firstName,
+      "last_name": this.lastName,
+      "gender": this.processedGender,
+      "email_address": this.email,
+      "primary_phone_number": this.mobileNumber,
+    };
+    
+    var response = await post(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: json.encode(body)
+    );
+
+    if (response.statusCode == 200) {
+      print("verified");
+    } else {
+      _showVerificationErrorDialog();
+    }
   }
 
   /// Display date picker.
@@ -48,8 +208,8 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     print("logging from date picker");
     DatePicker.showDatePicker(
       context,
-      minYear: 1970,
-      maxYear: 2020,
+      minYear: 1920,
+      maxYear: _year,
       initialYear: _year,
       initialMonth: _month,
       initialDate: _date,
@@ -64,15 +224,21 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       ),
       dateFormat: _format,
       onChanged: (year, month, date) {
-        debugPrint('onChanged date: $year-$month-$date');
         setState(() {
-          dobController.text = "$year-$month-$date";
+          this.dateOfBirth = "$_year-$_month-$_date";
+          dobController.text = "$_month/$_date/$_year";
         });
+        /*if (date > this._date) {
+          _showInvalidDateDialog();
+        } else {
+
+        }*/
       },
       onConfirm: (year, month, date) {
         _changeDatetime(year, month, date);
         setState(() {
-          dobController.text = "$year-$month-$date";
+          this.dateOfBirth = "$_year-$_month-$_date";
+          dobController.text = "$_month/$_date/$_year";
         });
       },
     );
@@ -174,22 +340,13 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   void saveMemberInfo() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-
       // matching the given email and confirm email here
       if (this.isEmailMatched(email, confirmEmail)) {
-        print("both are matched");
+        this.processGender(this.gender);
+        _sendDataToServer();
       } else {
-        print("both are mismatched");
+        _showMismatchEmailDialog();
       }
-
-      print("Member ID: $memberId");
-      print("DOB : $dateOfBirth");
-      print("First Name: $firstName");
-      print("Last Name: $lastName");
-      print("Gender: $gender");
-      print("Email: $email");
-      print("Confirm Email: $confirmEmail");
-      print("Mobile NO: $mobileNumber");
     } else {
       setState(() {
         _validate = true;

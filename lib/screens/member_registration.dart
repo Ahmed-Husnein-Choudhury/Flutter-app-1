@@ -547,7 +547,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     );
   }
 
-  // defining the register button widget
+  // defining the confirmation button widget
   Widget confirmationButton() {
     return Container(
       height: 50.0,

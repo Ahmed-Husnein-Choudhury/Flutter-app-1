@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:medicaid/screens/member_information.dart';
 
 class MemberVerification extends StatefulWidget {
 
@@ -427,6 +428,7 @@ class _MemberVerificationState extends State<MemberVerification> {
     );
 
     if (response.statusCode == 200) {
+      Navigator.of(context).pushReplacementNamed(MemberInformation.routeName);
       String responseBody = response.body;
       print(responseBody);
     } else {

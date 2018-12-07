@@ -37,9 +37,13 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     super.initState();
 
     DateTime now = DateTime.now();
-    _year = now.year;
+    /*_year = now.year;
     _month = now.month;
-    _date = now.day;
+    _date = now.day;*/
+
+    _year = 2011;
+    _month = 1;
+    _date = 21;
 
     dobController.text = "$_month/$_date/$_year";
     this.dateOfBirth = "$_year-$_month-$_date";
@@ -201,7 +205,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MemberVerification(email: this.email, mobile: this.mobileNumber),
+          builder: (context) => MemberVerification(memberId: this.memberId, email: this.email, mobile: this.mobileNumber),
         ),
       );
     } else {
@@ -407,6 +411,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     return Container(
       alignment: Alignment.topLeft,
       child: TextFormField(
+        initialValue: "432723711",
         keyboardType: TextInputType.number,
         validator: validateMemberID,
         onSaved: (String memberId) {
@@ -422,6 +427,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // first name widget
   Widget firstNameField() {
     return TextFormField(
+      initialValue: "Casandra",
       validator: validateFirstName,
       onSaved: (String firstName) {
         this.firstName = firstName;
@@ -435,6 +441,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // last name widget
   Widget lastNameField() {
     return TextFormField(
+      initialValue: "Pagac",
       validator: validateLastName,
       onSaved: (String lastName) {
         this.lastName = lastName;
@@ -496,6 +503,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // email widget
   Widget emailField() {
     return TextFormField(
+      initialValue: "casandra@domain.com",
       keyboardType: TextInputType.emailAddress,
       validator: validateEmail,
       onSaved: (String email) {
@@ -510,6 +518,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // confirm email widget
   Widget confirmEmailField() {
     return TextFormField(
+      initialValue: "casandra@domain.com",
       keyboardType: TextInputType.emailAddress,
       validator: validateEmailConfirmation,
       onSaved: (String confirmedEmail) {
@@ -524,6 +533,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // Mobile number widget
   Widget mobileNumberField() {
     return TextFormField(
+      initialValue: "1234567898",
       keyboardType: TextInputType.phone,
       maxLength: 10,
       validator: validatePhoneNumber,

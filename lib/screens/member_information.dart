@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:medicaid/models/member.dart';
+import 'dart:convert';
+import 'package:http/http.dart';
 
 class MemberInformation extends StatefulWidget {
 
   // defining the route here
   static final String routeName = "/memberInformation";
 
+  String responseData;
+  MemberInformation({this.responseData});
+
   @override
   _MemberInformationState createState() => _MemberInformationState();
 }
 
 class _MemberInformationState extends State<MemberInformation> {
+
+  Member member;
+
+  @override
+  initState() {
+    super.initState();
+    this.member = Member.fromJson(json.decode(widget.responseData)['data']);
+  }
 
   // widget for showing logo
   Widget logo() {
@@ -31,7 +45,7 @@ class _MemberInformationState extends State<MemberInformation> {
   // defining the instructional text widget
   Widget instructionalText() {
     return Text(
-      "Excellent. We've confirmed your enrollment in <Health Plan>. Please verify your personal information is accurate.",
+      "Excellent. We've confirmed your enrollment in ${this.member.medicaidInfo.memberPlan.planName}. Please verify your personal information is accurate.",
       style: TextStyle(
           fontSize: 15.0,
           color: Colors.grey
@@ -78,11 +92,11 @@ class _MemberInformationState extends State<MemberInformation> {
         children: <Widget>[
           Expanded(
             flex: 1,
-            child: Text("John J Smith JR"),
+            child: Text(this.member.clientInfo.clientName),
           ),
           Expanded(
             flex: 1,
-            child: Text("M12345678"),
+            child: Text(this.member.memberNumber),
           ),
         ],
       ),
@@ -104,7 +118,7 @@ class _MemberInformationState extends State<MemberInformation> {
             ),
           ),
           spacer(gapHeight: 5.0),
-          Text("09/24/1974")
+          Text(this.member.demographic.dateOfBirth)
         ],
       ),
     );
@@ -126,7 +140,9 @@ class _MemberInformationState extends State<MemberInformation> {
           ),
           spacer(gapHeight: 5.0),
           Text(
-            "101 Main St\nApt 2\nAnywhere, VA 22222 USA"
+            "${this.member.location.streetAddressOne}\n${this.member.location.addressCity}"
+                "\n${this.member.location.addressState}, ${this.member.location.addressZip}"
+                " USA"
           )
         ],
       ),
@@ -149,7 +165,7 @@ class _MemberInformationState extends State<MemberInformation> {
           ),
           spacer(gapHeight: 5.0),
           Text(
-              "jjsmith@domain.com"
+              this.member.contactInfo.emailAddress
           )
         ],
       ),
@@ -172,7 +188,7 @@ class _MemberInformationState extends State<MemberInformation> {
           ),
           spacer(gapHeight: 5.0),
           Text(
-              "(703) 555-1111"
+              this.member.contactInfo.primaryPhoneNumber
           )
         ],
       ),
@@ -209,7 +225,7 @@ class _MemberInformationState extends State<MemberInformation> {
           ),
           spacer(gapHeight: 20.0),
           Text(
-            "Health Plan 1",
+            this.member.medicaidInfo.memberPlan.planName,
             style: TextStyle(
                 fontSize: 15.0
             ),

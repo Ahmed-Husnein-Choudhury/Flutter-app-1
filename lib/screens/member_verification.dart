@@ -428,9 +428,13 @@ class _MemberVerificationState extends State<MemberVerification> {
     );
 
     if (response.statusCode == 200) {
-      Navigator.of(context).pushReplacementNamed(MemberInformation.routeName);
       String responseBody = response.body;
-      print(responseBody);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MemberInformation(responseData: responseBody)
+        )
+      );
     } else {
       _showErrorMessageOnVerificationFailed();
     }

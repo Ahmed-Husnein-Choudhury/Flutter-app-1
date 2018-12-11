@@ -1,4 +1,7 @@
 include ':app'
+include ':voicesdk'
+include ':voicesdk-verify'
+include ':voicesdk-antispoof2'
 
 def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
 

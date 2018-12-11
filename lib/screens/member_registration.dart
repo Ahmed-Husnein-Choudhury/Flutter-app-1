@@ -5,6 +5,8 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:medicaid/screens/member_verification.dart';
 
+String fullName;
+
 class MemberRegistration extends StatefulWidget {
 
   // defining the route here
@@ -22,7 +24,12 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   List<String> _genderOptions = new List<String>();
 
   // form fields
-  String memberId, dateOfBirth, firstName, lastName, gender, email, confirmEmail, mobileNumber, processedGender;
+   String memberId, dateOfBirth, gender, email, confirmEmail, mobileNumber, processedGender,
+     firstName,lastName;
+
+//  static String getFirstName(){
+//    return firstName;
+//  }
 
   int _year;
   int _month;
@@ -179,6 +186,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // send data to server
   Future _sendDataToServer() async {
+    fullName=firstName+lastName;
     // url to hit
     final String url = "http://192.168.1.37:8008/api/v1/verify_member_account/";
 

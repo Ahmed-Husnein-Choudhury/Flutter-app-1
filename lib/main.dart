@@ -8,7 +8,7 @@ void main() {
       title: "B.Hold",
       debugShowCheckedModeBanner: false,
       routes: Routes.routeList,
-      home: BiometricLogin()
+      home: LandingPage()
   ));
 }
 //g

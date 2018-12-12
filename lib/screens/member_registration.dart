@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:medicaid/screens/member_verification.dart';
+import 'package:medicaid/utils/common_widgets.dart';
 
 String fullName;
 
@@ -363,7 +364,13 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         this.processGender(this.gender);
         _sendDataToServer();
       } else {
-        _showMismatchEmailDialog();
+        CommonWidgets.showErrorAlertDialog(
+          context: context,
+          title: "Email Mismatch",
+          content: "The confirmed email do not match with the given email",
+          confirmationText: "Ok",
+          height: 120.0
+        );
       }
     } else {
       setState(() {

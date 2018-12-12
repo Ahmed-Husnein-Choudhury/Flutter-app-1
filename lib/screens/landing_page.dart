@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicaid/screens/voice_login.dart';
 
 class LandingPage extends StatefulWidget {
 
@@ -33,7 +34,7 @@ class _LandingPageState extends State<LandingPage> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () => "something",
+        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>new VoiceLogin()));},
         child: Text(
           "Login",
           style: TextStyle(

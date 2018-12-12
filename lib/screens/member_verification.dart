@@ -427,13 +427,17 @@ class _MemberVerificationState extends State<MemberVerification> {
         body:  json.encode(body)
     );
 
+
+    /*context,
+    MaterialPageRoute(
+    builder: (context) => MemberInformation(responseData: responseBody)
+    )*/
     if (response.statusCode == 200) {
       String responseBody = response.body;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MemberInformation(responseData: responseBody)
-        )
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => MemberInformation(responseData: responseBody)
+          ),ModalRoute.withName('/memberInformation')
       );
     } else {
       _showErrorMessageOnVerificationFailed();

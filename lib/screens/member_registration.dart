@@ -5,6 +5,8 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:medicaid/screens/member_verification.dart';
 
+String fullName;
+
 class MemberRegistration extends StatefulWidget {
 
   // defining the route here
@@ -22,12 +24,17 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   List<String> _genderOptions = new List<String>();
 
   // form fields
-  String memberId, dateOfBirth, firstName, lastName, gender, email, confirmEmail, mobileNumber, processedGender;
+   String memberId, dateOfBirth, gender, email, confirmEmail, mobileNumber, processedGender,
+     firstName,lastName;
+
+//  static String getFirstName(){
+//    return firstName;
+//  }
 
   int _year;
   int _month;
   int _date;
-  String _format = 'yyyy-mm-dd';
+  String _format = 'mm-dd-yyyy';
 
   // controller for dateOfBirth
   final dobController = new TextEditingController();
@@ -179,6 +186,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // send data to server
   Future _sendDataToServer() async {
+    fullName=firstName+lastName;
     // url to hit
     final String url = "http://192.168.1.37:8008/api/v1/verify_member_account/";
 
@@ -230,7 +238,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       ),
       cancel: Text(
         'Cancel',
-        style: TextStyle(color: Colors.cyan),
+        style: TextStyle(color: Colors.red),
       ),
       dateFormat: _format,
       onChanged: (year, month, date) {

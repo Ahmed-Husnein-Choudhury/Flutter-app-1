@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medicaid/common_widgets.dart';
+import 'package:medicaid/utils/common_widgets.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/member_registration.dart';
 import 'voice_login.dart';
@@ -35,27 +35,19 @@ class _State extends State<VoiceRegistrationSetUp> {
   }
 
   Widget continueButton() {
-    return
-      Padding(padding: EdgeInsets.symmetric(vertical: 16.0),
-          child:Material(
-              borderRadius: BorderRadius.circular(20.0),
-              shadowColor:Color(0XFF00AFDF),
-              child:MaterialButton(
-                onPressed: requestPermission,
-                height: 40.0,
-                padding: EdgeInsets.all(15.0),
-                minWidth: 200.0,
-                color: Color(0XFF00AFDF),
-                textColor: Colors.white,
-                //shape:new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(60.0)),
-                child: Text(
-                  "Continue",
-                  style: TextStyle(fontSize: 18.0, color: Colors.white),
-                ),
-                //shape: Border.all(width: 3.0),
-              )
-          )
-      );
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child:RaisedButton(
+        onPressed: requestPermission,
+        padding: EdgeInsets.all(15.0),
+        color: Color(0XFF00AFDF),
+        textColor: Colors.white,
+        child: Text(
+          "Continue",
+          style: TextStyle(fontSize: 18.0, color: Colors.white),
+        ),
+      )
+    );
   }
 
   requestPermission() async {
@@ -85,20 +77,22 @@ class _State extends State<VoiceRegistrationSetUp> {
           padding: EdgeInsets.all(20.0),
       child: Container(
         child:Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             CommonWidgets.spacer(gapHeight: 20.0),
             CommonWidgets.logo(),
             CommonWidgets.spacer(gapHeight: 30.0),
-           instructionalText("Almost Done! Let's add your second one."),
+            Text(
+              "Almost Done! Let's add your second one.",
+              textAlign: TextAlign.start,
+            ),
             CommonWidgets.spacer(gapHeight: 20.0),
             instructionalText("Please allow access  to your device's microphone or contact your health plan."),
             CommonWidgets.spacer(gapHeight: 30.0),
             continueButton(),
-//            RaisedButton(
-//                onPressed: () => SimplePermissions.openSettings(),
-//                child: Text("set permissions")),
             CommonWidgets.spacer(gapHeight: 30.0),
-          instructionalText("Health Plan Service 1 \n Customer Service (800) 555-2222")
+          instructionalText("Health Plan Service 1"),
+          instructionalText("Customer Service (800) 555-2222")
           ],
         ),
       ),

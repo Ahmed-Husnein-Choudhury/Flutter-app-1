@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medicaid/common_widgets.dart';
+import 'package:medicaid/utils/common_widgets.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/member_registration.dart';
 

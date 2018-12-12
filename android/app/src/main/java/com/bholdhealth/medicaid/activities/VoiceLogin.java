@@ -4,11 +4,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bholdhealth.medicaid.Models.AudioRecord;
 import com.bholdhealth.medicaid.R;
+import com.bumptech.glide.Glide;
+
 import net.idrnd.voicesdk.antispoof2.AntispoofResult;
 import net.idrnd.voicesdk.verify.VerifyResult;
 import net.idrnd.voicesdk.verify.VoiceTemplate;
@@ -19,10 +22,11 @@ public class VoiceLogin extends FlutterActivity {
 
     com.bholdhealth.medicaid.database.UsersDao usersDao;
     LinearLayout loaderView;
-    TextView userNameTv;
+    ImageView logo;
+    TextView loginText;
     com.bholdhealth.medicaid.Utils.Folders folder;
     Button verify;
-    String userName="ahmed";
+    String userName="CasandraPagac";
     String phrase="Golden State Warriors";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,9 @@ public class VoiceLogin extends FlutterActivity {
     private void initViews() {
         loaderView=findViewById(R.id.loader);
         verify=findViewById(R.id.verifyBtn);
-        userNameTv=findViewById(R.id.saved_user_name);
+        loginText =findViewById(R.id.login_text);
+        logo=findViewById(R.id.logo);
+        Glide.with(this).load(R.drawable.bhold_logo_final__1_).into(logo);
     }
 
     private void initVerification() {
@@ -54,7 +60,7 @@ public class VoiceLogin extends FlutterActivity {
 
                     @Override
                     public void onStop(final AudioRecord recordObject) {
-                        userNameTv.setVisibility(View.GONE);
+                        loginText.setVisibility(View.GONE);
                         verify.setVisibility(View.GONE);
                         loaderView.setVisibility(View.VISIBLE);
 
@@ -76,7 +82,7 @@ public class VoiceLogin extends FlutterActivity {
                                     bundle.putFloat("ANTISPOOFING_SCORE", antispoofingResult.score);
                                 }
 
-                                        com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle,userNameTv,verify,loaderView);
+                                        com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle, loginText,verify,loaderView);
                                         dialog.show(getFragmentManager(), "STATISTICS");
 
                             }

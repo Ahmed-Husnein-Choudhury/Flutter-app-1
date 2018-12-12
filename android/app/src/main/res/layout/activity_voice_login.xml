@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_centerVertical="true"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@color/whiteBackground">
 
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="100dp"
+        android:layout_height="wrap_content"
+        android:background="@color/whiteBackground"
+        >
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp" />
 
     <TextView
-        android:id="@+id/label"
+        android:id="@+id/login_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        android:text="Verification"
-        android:textColor="@color/darkGrey"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        android:text="Please Login"
+        android:textColor="#000000"
         android:textSize="17sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintVertical_bias="0.3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+        />
 
 
 
@@ -42,24 +55,7 @@
         app:layout_constraintRight_toRightOf="parent"
         />
 
-    <TextView
-        android:id="@+id/saved_user_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:text="ahmed"
-        android:textColor="@color/red"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/label"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
 
-        />
 
     <Button
         android:id="@+id/verifyBtn"
@@ -74,12 +70,12 @@
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saved_user_name" />
+        app:layout_constraintTop_toBottomOf="@+id/login_text" />
 
     <LinearLayout
         android:id="@+id/loader"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/whiteBackground"
         android:gravity="center"
         android:orientation="vertical"
@@ -97,3 +93,4 @@
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
+    </LinearLayout>

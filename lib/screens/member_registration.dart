@@ -34,7 +34,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   int _year;
   int _month;
   int _date;
-  String _format = 'yyyy-mm-dd';
+  String _format = 'mm-dd-yyyy';
 
   // controller for dateOfBirth
   final dobController = new TextEditingController();
@@ -238,7 +238,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       ),
       cancel: Text(
         'Cancel',
-        style: TextStyle(color: Colors.cyan),
+        style: TextStyle(color: Colors.red),
       ),
       dateFormat: _format,
       onChanged: (year, month, date) {

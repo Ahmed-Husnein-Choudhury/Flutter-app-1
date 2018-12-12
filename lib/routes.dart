@@ -6,6 +6,7 @@ import 'package:medicaid/screens/member_information.dart';
 import 'package:medicaid/screens/voice_login.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 import 'package:medicaid/screens/facial_setup.dart';
+import 'package:medicaid/screens/biometric_login.dart';
 
 class Routes {
 
@@ -18,5 +19,6 @@ class Routes {
     VoiceRegistrationSetUp.routeName:(context)=>VoiceRegistrationSetUp(),
     VoiceLogin.routeName:(context)=>VoiceLogin(),
     FacialRecognitionSetup.routeName:(context)=>FacialRecognitionSetup(),
+    BiometricLogin.routeName:(context)=>BiometricLogin(),
   };
 }

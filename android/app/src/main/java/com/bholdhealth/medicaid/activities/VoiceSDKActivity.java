@@ -84,6 +84,7 @@ public class VoiceSDKActivity extends FlutterActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_voice_sdk);
+        getActionBar().hide();
         name = getIntent().getStringExtra("name");
         context = VoiceSDKActivity.this;
         dao = new UsersDao(context);

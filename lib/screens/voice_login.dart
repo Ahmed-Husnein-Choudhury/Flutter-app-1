@@ -104,7 +104,8 @@ class _State extends State<VoiceLogin> {
 //                onPressed: () => SimplePermissions.openSettings(),
 //                child: Text("set permissions")),
                 CommonWidgets.spacer(gapHeight: 20.0),
-                instructionalText("Health Plan Service 1 \n Customer Service (800) 555-2222"),
+                instructionalText("Health Plan Service 1 \n"
+                    "Customer Service (800) 555-2222"),
                 CommonWidgets.spacer(gapHeight: 50.0),
                 instructionalText("Your privacy is very important to use. "
                     "We protect your personal health information as required by law"),

@@ -43,7 +43,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   @override
   void initState() {
     super.initState();
-
     DateTime now = DateTime.now();
     /*_year = now.year;
     _month = now.month;

@@ -32,6 +32,7 @@ public class VoiceLogin extends FlutterActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_login);
+        getActionBar().hide();
         usersDao=new com.bholdhealth.medicaid.database.UsersDao(getApplicationContext());
         folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceLogin.this);
 

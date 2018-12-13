@@ -13,6 +13,9 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  camera:
+  path_provider: ^0.4.1
+  video_player: ^0.5.2
   flutter:
     sdk: flutter
 

@@ -3,6 +3,7 @@ import 'package:medicaid/member.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
+import 'package:medicaid/screens/facial_setup.dart';
 
 class MemberInformation extends StatefulWidget {
 
@@ -250,7 +251,7 @@ class _MemberInformationState extends State<MemberInformation> {
       height: 40.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>VoiceRegistrationSetUp()));
+        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>FacialRecognitionSetup()));
         },
         child: Text(
           "Yes",

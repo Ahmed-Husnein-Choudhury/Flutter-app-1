@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicaid/utils/common_widgets.dart';
+import 'package:medicaid/screens/face_registration.dart';
 
 class FacialRecognitionSetup extends StatefulWidget {
 
@@ -25,7 +26,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   // defining the instructional text widget
   Widget instructionalText() {
     return Text(
-      "Let's get started Setting up extra authentication is required for you to receive the best experience with this"
+      "Let's get started. Setting up extra authentication is required for you to receive the best experience with this"
           " app. In order to help protect your privacy, you must provide two additional levels of authentication. "
           "This should take less than 30 seconds to complete. To continue, press: Let's get started",
       style: TextStyle(
@@ -66,7 +67,8 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 
   Widget getStartedButton() {
     return MaterialButton(
-      onPressed: null,
+      onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>FaceRegistration())
+      );} ,
       height: 40.0,
       padding: EdgeInsets.all(15.0),
       minWidth: 200.0,

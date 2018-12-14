@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medicaid/utils/common_widgets.dart';
-import 'package:medicaid/screens/face_registration.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:simple_permissions/simple_permissions.dart';
-import 'package:medicaid/screens/photo_viewer.dart';
 
 class FacialRecognitionSetup extends StatefulWidget {
 

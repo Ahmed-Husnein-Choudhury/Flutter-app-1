@@ -2,9 +2,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:medicaid/routes.dart';
 import 'package:medicaid/screens/landing_page.dart';
-import 'package:medicaid/screens/biometric_login.dart';
-import 'package:medicaid/screens/voice_registration_set_up.dart';
-import 'package:medicaid/screens/voice_login.dart';
 import 'package:medicaid/screens/facial_setup.dart';
 
 

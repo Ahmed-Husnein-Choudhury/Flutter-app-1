@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:medicaid/screens/face_registration.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:simple_permissions/simple_permissions.dart';
 
 class FacialRecognitionSetup extends StatefulWidget {
 
@@ -12,6 +15,28 @@ class FacialRecognitionSetup extends StatefulWidget {
 }
 
 class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
+
+  // image file
+  File _imageFile;
+
+  _openCamera() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      this._imageFile = image;
+      print("Path: "+_imageFile.path);
+    });
+  }
+
+  // requesting permission to access camera
+  void requestCameraPermission() async {
+    final cameraPermission = await SimplePermissions.requestPermission(Permission.Camera);
+    final writePermission = await SimplePermissions.requestPermission(Permission.WriteExternalStorage);
+    if (cameraPermission == PermissionStatus.authorized && writePermission == PermissionStatus.authorized) {
+      _openCamera();
+    } else {
+      // do something
+    }
+  }
 
   // widget for showing logo
   Widget logo() {
@@ -67,8 +92,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 
   Widget getStartedButton() {
     return MaterialButton(
-      onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>FaceRegistration())
-      );} ,
+      onPressed: requestCameraPermission,
       height: 40.0,
       padding: EdgeInsets.all(15.0),
       minWidth: 200.0,

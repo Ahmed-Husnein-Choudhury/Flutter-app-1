@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:medicaid/screens/face_registration.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:simple_permissions/simple_permissions.dart';
+import 'package:medicaid/screens/photo_viewer.dart';
 
 class FacialRecognitionSetup extends StatefulWidget {
 
@@ -17,13 +19,84 @@ class FacialRecognitionSetup extends StatefulWidget {
 class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 
   // image file
-  File _imageFile;
+  File imageFile;
+  bool isCaptured;
+
+  @override
+  initState() {
+    this.isCaptured = false;
+    super.initState();
+  }
+
+  void _reOpenCameraDialog() {
+    if (this.imageFile != null) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      "Success!",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.0),
+                    ),
+                    Divider(
+                      height: 2.0,
+                    )
+                  ],
+                ),
+              ),
+              content: Container(
+                height: 180.0,
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      "Great, the first picture was successful. Only 2 more pictures left to take!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 15.0),
+                    ),
+                    CommonWidgets.spacer(gapHeight: 25.0),
+                    RaisedButton(
+                        child: Text("Ok"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            this.isCaptured = false;
+                            this.imageFile = null;
+                          });
+                          _openCamera();
+                        }
+                    )
+                  ],
+                ),
+              )
+          );
+        },
+      );
+    } else {
+      Navigator.of(context).popUntil(ModalRoute.withName('/facialRecognitioSetup'));
+    }
+
+  }
 
   _openCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
-      this._imageFile = image;
-      print("Path: "+_imageFile.path);
+      if (image != null) {
+        this.imageFile = image;
+        this.isCaptured = true;
+        _reOpenCameraDialog();
+        print("Path: "+imageFile.path);
+      } else {
+        SystemNavigator.pop();
+        //Navigator.of(context).popUntil(ModalRoute.withName('/facialRecognitioSetup'));
+      }
     });
   }
 
@@ -109,7 +182,11 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
+        body: isCaptured ? Container(
+          child: Center(
+            child: Image.file(this.imageFile, fit: BoxFit.fitHeight, height: MediaQuery.of(context).size.height, colorBlendMode: BlendMode.darken,),
+          ),
+        ) : SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(20.0),
             child: Column(
@@ -128,6 +205,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
               ],
             ),
           ),
-        ));
+        )
+    );
   }
 }

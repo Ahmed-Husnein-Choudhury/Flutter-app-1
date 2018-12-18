@@ -4,21 +4,24 @@ import 'package:medicaid/utils/common_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:simple_permissions/simple_permissions.dart';
+import 'package:medicaid/screens/voice_registration_set_up.dart';
 
 class FacialRecognitionSetup extends StatefulWidget {
-
   // defining the route here
-  static final String routeName = "/facialRecognitioSetup";
+  static final String routeName = "/facialRecognitionSetup";
 
   @override
   _FacialRecognitionSetupState createState() => _FacialRecognitionSetupState();
 }
 
-class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
+const _faceRegistrationMethodChannel =
+    const MethodChannel("biometric authentication");
 
+class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   // image file
   File imageFile;
   bool isCaptured;
+  int pictureNumber = 3;
 
   @override
   initState() {
@@ -26,7 +29,22 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     super.initState();
   }
 
-  void _reOpenCameraDialog() {
+  void _reOpenCameraDialog(int pictureNumber) {
+    String successString, dialogBody, buttonText;
+    bool registrationComplete = false;
+
+    if (pictureNumber >= 1) {
+      successString = "Success!";
+      dialogBody =
+          "Great, the picture was successfully taken. Only $pictureNumber more picture(s) left to take!";
+      buttonText = "OK";
+    } else {
+      successString = "Congratulations!";
+      dialogBody = "You have successfully registered your face";
+      buttonText = "Continue";
+      registrationComplete = true;
+    }
+
     if (this.imageFile != null) {
       showDialog(
         context: context,
@@ -37,9 +55,8 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "Success!",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold),
+                      successString,
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 10.0),
@@ -51,36 +68,39 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                 ),
               ),
               content: Container(
-                height: 180.0,
+                height: 130.0,
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "Great, the first picture was successful. Only 2 more pictures left to take!",
+                      dialogBody,
+
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 15.0),
                     ),
                     CommonWidgets.spacer(gapHeight: 25.0),
                     RaisedButton(
-                        child: Text("Ok"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          setState(() {
-                            this.isCaptured = false;
-                            this.imageFile = null;
-                          });
-                          _openCamera();
-                        }
-                    )
+                        child: Text(buttonText),
+                        onPressed: !registrationComplete
+                            ? () {
+                                Navigator.of(context).pop();
+                                setState(() {
+                                  this.isCaptured = false;
+                                  this.imageFile = null;
+                                });
+                                _openCamera();
+                              }
+                            : () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>VoiceRegistrationSetUp()));
+                              })
                   ],
                 ),
-              )
-          );
+              ));
         },
       );
     } else {
-      Navigator.of(context).popUntil(ModalRoute.withName('/facialRecognitioSetup'));
+      Navigator.of(context)
+          .popUntil(ModalRoute.withName('/facialRecognitioSetup'));
     }
-
   }
 
   _openCamera() async {
@@ -89,8 +109,11 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
       if (image != null) {
         this.imageFile = image;
         this.isCaptured = true;
-        _reOpenCameraDialog();
-        print("Path: "+imageFile.path);
+        _registerFace(imageFile.toString());
+        pictureNumber--;
+        _reOpenCameraDialog(pictureNumber);
+
+        print("Path: " + imageFile.path);
       } else {
         SystemNavigator.pop();
         //Navigator.of(context).popUntil(ModalRoute.withName('/facialRecognitioSetup'));
@@ -100,9 +123,12 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 
   // requesting permission to access camera
   void requestCameraPermission() async {
-    final cameraPermission = await SimplePermissions.requestPermission(Permission.Camera);
-    final writePermission = await SimplePermissions.requestPermission(Permission.WriteExternalStorage);
-    if (cameraPermission == PermissionStatus.authorized && writePermission == PermissionStatus.authorized) {
+    final cameraPermission =
+        await SimplePermissions.requestPermission(Permission.Camera);
+    final writePermission = await SimplePermissions.requestPermission(
+        Permission.WriteExternalStorage);
+    if (cameraPermission == PermissionStatus.authorized &&
+        writePermission == PermissionStatus.authorized) {
       _openCamera();
     } else {
       // do something
@@ -126,7 +152,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
           " app. In order to help protect your privacy, you must provide two additional levels of authentication. "
           "This should take less than 30 seconds to complete. To continue, press: Let's get started",
       style: TextStyle(
-          fontSize: 15.0,
+        fontSize: 15.0,
       ),
     );
   }
@@ -155,7 +181,8 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Your privacy is very important to use. We protect your personal health information as required by law."),
+          Text(
+              "Your privacy is very important to use. We protect your personal health information as required by law."),
         ],
       ),
     );
@@ -180,30 +207,43 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: isCaptured ? Container(
-          child: Center(
-            child: Image.file(this.imageFile, fit: BoxFit.fitHeight, height: MediaQuery.of(context).size.height, colorBlendMode: BlendMode.darken,),
-          ),
-        ) : SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              children: <Widget>[
-                CommonWidgets.spacer(gapHeight: 20.0),
-                logo(),
-                CommonWidgets.spacer(gapHeight: 30.0),
-                instructionalText(),
-                CommonWidgets.spacer(gapHeight: 50.0),
-                getStartedButton(),
-                CommonWidgets.spacer(gapHeight: 30.0),
-                healthPlanLabel(),
-                CommonWidgets.spacer(gapHeight: 30.0),
-                bottomPrivacyTextLabel(),
-                CommonWidgets.spacer(gapHeight: 20.0),
-              ],
-            ),
-          ),
-        )
-    );
+        body: isCaptured
+            ? Container(
+                child: Center(
+                  child: Image.file(
+                    this.imageFile,
+                    fit: BoxFit.fitHeight,
+                    height: MediaQuery.of(context).size.height,
+                    colorBlendMode: BlendMode.darken,
+                  ),
+                ),
+              )
+            : SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    children: <Widget>[
+                      CommonWidgets.spacer(gapHeight: 20.0),
+                      logo(),
+                      CommonWidgets.spacer(gapHeight: 30.0),
+                      instructionalText(),
+                      CommonWidgets.spacer(gapHeight: 50.0),
+                      getStartedButton(),
+                      CommonWidgets.spacer(gapHeight: 30.0),
+                      healthPlanLabel(),
+                      CommonWidgets.spacer(gapHeight: 30.0),
+                      bottomPrivacyTextLabel(),
+                      CommonWidgets.spacer(gapHeight: 20.0),
+                    ],
+                  ),
+                ),
+              ));
+  }
+
+  Future<Null> _registerFace(String fileName) async {
+    String response;
+    response = await _faceRegistrationMethodChannel
+        .invokeMethod("register face", {"file path": fileName});
+    print("file has been sent to native");
   }
 }

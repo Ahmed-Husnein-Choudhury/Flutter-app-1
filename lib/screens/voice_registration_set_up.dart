@@ -14,7 +14,7 @@ class VoiceRegistrationSetUp extends StatefulWidget {
   _State createState() => _State();
 }
 
-const _voiceRecognitionMethodChannel = const MethodChannel("audio");
+const _voiceRecognitionMethodChannel = const MethodChannel("biometric authentication");
 
 class _State extends State<VoiceRegistrationSetUp> {
 
@@ -65,7 +65,6 @@ class _State extends State<VoiceRegistrationSetUp> {
   Future<Null> _registerWithVoice() async {
     String response;
     response = await _voiceRecognitionMethodChannel.invokeMethod("register voice",{"name":fullName});
-    // String name=_MemberRegistrationState.getFirstName();
     print("native is being called:$response");
     (response=="ok")? Navigator.of(context).pushNamed(VoiceLogin.routeName):"";
   }
@@ -87,7 +86,7 @@ class _State extends State<VoiceRegistrationSetUp> {
               textAlign: TextAlign.start,
             ),
             CommonWidgets.spacer(gapHeight: 20.0),
-            instructionalText("Please allow access  to your device's microphone or contact your health plan."),
+            instructionalText("To register your voice, please allow access to your device's microphone or contact your health plan."),
             CommonWidgets.spacer(gapHeight: 30.0),
             continueButton(),
             CommonWidgets.spacer(gapHeight: 30.0),

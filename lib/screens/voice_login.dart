@@ -13,7 +13,7 @@ class VoiceLogin extends StatefulWidget {
   _State createState() => _State();
 }
 
-const _voiceLoginMethodChannel = const MethodChannel("audio");
+const _voiceLoginMethodChannel = const MethodChannel("biometric authentication");
 
 class _State extends State<VoiceLogin> {
 

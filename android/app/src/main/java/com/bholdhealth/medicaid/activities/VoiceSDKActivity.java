@@ -260,4 +260,10 @@ public class VoiceSDKActivity extends FlutterActivity {
         super.onStart();
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        VoiceSDKActivity.this.finish();
+    }
 }

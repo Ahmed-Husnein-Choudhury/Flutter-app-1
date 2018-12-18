@@ -15,9 +15,9 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
   static Context context;
-  String name;
-  public static String CHANNEL = "audio";
-  public static String CHANNEL2 = "audio2";
+  String name,pictureFilePath;
+  public static String CHANNEL = "biometric authentication";
+  public static String FACE_CHANNEL = "register face";
   static MethodChannel.Result methodResult;
   static String TAG=MainActivity.class.getSimpleName();
 
@@ -59,9 +59,18 @@ public class MainActivity extends FlutterActivity {
           startVoiceLogin();
         }
 
+        else if(methodCall.method.equals("register face")){
+          pictureFilePath=methodCall.argument("file path");
+          Toast.makeText(getApplicationContext(),"platform channel successful: "+pictureFilePath,Toast.LENGTH_SHORT).show();
+          Intent in=new Intent(MainActivity.this,FaceSDKActivity.class);
+          in.putExtra("file path",pictureFilePath);
+          startActivity(in);
+        }
+
       }
 
     });
+
 
   }
 

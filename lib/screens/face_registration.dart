@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:medicaid/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:camera/camera.dart';
 import 'package:video_player/video_player.dart';
 
-class FaceRegistration  extends StatefulWidget {
+class FaceRegistration extends StatefulWidget {
   @override
   _State createState() => _State();
 }
+
+const _faceRegistrationMethodChannel=const MethodChannel("biometric authentication");
 
 IconData getCameraLensIcon(CameraLensDirection direction) {
   switch (direction) {
@@ -23,7 +26,6 @@ IconData getCameraLensIcon(CameraLensDirection direction) {
   }
   throw ArgumentError('Unknown lens direction');
 }
-
 
 void logError(String code, String message) =>
     print('Error: $code\nError Message: $message');
@@ -72,7 +74,6 @@ class _State extends State<FaceRegistration> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 _cameraTogglesRowWidget(),
-                _thumbnailWidget(),
               ],
             ),
           ),
@@ -108,22 +109,22 @@ class _State extends State<FaceRegistration> {
         child: videoController == null && imagePath == null
             ? null
             : SizedBox(
-          child: (videoController == null)
-              ? Image.file(File(imagePath))
-              : Container(
-            child: Center(
-              child: AspectRatio(
-                  aspectRatio: videoController.value.size != null
-                      ? videoController.value.aspectRatio
-                      : 1.0,
-                  child: VideoPlayer(videoController)),
-            ),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.pink)),
-          ),
-          width: 64.0,
-          height: 64.0,
-        ),
+                child: (videoController == null)
+                    ? Image.file(File(imagePath))
+                    : Container(
+                        child: Center(
+                          child: AspectRatio(
+                              aspectRatio: videoController.value.size != null
+                                  ? videoController.value.aspectRatio
+                                  : 1.0,
+                              child: VideoPlayer(videoController)),
+                        ),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.pink)),
+                      ),
+                width: 64.0,
+                height: 64.0,
+              ),
       ),
     );
   }
@@ -138,29 +139,11 @@ class _State extends State<FaceRegistration> {
           icon: const Icon(Icons.camera_alt),
           color: Colors.blue,
           onPressed: controller != null &&
-              controller.value.isInitialized &&
-              !controller.value.isRecordingVideo
+                  controller.value.isInitialized &&
+                  !controller.value.isRecordingVideo
               ? onTakePictureButtonPressed
               : null,
         ),
-        IconButton(
-          icon: const Icon(Icons.videocam),
-          color: Colors.blue,
-          onPressed: controller != null &&
-              controller.value.isInitialized &&
-              !controller.value.isRecordingVideo
-              ? onVideoRecordButtonPressed
-              : null,
-        ),
-        IconButton(
-          icon: const Icon(Icons.stop),
-          color: Colors.red,
-          onPressed: controller != null &&
-              controller.value.isInitialized &&
-              controller.value.isRecordingVideo
-              ? onStopButtonPressed
-              : null,
-        )
       ],
     );
   }
@@ -177,6 +160,7 @@ class _State extends State<FaceRegistration> {
           SizedBox(
             width: 90.0,
             child: RadioListTile<CameraDescription>(
+              controlAffinity: ListTileControlAffinity.leading,
               title: Icon(getCameraLensIcon(cameraDescription.lensDirection)),
               groupValue: controller?.description,
               value: cameraDescription,
@@ -231,8 +215,11 @@ class _State extends State<FaceRegistration> {
           videoController?.dispose();
           videoController = null;
         });
-        if (filePath != null) showInSnackBar('Picture saved to $filePath');
-      }
+        if (filePath != null) {
+          showInSnackBar('Picture saved to $filePath');
+        _registerFace(filePath);
+        }
+        }
     });
   }
 
@@ -293,7 +280,7 @@ class _State extends State<FaceRegistration> {
 
   Future<void> _startVideoPlayer() async {
     final VideoPlayerController vcontroller =
-    VideoPlayerController.file(File(videoPath));
+        VideoPlayerController.file(File(videoPath));
     videoPlayerListener = () {
       if (videoController != null && videoController.value.size != null) {
         // Refreshing the state to update video player with the correct ratio.
@@ -342,19 +329,12 @@ class _State extends State<FaceRegistration> {
     logError(e.code, e.description);
     showInSnackBar('Error: ${e.code}\n${e.description}');
   }
+
+  Future<Null> _registerFace(String fileName) async{
+    String response;
+    response=await _faceRegistrationMethodChannel.invokeMethod("register face",{"file path":fileName});
+    print("file has been sent to native");
+  }
+
 }
-
-//List<CameraDescription> cameras;
-//
-//Future<void> main() async {
-//  // Fetch the available cameras before initializing the app.
-//  try {
-//    cameras = await availableCameras();
-//  } on CameraException catch (e) {
-//  }
-
-
-/////
-
-
 

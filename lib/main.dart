@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medicaid/routes.dart';
 import 'package:medicaid/screens/landing_page.dart';
 import 'package:medicaid/screens/facial_setup.dart';
+import 'package:medicaid/screens/face_registration.dart';
 
 
 List<CameraDescription> cameras;

@@ -62,9 +62,9 @@ public class MainActivity extends FlutterActivity {
         else if(methodCall.method.equals("register face")){
           pictureFilePath=methodCall.argument("file path");
           Toast.makeText(getApplicationContext(),"platform channel successful: "+pictureFilePath,Toast.LENGTH_SHORT).show();
-          Intent in=new Intent(MainActivity.this,FaceSDKActivity.class);
-          in.putExtra("file path",pictureFilePath);
-          startActivity(in);
+//          Intent in=new Intent(MainActivity.this,FaceSDKActivity.class);
+//          in.putExtra("file path",pictureFilePath);
+//          startActivity(in);
         }
 
       }

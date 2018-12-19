@@ -3,6 +3,7 @@ package com.bholdhealth.medicaid.activities;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
@@ -35,6 +36,8 @@ import com.bumptech.glide.Glide;
 
 import com.skyfishjy.library.RippleBackground;
 
+import net.idrnd.voicesdk.antispoof2.AntispoofResult;
+import net.idrnd.voicesdk.verify.VerifyResult;
 import net.idrnd.voicesdk.verify.VoiceTemplate;
 
 import java.util.Date;
@@ -58,6 +61,9 @@ public class VoiceSDKActivity extends FlutterActivity {
     public static final String S_ALREADY_EXISTS_PLEASE_USE_ANOTHER_USERNAME = "%s already exists! Please use another Username.";
 
     int counter = 0;
+
+    com.bholdhealth.medicaid.Utils.Folders folder;
+    String userName="CasandraPagac";
 
     ImageView logo;
     String name;
@@ -100,6 +106,7 @@ public class VoiceSDKActivity extends FlutterActivity {
         linearLayoutCounter = findViewById(R.id.linearLayout_counter);
         constraintLayoutRegistration = findViewById(R.id.constraint_layout_voice_registration);
         Glide.with(this).load(R.drawable.bhold_logo_final__1_).into(logo);
+        folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceSDKActivity.this);
         initAssets();
 
 

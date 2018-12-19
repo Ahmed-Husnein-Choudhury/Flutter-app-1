@@ -24,7 +24,12 @@ class _MemberInformationState extends State<MemberInformation> {
   @override
   initState() {
     super.initState();
-    this.member = Member.fromJson(json.decode(widget.responseData)['data']);
+    this.member = Member.fromJson(json.decode(widget.responseData));
+  }
+
+  String formatDate(String date) {
+    List<String> formattedDate = date.split("-");
+    return "${formattedDate[1]}/${formattedDate[2]}/${formattedDate[0]}";
   }
 
   // widget for showing logo
@@ -120,7 +125,7 @@ class _MemberInformationState extends State<MemberInformation> {
             ),
           ),
           spacer(gapHeight: 5.0),
-          Text(this.member.demographic.dateOfBirth)
+          Text(formatDate(this.member.demographic.dateOfBirth))
         ],
       ),
     );

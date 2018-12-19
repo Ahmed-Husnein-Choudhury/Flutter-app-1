@@ -83,8 +83,8 @@ public class VoiceLogin extends FlutterActivity {
                                     bundle.putFloat("ANTISPOOFING_SCORE", antispoofingResult.score);
                                 }
 
-                                        com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle, loginText,verify,loaderView);
-                                        dialog.show(getFragmentManager(), "STATISTICS");
+                                com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle, loginText,verify,loaderView);
+                                dialog.show(getFragmentManager(), "STATISTICS");
 
                             }
 

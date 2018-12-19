@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medicaid/routes.dart';
 import 'package:medicaid/screens/landing_page.dart';
 import 'package:medicaid/screens/facial_setup.dart';
-import 'package:medicaid/screens/face_registration.dart';
+import 'package:medicaid/screens/voice_registration_set_up.dart';
 
 
 List<CameraDescription> cameras;
@@ -19,7 +19,7 @@ Future<void> main() async {
       title: "B.Hold",
       debugShowCheckedModeBanner: false,
       routes: Routes.routeList,
-      home:FacialRecognitionSetup()
+      home:LandingPage()
   ));
 }
 //g

@@ -65,6 +65,9 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0)
+          ),
           title: Text(
             "Invalid Date",
             style: TextStyle(
@@ -77,12 +80,31 @@ class _MemberRegistrationState extends State<MemberRegistration> {
             "You can't choose a future date!!!",
           ),
           actions: <Widget>[
-            new FlatButton(
+            RaisedButton(
+                color: Color(0XFF00AFDF),
+                shape: StadiumBorder(
+                  side: BorderSide(
+                    width: 1.0,
+                    color: Color(0XFF00AFDF),
+                  ),
+                ),
+                child: Text(
+                    "Close",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0
+                    )
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }
+            )
+            /*new FlatButton(
               child: new Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-            ),
+            ),*/
           ],
         );
       }
@@ -95,6 +117,9 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+            ),
             title: Text(
               "Email Mismatch!",
               style: TextStyle(
@@ -107,12 +132,31 @@ class _MemberRegistrationState extends State<MemberRegistration> {
               "Your given email and confirm email do not match each other",
             ),
             actions: <Widget>[
-              new FlatButton(
+              RaisedButton(
+                  color: Color(0XFF00AFDF),
+                  shape: StadiumBorder(
+                    side: BorderSide(
+                      width: 1.0,
+                      color: Color(0XFF00AFDF),
+                    ),
+                  ),
+                  child: Text(
+                      "Close",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0
+                      )
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }
+              )
+              /*new FlatButton(
                 child: new Text("Close"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-              ),
+              ),*/
             ],
           );
         }
@@ -126,6 +170,9 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0)
+          ),
           title: Center(
             child: Column(
               children: <Widget>[
@@ -159,10 +206,24 @@ class _MemberRegistrationState extends State<MemberRegistration> {
                 ),
                 spacer(gapHeight: 25.0),
                 RaisedButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  })
+                    color: Color(0XFF00AFDF),
+                    shape: StadiumBorder(
+                      side: BorderSide(
+                        width: 1.0,
+                        color: Color(0XFF00AFDF),
+                      ),
+                    ),
+                    child: Text(
+                        "Ok",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.0
+                        )
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }
+                )
               ],
             ),
           )

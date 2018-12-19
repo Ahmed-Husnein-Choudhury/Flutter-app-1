@@ -26,6 +26,9 @@ class CommonWidgets {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0)
+            ),
             title: Center(
               child: Column(
                 children: <Widget>[
@@ -54,7 +57,20 @@ class CommonWidgets {
                   ),
                   CommonWidgets.spacer(gapHeight: 25.0),
                   RaisedButton(
-                      child: Text(confirmationText),
+                      color: Color(0XFF00AFDF),
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          width: 1.0,
+                          color: Color(0XFF00AFDF),
+                        ),
+                      ),
+                      child: Text(
+                          confirmationText,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15.0
+                          )
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       }
@@ -75,6 +91,9 @@ class CommonWidgets {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+            shape: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+            ),
             title: Center(
               child: Column(
                 children: <Widget>[
@@ -103,7 +122,20 @@ class CommonWidgets {
                   ),
                   CommonWidgets.spacer(gapHeight: 25.0),
                   RaisedButton(
-                      child: Text(confirmationText),
+                      color: Color(0XFF00AFDF),
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          width: 1.0,
+                          color: Color(0XFF00AFDF),
+                        ),
+                      ),
+                      child: Text(
+                          confirmationText,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15.0
+                          )
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       }
@@ -124,6 +156,9 @@ class CommonWidgets {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+            shape: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+            ),
             title: Center(
               child: Column(
                 children: <Widget>[
@@ -152,7 +187,20 @@ class CommonWidgets {
                   ),
                   CommonWidgets.spacer(gapHeight: 25.0),
                   RaisedButton(
-                      child: Text(confirmationText),
+                      color: Color(0XFF00AFDF),
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          width: 1.0,
+                          color: Color(0XFF00AFDF),
+                        ),
+                      ),
+                      child: Text(
+                          confirmationText,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15.0
+                          )
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       }

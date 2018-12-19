@@ -1,3 +1,4 @@
+/*
 package com.bholdhealth.medicaid.activities;
 
 import android.os.Bundle;
@@ -156,4 +157,4 @@ public class FaceSDKActivity extends FlutterActivity {
         FileChannel destination = null;
     }
 
-}
+}*/

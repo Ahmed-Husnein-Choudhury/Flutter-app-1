@@ -80,7 +80,7 @@ public class MainActivity extends FlutterActivity {
   }
 
   private void recordAudioInNative(MethodChannel.Result result) {
-
+      name="CasandraPagac";
     Intent in = new Intent(MainActivity.this, VoiceSDKActivity.class);
     in.putExtra("name",name);
 

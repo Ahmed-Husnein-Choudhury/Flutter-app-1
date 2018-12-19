@@ -1,4 +1,3 @@
-/*
 package com.bholdhealth.medicaid.activities;
 
 import android.os.Bundle;
@@ -66,9 +65,10 @@ public class FaceSDKActivity extends FlutterActivity {
 
         //  multiEvent.faceEvent.image = FileUtils.loadFile(dataRootDir + "/test/leo1.jpg");
         multiEvent.faceEvent.image = FileUtils.loadFile(filePath);
+        Log.d(TAG,"byte array: "+multiEvent);
 
         // 6) Enroll with some images (however it can be only image)
-        
+
 
         EnrollResultContainer enrollResultContainer = idEngine.enroll(multiEvent, initial);
 
@@ -157,4 +157,4 @@ public class FaceSDKActivity extends FlutterActivity {
         FileChannel destination = null;
     }
 
-}*/
+}

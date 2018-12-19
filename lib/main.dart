@@ -19,7 +19,7 @@ Future<void> main() async {
       title: "B.Hold",
       debugShowCheckedModeBanner: false,
       routes: Routes.routeList,
-      home:LandingPage()
+      home:VoiceRegistrationSetUp()
   ));
 }
 //g

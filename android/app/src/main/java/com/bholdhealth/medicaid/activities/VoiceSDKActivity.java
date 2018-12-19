@@ -64,7 +64,7 @@ public class VoiceSDKActivity extends FlutterActivity {
     float score = 0;
 
     com.bholdhealth.medicaid.Utils.Folders folder;
-    String userName="CasandraPagac";
+    String userName = "CasandraPagac";
 
     ImageView logo;
     String name;
@@ -107,7 +107,7 @@ public class VoiceSDKActivity extends FlutterActivity {
         linearLayoutCounter = findViewById(R.id.linearLayout_counter);
         constraintLayoutRegistration = findViewById(R.id.constraint_layout_voice_registration);
         Glide.with(this).load(R.drawable.bhold_logo_final__1_).into(logo);
-        folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceSDKActivity.this);
+        folder = new com.bholdhealth.medicaid.Utils.Folders(VoiceSDKActivity.this);
         initAssets();
 
 
@@ -187,29 +187,38 @@ public class VoiceSDKActivity extends FlutterActivity {
                     startRecordButton.setEnabled(true);
                     changeCounter(counter + 1);
                 } else if (counter == 1) {
-                    if (checkVoiceMatch(recordObject, voices[0], engineManager) > 0) {
-                        Log.d(TAG, "score is: "+checkVoiceMatch(recordObject, voices[0], engineManager));
+                    if (checkVoiceMatch(recordObject, voices[0], engineManager) > 0.8) {
+                        Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[0], engineManager));
                         String message = String.format("Recording #%d successfully engineManagercomplete!", counter + 1);
                         Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                         stepCounter.setText(String.valueOf(counter + 1));
                         startRecordButton.setEnabled(true);
                         changeCounter(counter + 1);
                     } else {
-                        Log.d(TAG, "score is: "+checkVoiceMatch(recordObject, voices[0], engineManager));
+                        Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[0], engineManager));
                         String message = String.format("Failed to match voice with the previous one");
                         Toasty.error(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                        stepCounter.setText(String.valueOf(counter + 1));
                         startRecordButton.setEnabled(true);
                     }
 
-
                 } else {
                     counter = 2;
-                    Toasty.success(getApplicationContext(), "Enrollment successfully completed", Toast.LENGTH_SHORT).show();
-                    stepCounter.setText(String.valueOf(counter + 1));
-                    saveUser(username);
+                    if (checkVoiceMatch(recordObject, voices[1], engineManager) > 0.8) {
+                        Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[1], engineManager));
+                        Toasty.success(getApplicationContext(), "Enrollment successfully completed", Toast.LENGTH_SHORT).show();
+                        stepCounter.setText(String.valueOf(counter + 1));
+                        startRecordButton.setEnabled(true);
+                        stepCounter.setText(String.valueOf(counter + 1));
+                        saveUser(username);
 
-                    showRegistrationCompleteTextViews();
+                        showRegistrationCompleteTextViews();
+                    } else {
+                        Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[1], engineManager));
+                        String message = String.format("Failed to match voice with the previous one");
+                        Toasty.error(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        startRecordButton.setEnabled(true);
+                    }
+
 
                 }
 
@@ -218,17 +227,13 @@ public class VoiceSDKActivity extends FlutterActivity {
         dialog.show(getFragmentManager(), "DIALOG");
     }
 
-    float checkVoiceMatch(final AudioRecord recordObject, final VoiceTemplate voices,final EngineManager engineManager) {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                VoiceTemplate record = engineManager.verifyEngine.createVoiceTemplate(recordObject.data, recordObject.sampleRate);
-                VoiceTemplate template = voices;
-                VerifyResult verificationResult = engineManager.verifyEngine.verify(record, template);
-                score = verificationResult.probability;
-            }
+    float checkVoiceMatch(final AudioRecord recordObject, final VoiceTemplate voices, final EngineManager engineManager) {
 
-        });
+        VoiceTemplate record = engineManager.verifyEngine.createVoiceTemplate(recordObject.data, recordObject.sampleRate);
+        VoiceTemplate template = voices;
+        VerifyResult verificationResult = engineManager.verifyEngine.verify(record, template);
+        score = verificationResult.probability;
+
         return score;
     }
 

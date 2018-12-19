@@ -256,7 +256,7 @@ class _MemberInformationState extends State<MemberInformation> {
       height: 40.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>VoiceRegistrationSetUp()));
+        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>FacialRecognitionSetup()));
         },
         child: Text(
           "Yes",

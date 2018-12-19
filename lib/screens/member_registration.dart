@@ -151,12 +151,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
                     Navigator.of(context).pop();
                   }
               )
-              /*new FlatButton(
-                child: new Text("Close"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),*/
             ],
           );
         }

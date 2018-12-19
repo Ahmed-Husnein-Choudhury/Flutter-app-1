@@ -61,6 +61,7 @@ public class VoiceSDKActivity extends FlutterActivity {
     public static final String S_ALREADY_EXISTS_PLEASE_USE_ANOTHER_USERNAME = "%s already exists! Please use another Username.";
 
     int counter = 0;
+    float score = 0;
 
     com.bholdhealth.medicaid.Utils.Folders folder;
     String userName="CasandraPagac";
@@ -184,11 +185,23 @@ public class VoiceSDKActivity extends FlutterActivity {
                     Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                     stepCounter.setText(String.valueOf(counter + 1));
                     startRecordButton.setEnabled(true);
+                    changeCounter(counter + 1);
                 } else if (counter == 1) {
-                    String message = String.format("Recording #%d successfully complete!", counter + 1);
-                    Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                    stepCounter.setText(String.valueOf(counter + 1));
-                    startRecordButton.setEnabled(true);
+                    if (checkVoiceMatch(recordObject, voices[0], engineManager) > 0) {
+                        Log.d(TAG, "score is: "+checkVoiceMatch(recordObject, voices[0], engineManager));
+                        String message = String.format("Recording #%d successfully engineManagercomplete!", counter + 1);
+                        Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        stepCounter.setText(String.valueOf(counter + 1));
+                        startRecordButton.setEnabled(true);
+                        changeCounter(counter + 1);
+                    } else {
+                        Log.d(TAG, "score is: "+checkVoiceMatch(recordObject, voices[0], engineManager));
+                        String message = String.format("Failed to match voice with the previous one");
+                        Toasty.error(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        stepCounter.setText(String.valueOf(counter + 1));
+                        startRecordButton.setEnabled(true);
+                    }
+
 
                 } else {
                     counter = 2;
@@ -199,10 +212,24 @@ public class VoiceSDKActivity extends FlutterActivity {
                     showRegistrationCompleteTextViews();
 
                 }
-                changeCounter(counter + 1);
+
             }
         });
         dialog.show(getFragmentManager(), "DIALOG");
+    }
+
+    float checkVoiceMatch(final AudioRecord recordObject, final VoiceTemplate voices,final EngineManager engineManager) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                VoiceTemplate record = engineManager.verifyEngine.createVoiceTemplate(recordObject.data, recordObject.sampleRate);
+                VoiceTemplate template = voices;
+                VerifyResult verificationResult = engineManager.verifyEngine.verify(record, template);
+                score = verificationResult.probability;
+            }
+
+        });
+        return score;
     }
 
     private void showRegistrationCompleteTextViews() {

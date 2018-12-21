@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:medicaid/screens/home_page.dart';
+import 'package:medicaid/screens/voice_login.dart';
 import 'package:medicaid/screens/member_registration.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 
@@ -22,7 +22,8 @@ class _LandingPageState extends State<LandingPage> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, ModalRoute.withName(HomePage.routeName)),
+        //onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, ModalRoute.withName(HomePage.routeName)),
+        onPressed: () => Navigator.of(context).pushNamed(VoiceLogin.routeName),
         child: Text(
           "Login",
           style: TextStyle(

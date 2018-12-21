@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:simple_permissions/simple_permissions.dart';
-import 'package:medicaid/screens/member_registration.dart';
+import 'package:medicaid/screens/home_page.dart';
 
 class VoiceLogin extends StatefulWidget {
 
@@ -74,20 +74,13 @@ class _State extends State<VoiceLogin> {
     }
   }
 
-  Future<Null> _registerWithVoice() async {
-//    String response;
-//    response = await _voiceRecognitionMethodChannel.invokeMethod("record audio");
-//    // String name=_MemberRegistrationState.getFirstName();
-//    print("native is being called:$response");
-//    (response=="ok")? Navigator.of(context).pushNamed(routeName):"";
-  }
-
-  _loginWithVoice() async {
-    String response;
-        response=await _voiceLoginMethodChannel.invokeMethod("login using voice");
-        print("voice recognition login invoked");
-
+  Future<Null> _loginWithVoice() async {
+    bool response = await _voiceLoginMethodChannel.invokeMethod("login using voice");
+    print("log response: $response");
+    if (response) {
+      Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, ModalRoute.withName(HomePage.routeName));
     }
+  }
 
 
   @override
@@ -105,9 +98,6 @@ class _State extends State<VoiceLogin> {
                     "Please click continue to move to the next verification step."),
                 CommonWidgets.spacer(gapHeight: 30.0),
                 continueButton(),
-//            RaisedButton(
-//                onPressed: () => SimplePermissions.openSettings(),
-//                child: Text("set permissions")),
                 CommonWidgets.spacer(gapHeight: 20.0),
                 instructionalText("Health Plan Service 1 \n"
                     "Customer Service (800) 555-2222"),

@@ -17,7 +17,7 @@ class _ClaimsAndAppointmentsState extends State<ClaimsAndAppointments> {
       color: Color(0XFFF9FAFF),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushReplacementNamed(ClaimAndAppointmentsDetails.routeName);
+          Navigator.of(context).pushNamed(ClaimAndAppointmentsDetails.routeName);
         },
         child: Card(
             elevation: 0.0,

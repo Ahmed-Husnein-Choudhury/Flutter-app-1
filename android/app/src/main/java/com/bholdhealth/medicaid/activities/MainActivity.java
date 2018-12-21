@@ -90,6 +90,6 @@ public class MainActivity extends FlutterActivity {
 
   public static void stopNative() {
     //  Toast.makeText(context,"stopNative called",Toast.LENGTH_SHORT).show();
-    methodResult.success("ok");
+    methodResult.success(true);
   }
 }

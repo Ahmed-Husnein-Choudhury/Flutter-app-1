@@ -16,7 +16,7 @@ class _UpcomingAppointmentsState extends State<UpcomingAppointments> {
     return Container(
       child: ListTile(
         onTap: () {
-          Navigator.of(context).pushReplacementNamed(UpcomingAppointMentsDetails.routeName);
+          Navigator.of(context).pushNamed(UpcomingAppointMentsDetails.routeName);
         },
         leading: RichText(
             text: TextSpan(

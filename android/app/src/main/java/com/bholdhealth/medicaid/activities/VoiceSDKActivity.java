@@ -61,6 +61,8 @@ public class VoiceSDKActivity extends FlutterActivity {
 
     Button  startRecordButton, continueButton;
 
+    CardView continueCardView;
+
     public static final int PERMISSION_REQUEST = 44;
     public static final String S_ALREADY_EXISTS_PLEASE_USE_ANOTHER_USERNAME = "%s already exists! Please use another Username.";
 
@@ -115,6 +117,7 @@ public class VoiceSDKActivity extends FlutterActivity {
         constraintLayoutRegistration = findViewById(R.id.constraint_layout_voice_registration);
         gif=findViewById(R.id.gif_imageView);
         loaderView= findViewById(R.id.voice_registration_loader);
+        continueCardView=findViewById(R.id.continue_card);
         Glide.with(this).load(R.drawable.bhold_logo_final__1_).into(logo);
         folder = new com.bholdhealth.medicaid.Utils.Folders(VoiceSDKActivity.this);
         initAssets();
@@ -251,7 +254,7 @@ public class VoiceSDKActivity extends FlutterActivity {
                                 Toasty.error(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                                 startRecordButton.setEnabled(true);
 
-                                hideLoader();
+                               // hideLoader();
                             }
 
 
@@ -276,11 +279,11 @@ public class VoiceSDKActivity extends FlutterActivity {
     }
 
     private void showRegistrationCompleteTextViews() {
-        //constraintLayoutRegistration.setVisibility(View.GONE);
-        loaderView.setVisibility(View.GONE);
+        constraintLayoutRegistration.setVisibility(View.GONE);
+       // loaderView.setVisibility(View.GONE);
         registrationCompleteTv1.setVisibility(View.VISIBLE);
         registrationCompleteTv2.setVisibility(View.VISIBLE);
-        continueButton.setVisibility(View.VISIBLE);
+        continueCardView.setVisibility(View.VISIBLE);
 
         continuetoNextPage(continueButton);
     }

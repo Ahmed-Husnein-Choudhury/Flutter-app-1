@@ -15,15 +15,11 @@ import com.bholdhealth.medicaid.R;
 
 public class StatisticsDialog extends DialogFragment {
 
-    static TextView userNameTv;
-    static Button verify;
     static LinearLayout load;
 
-    public static StatisticsDialog newInstance(Bundle bundle, TextView userName, Button verifyButton, LinearLayout loader) {
+    public static StatisticsDialog newInstance(Bundle bundle, LinearLayout loader) {
         StatisticsDialog statisticsDialog = new StatisticsDialog();
         statisticsDialog.setArguments(bundle);
-        userNameTv=userName;
-        verify=verifyButton;
         load=loader;
         return statisticsDialog;
     }
@@ -74,8 +70,6 @@ public class StatisticsDialog extends DialogFragment {
         rootView.findViewById(R.id.close_dialog_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userNameTv.setVisibility(View.VISIBLE);
-                verify.setVisibility(View.VISIBLE);
                 load.setVisibility(View.GONE);
                 StatisticsDialog.super.dismiss();
             }

@@ -94,7 +94,7 @@ public class FaceSDKActivity extends FlutterActivity {
         else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.INVALID_INPUT) Toast.makeText(getApplicationContext(),"invalid input",Toast.LENGTH_LONG).show();
         else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.UNDEFINED) {
 
-            Toast.makeText(getApplicationContext(), "undefined", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "undefined", Toast.LENGTH_LONG).show();
             initial=enrollResultContainer.serializedProfile;
             finishPlatformChannel();
         }

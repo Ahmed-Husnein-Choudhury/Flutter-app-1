@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bholdhealth.medicaid.Models.AudioRecord;
 import com.bholdhealth.medicaid.R;
+import com.bholdhealth.medicaid.Utils.Prefs;
 import com.bumptech.glide.Glide;
 
 import net.idrnd.voicesdk.antispoof2.AntispoofResult;
@@ -23,9 +24,8 @@ public class VoiceLogin extends FlutterActivity {
     com.bholdhealth.medicaid.database.UsersDao usersDao;
     LinearLayout loaderView;
     ImageView logo;
-    TextView loginText;
     com.bholdhealth.medicaid.Utils.Folders folder;
-    Button verify;
+    Prefs prefs;
     String userName="CasandraPagac";
     String phrase="Golden State Warriors";
     @Override
@@ -37,32 +37,35 @@ public class VoiceLogin extends FlutterActivity {
         folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceLogin.this);
 
         initViews();
-        com.bholdhealth.medicaid.Utils.EngineManager.getInstance().init(this);
-        com.bholdhealth.medicaid.Utils.Prefs.getInstance().init(getPreferences(MODE_PRIVATE));
+
+        initEngine();
 
         initVerification();
     }
 
+    private void initEngine() {
+        com.bholdhealth.medicaid.Utils.EngineManager.getInstance().init(this);
+        com.bholdhealth.medicaid.Utils.Prefs.getInstance().init(getPreferences(MODE_PRIVATE));
+        prefs = com.bholdhealth.medicaid.Utils.Prefs.getInstance();
+    }
+
     private void initViews() {
         loaderView=findViewById(R.id.loader);
-        verify=findViewById(R.id.verify_btn);
-        loginText =findViewById(R.id.login_text);
         logo=findViewById(R.id.logo);
         Glide.with(this).load(R.drawable.bhold_logo_final__1_).into(logo);
     }
 
     private void initVerification() {
-        verify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        verify.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
                 com.bholdhealth.medicaid.Models.Users user=usersDao.findByName(userName);
                 com.bholdhealth.medicaid.dialogs.RecordDialog dialog= com.bholdhealth.medicaid.dialogs.RecordDialog.newInstance(phrase,userName);
                 dialog.setOnStopListener(new com.bholdhealth.medicaid.Utils.OnStopRecording() {
 
                     @Override
                     public void onStop(final AudioRecord recordObject) {
-                        loginText.setVisibility(View.GONE);
-                        verify.setVisibility(View.GONE);
+
                         loaderView.setVisibility(View.VISIBLE);
 
 
@@ -83,9 +86,16 @@ public class VoiceLogin extends FlutterActivity {
                                     bundle.putFloat("ANTISPOOFING_SCORE", antispoofingResult.score);
                                 }
 
-                                com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle, loginText,verify,loaderView);
-                                dialog.show(getFragmentManager(), "STATISTICS");
 
+                                if (verificationResult.probability > 0.8) {
+                                    MainActivity.stopNative();
+                                    VoiceLogin.this.finish();
+                                }
+                                 else {
+                                    com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle, loaderView);
+                                    dialog.show(getFragmentManager(), "STATISTICS");
+
+                                }
                             }
 
                         });
@@ -94,6 +104,12 @@ public class VoiceLogin extends FlutterActivity {
 
                 dialog.show(getFragmentManager(), "DIALOG");
             }
-        });
+//        });
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        VoiceLogin.this.finish();
     }
 }

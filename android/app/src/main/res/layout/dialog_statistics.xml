@@ -79,7 +79,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:padding="10dp"
-                android:background="@drawable/stop_button_background"
+                android:background="@drawable/start_button_background"
                 />
 
     </android.support.constraint.ConstraintLayout>

@@ -41,7 +41,7 @@ class _State extends State<VoiceRegistrationSetUp> {
       padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
       child: Container(
         height: 45,
-      width: 30,
+      width: 200,
       child:RaisedButton(
           color: Color(0XFF00AFDF),
           shape: StadiumBorder(
@@ -77,10 +77,10 @@ class _State extends State<VoiceRegistrationSetUp> {
   }
 
   Future<Null> _registerWithVoice() async {
-    String response;
+    bool response;
     response = await _voiceRecognitionMethodChannel.invokeMethod("register voice",{"name":fullName});
     print("native is being called:$response");
-    (response=="ok")? Navigator.of(context).pushNamed(VoiceLogin.routeName):"";
+    response ? Navigator.of(context).pushNamed(VoiceLogin.routeName) : "not working";
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,7 +41,7 @@ class _State extends State<VoiceLogin> {
           padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
           child: Container(
               height: 45,
-              width: 30,
+              width: 200,
               child:RaisedButton(
                   color: Color(0XFF00AFDF),
                   shape: StadiumBorder(
@@ -109,5 +111,10 @@ class _State extends State<VoiceLogin> {
           ),
         ));
 
+  }
+
+  Future<bool> exitApp() {
+    print("app exited");
+    exit(0);
   }
 }

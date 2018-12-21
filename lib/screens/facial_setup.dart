@@ -79,19 +79,33 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                     ),
                     CommonWidgets.spacer(gapHeight: 25.0),
                     RaisedButton(
-                        child: Text(buttonText),
+                        color: Color(0XFF00AFDF),
+                        shape: StadiumBorder(
+                          side: BorderSide(
+                            width: 1.0,
+                            color: Color(0XFF00AFDF),
+                          ),
+                        ),
+                        child: Text(
+                            buttonText,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15.0
+                            )
+                        ),
                         onPressed: !registrationComplete
                             ? () {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  this.isCaptured = false;
-                                  this.imageFile = null;
-                                });
-                                _openCamera();
-                              }
+                          Navigator.of(context).pop();
+                          setState(() {
+                            this.isCaptured = false;
+                            this.imageFile = null;
+                          });
+                          _openCamera();
+                        }
                             : () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>VoiceRegistrationSetUp()));
-                              })
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>VoiceRegistrationSetUp()));
+                        }
+                    )
                   ],
                 ),
               ));
@@ -189,18 +203,26 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   }
 
   Widget getStartedButton() {
-    return MaterialButton(
-      onPressed: requestCameraPermission,
-      height: 40.0,
-      padding: EdgeInsets.all(15.0),
-      minWidth: 200.0,
-      color: Color(0XFF00AFDF),
-      textColor: Colors.white,
-      child: Text(
-        "Let's get started",
-        style: TextStyle(fontSize: 18.0, color: Colors.white),
+    return Container(
+      height: 50.0,
+      width: 250.0,
+      child: RaisedButton(
+        color: Color(0XFF00AFDF),
+        onPressed: requestCameraPermission,
+        child: Text(
+          "Let's get started",
+          style: TextStyle(
+              fontSize: 18.0,
+              color: Colors.white
+          ),
+        ),
+        shape: StadiumBorder(
+          side: BorderSide(
+            width: 1.0,
+            color: Color(0XFF00AFDF),
+          ),
+        ),
       ),
-      shape: Border.all(width: 1.0),
     );
   }
 

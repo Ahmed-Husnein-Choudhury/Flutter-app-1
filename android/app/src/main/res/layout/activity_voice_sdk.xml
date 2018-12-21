@@ -39,6 +39,17 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/registration_complete_tv1" />
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/continue_card"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="25dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registration_complete_tv2"
+        >
+
     <Button
         android:id="@+id/continue_btn"
         android:layout_width="wrap_content"
@@ -46,12 +57,12 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/start_button_background"
         android:padding="10dp"
+        android:textColor="#ffffff"
         android:text="Continue to Log In"
         android:textSize="12dp"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/registration_complete_tv2" />
+        />
+
+    </android.support.v7.widget.CardView>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraint_layout_voice_registration"
@@ -73,7 +84,7 @@
             android:text="@string/voice_recognition_tip"
             android:textAlignment="center"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@id/start_record_btn"
+            app:layout_constraintBottom_toTopOf="@id/start_record_card"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -85,7 +96,7 @@
             android:text="Golden State Warriors"
             android:textColor="#000000"
             android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@id/start_record_btn"
+            app:layout_constraintBottom_toTopOf="@id/start_record_card"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -99,20 +110,11 @@
             android:textColor="#000000"
             android:textSize="17sp"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/start_record_btn"
+            app:layout_constraintBottom_toTopOf="@id/start_record_card"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <!--<ImageView-->
-
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:background="@mipmap/ok_on"-->
-        <!--android:gravity="center"-->
-        <!--android:textSize="17sp" />-->
 
         <TextView
             android:id="@+id/errorUsername"
@@ -126,25 +128,35 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/start_record_btn"
+            app:layout_constraintBottom_toTopOf="@id/start_record_card"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phrase_text" />
 
 
-        <Button
-            android:id="@+id/start_record_btn"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:id="@+id/start_record_card"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/start_button_background"
-            android:padding="10dp"
-            android:text="Start Recording"
-            android:textSize="12dp"
+            app:cardCornerRadius="25dp"
             android:visibility="visible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/errorUsername" />
+            app:layout_constraintTop_toBottomOf="@id/errorUsername"
+            >
 
+
+        <Button
+            android:layout_width="match_parent"
+            android:id="@+id/start_record_btn"
+            android:textColor="#ffffff"
+            android:layout_height="match_parent"
+            android:background="@drawable/start_button_background"
+            android:text="Start Recording"
+            android:textSize="12dp"
+             />
+
+        </android.support.v7.widget.CardView>
 
         <TextView
             android:id="@+id/steps_tv"
@@ -158,7 +170,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_record_btn" />
+            app:layout_constraintTop_toBottomOf="@id/start_record_card" />
 
         <LinearLayout
             android:id="@+id/linearLayout_counter"
@@ -193,6 +205,27 @@
 
 
     </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/voice_registration_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/whiteBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="match_parent"
+            android:id="@+id/gif_imageView"
+            android:layout_height="match_parent"
+            android:src="@drawable/loading_animation_03"
+            />
+    </LinearLayout>
 
 
 </LinearLayout>

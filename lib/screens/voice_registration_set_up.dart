@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,16 +38,28 @@ class _State extends State<VoiceRegistrationSetUp> {
 
   Widget continueButton() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
+      child: Container(
+        height: 45,
+      width: 30,
       child:RaisedButton(
-        onPressed: requestPermission,
-        padding: EdgeInsets.all(15.0),
-        color: Color(0XFF00AFDF),
-        textColor: Colors.white,
-        child: Text(
-          "Continue",
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
-        ),
+          color: Color(0XFF00AFDF),
+          shape: StadiumBorder(
+            side: BorderSide(
+              width: 0.5,
+              color: Color(0XFF00AFDF),
+            ),
+          ),
+          child: Text(
+              "Continue",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.0
+              )
+          ),
+          onPressed: requestPermission
+
+      )
       )
     );
   }
@@ -71,7 +85,9 @@ class _State extends State<VoiceRegistrationSetUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: exitApp,
+      child: Scaffold(
         body: SingleChildScrollView(
           padding: EdgeInsets.all(20.0),
       child: Container(
@@ -95,7 +111,13 @@ class _State extends State<VoiceRegistrationSetUp> {
           ],
         ),
       ),
-    ));
-    ;
+    ))
+
+    );
+  }
+
+  Future<bool> exitApp() {
+print("app exited");
+    exit(0);
   }
 }

@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,6 @@ public class RecordDialog extends DialogFragment {
     public static final String NAME = "NAME";
     public String TAG=getClass().getSimpleName();
     private String userPhrase;
-    //private LinearLayout loader;
     TextView phraseTv,plsTv;
     private String userName;
     private WavRecorder recorder;
@@ -38,6 +38,7 @@ public class RecordDialog extends DialogFragment {
     private AtomicBoolean isStop = new AtomicBoolean(false);
 
     public static RecordDialog newInstance(String phrase, String name) {
+
         RecordDialog recordDialog = new RecordDialog();
         Bundle bundle = new Bundle();
         bundle.putString(NAME, name);
@@ -45,6 +46,7 @@ public class RecordDialog extends DialogFragment {
         recordDialog.setArguments(bundle);
         return recordDialog;
     }
+
 
     public void setOnStopListener(OnStopRecording listener) {
         this.listener = listener;

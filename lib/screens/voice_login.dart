@@ -35,23 +35,28 @@ class _State extends State<VoiceLogin> {
 
   Widget continueButton() {
     return
-      Padding(padding: EdgeInsets.symmetric(vertical: 16.0),
-          child:Material(
-              borderRadius: BorderRadius.circular(20.0),
-              shadowColor:Color(0XFF00AFDF),
-              child:MaterialButton(
-                onPressed: requestPermission,
-                height: 40.0,
-                padding: EdgeInsets.all(15.0),
-                minWidth: 200.0,
-                color: Color(0XFF00AFDF),
-                textColor: Colors.white,
-                //shape:new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(60.0)),
-                child: Text(
-                  "Continue",
-                  style: TextStyle(fontSize: 18.0, color: Colors.white),
-                ),
-                //shape: Border.all(width: 3.0),
+      Padding(
+          padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
+          child: Container(
+              height: 45,
+              width: 30,
+              child:RaisedButton(
+                  color: Color(0XFF00AFDF),
+                  shape: StadiumBorder(
+                    side: BorderSide(
+                      width: 0.5,
+                      color: Color(0XFF00AFDF),
+                    ),
+                  ),
+                  child: Text(
+                      "Continue",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0
+                      )
+                  ),
+                  onPressed: requestPermission
+
               )
           )
       );

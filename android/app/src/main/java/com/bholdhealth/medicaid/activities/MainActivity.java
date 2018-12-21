@@ -62,9 +62,9 @@ public class MainActivity extends FlutterActivity {
         else if(methodCall.method.equals("register face")){
           pictureFilePath=methodCall.argument("file path");
           Toast.makeText(getApplicationContext(),"platform channel successful: "+pictureFilePath,Toast.LENGTH_SHORT).show();
-//          Intent in=new Intent(MainActivity.this,FaceSDKActivity.class);
-//          in.putExtra("file path",pictureFilePath);
-//          startActivity(in);
+          Intent in=new Intent(MainActivity.this,FaceSDKActivity.class);
+          in.putExtra("file path",pictureFilePath);
+          startActivity(in);
         }
 
       }
@@ -90,6 +90,6 @@ public class MainActivity extends FlutterActivity {
 
   public static void stopNative() {
     //  Toast.makeText(context,"stopNative called",Toast.LENGTH_SHORT).show();
-    methodResult.success("ok");
+    methodResult.success(true);
   }
 }

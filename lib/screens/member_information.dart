@@ -249,22 +249,30 @@ class _MemberInformationState extends State<MemberInformation> {
     );
   }
 
+
   // defining the confirmation button widget
   Widget confirmationButton() {
     return Container(
-      width: 100.0,
-      height: 40.0,
-      child: RaisedButton(
-        color: Color(0XFF00AFDF),
+    padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
+      width: 30.0,
+      height: 45.0,
+      child:RaisedButton(
+          color: Color(0XFF00AFDF),
+          shape: StadiumBorder(
+            side: BorderSide(
+              width: 1,
+              color: Color(0XFF00AFDF),
+            ),
+          ),
+          child: Text(
+              "Yes",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.0
+              )
+          ),
         onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>FacialRecognitionSetup()));
         },
-        child: Text(
-          "Yes",
-          style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.white
-          ),
-        ),
       ),
     );
   }

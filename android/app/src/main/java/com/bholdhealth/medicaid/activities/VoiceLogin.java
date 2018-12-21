@@ -45,7 +45,7 @@ public class VoiceLogin extends FlutterActivity {
 
     private void initViews() {
         loaderView=findViewById(R.id.loader);
-        verify=findViewById(R.id.verifyBtn);
+        verify=findViewById(R.id.verify_btn);
         loginText =findViewById(R.id.login_text);
         logo=findViewById(R.id.logo);
         Glide.with(this).load(R.drawable.bhold_logo_final__1_).into(logo);

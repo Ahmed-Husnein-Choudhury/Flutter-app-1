@@ -31,7 +31,6 @@ public class StatisticsDialog extends DialogFragment {
         this.setCancelable(false);
 
         TextView verificationStatistics = rootView.findViewById(R.id.verificationStatistics);
-        TextView antispoofingStatistics = rootView.findViewById(R.id.antispoofingStatistics);
 
         com.bholdhealth.medicaid.Utils.Prefs prefs = com.bholdhealth.medicaid.Utils.Prefs.getInstance();
 
@@ -51,27 +50,13 @@ public class StatisticsDialog extends DialogFragment {
         verificationStatistics.setTextColor(rootView.getContext().getResources().getColor(
                 verificationScore > verificationThreshold ? R.color.green : R.color.red));
 
-        if (prefs.getAntispoofingEnabledFlag()) {
-            float antispoofingScore = getArguments().getFloat("ANTISPOOFING_SCORE") * 100;
-
-            antispoofingStatistics.setText(
-                    String.format(
-                            getString(
-                                    antispoofingScore > antispoofingThreshold ?
-                                            R.string.antispoofing_successful :
-                                            R.string.antispoofing_failed),
-                            antispoofingScore));
-
-
-            antispoofingStatistics.setTextColor(rootView.getContext().getResources().getColor(
-                    antispoofingScore > antispoofingThreshold ? R.color.green : R.color.red));
-        }
 
         rootView.findViewById(R.id.close_dialog_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 load.setVisibility(View.GONE);
                 StatisticsDialog.super.dismiss();
+                getActivity().finish();
             }
         });
 

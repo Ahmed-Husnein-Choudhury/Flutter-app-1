@@ -191,7 +191,7 @@ public class VoiceSDKActivity extends FlutterActivity {
             public void onStop(final AudioRecord recordObject) {
                 Log.d(TAG, "size of data: " + recordObject.data.length);
 
-                //showLoader();
+               // showLoader();
 
 //                AsyncTask.execute(new Runnable() {
 //                    @Override
@@ -200,12 +200,12 @@ public class VoiceSDKActivity extends FlutterActivity {
                         voices[counter] = engineManager.verifyEngine.createVoiceTemplate(recordObject.data, recordObject.sampleRate);
                         if (counter == 0) {
 
-                            String message = String.format("Recording #%d successfully complete!", counter + 1);
-                            //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                            Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
                             stepCounter.setText(String.valueOf(counter + 1));
                             startRecordButton.setEnabled(true);
                             hideLoader();
+                            String message = String.format("Recording #%d successfully complete!", counter + 1);
+        Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             changeCounter(counter + 1);
 
                             //hideLoader();
@@ -260,11 +260,13 @@ public class VoiceSDKActivity extends FlutterActivity {
 
                         }
 
-//                    }
-//                });
-
-            }
-        });
+                    }
+                });
+//
+//            }
+//        });
+//        String message = String.format("Recording #%d successfully complete!", counter + 1);
+//        Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         dialog.show(getFragmentManager(), "DIALOG");
     }
 

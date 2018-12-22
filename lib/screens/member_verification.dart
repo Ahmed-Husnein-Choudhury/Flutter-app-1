@@ -23,6 +23,9 @@ class MemberVerification extends StatefulWidget {
 }
 
 class _MemberVerificationState extends State<MemberVerification> {
+
+  final String baseUrl = "http://192.168.1.37:8008/api/v1";
+
   int groupValue;
   String obscureEmail, obscureMobile, selectedMethod, codeSent;
   bool isCodeSent = false, _validate = false;
@@ -434,7 +437,7 @@ class _MemberVerificationState extends State<MemberVerification> {
 
   // send verification code
   Future sendVerificationCode() async {
-    String url = "http://192.168.1.37:8008/api/v1/send_verification_code";
+    String url = "${baseUrl}/send_verification_code";
 
     var body = {
       "method": "EMAIL",
@@ -459,7 +462,7 @@ class _MemberVerificationState extends State<MemberVerification> {
 
   // verify verification code snet
   Future verifyVerificationCodeSent() async {
-    String url = "http://192.168.1.37:8008/api/v1/verify_verification_code";
+    String url = "${baseUrl}/verify_verification_code";
 
     var body = {
       "method": "EMAIL",

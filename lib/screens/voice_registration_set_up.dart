@@ -117,7 +117,7 @@ class _State extends State<VoiceRegistrationSetUp> {
   }
 
   Future<bool> exitApp() {
-print("app exited");
+    print("app exited");
     exit(0);
   }
 }

@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bholdhealth.medicaid.MainActivity;
 import com.bholdhealth.medicaid.R;
 import com.bholdhealth.medicaid.Utils.AssetsUtils;
 import com.bholdhealth.medicaid.Utils.EngineManager;
@@ -211,12 +212,10 @@ public class VoiceSDKActivity extends FlutterActivity {
                                     Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                                     changeCounter(counter + 1);
                                     hideLoader();
-                                    task.cancel(true);
 
                                 }
                             });
-                            task.cancel(true);
-                            return null;
+                         //   task.cancel(true);
 
                             // hideLoader();
                         }
@@ -229,7 +228,7 @@ public class VoiceSDKActivity extends FlutterActivity {
                                     @Override
                                     public void run() {
                                         Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[0], engineManager));
-                                        String message = String.format("Recording #%d successfully engineManagercomplete!", counter + 1);
+                                        String message = String.format("Recording #%d successfully complete!", counter + 1);
                                         Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                                 stepCounter.setText(String.valueOf(counter + 1));
                                         hideLoader();
@@ -253,7 +252,6 @@ public class VoiceSDKActivity extends FlutterActivity {
                                 });
 
                             }
-                            return null;
                         }
 
                         else {

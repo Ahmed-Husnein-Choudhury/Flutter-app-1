@@ -1,4 +1,4 @@
-package com.bholdhealth.medicaid.activities;
+package com.bholdhealth.medicaid;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.bholdhealth.medicaid.activities.FaceSDKActivity;
+import com.bholdhealth.medicaid.activities.VoiceLoginActivity;
+import com.bholdhealth.medicaid.activities.VoiceSDKActivity;
 
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodCall;
@@ -45,7 +49,7 @@ public class MainActivity extends FlutterActivity {
 
         methodResult = result;
         if (methodCall.method.equals("register voice")) {
-          Toast.makeText(getApplicationContext(), "platform channel working", Toast.LENGTH_SHORT).show();
+          //Toast.makeText(getApplicationContext(), "platform channel working", Toast.LENGTH_SHORT).show();
           Log.d("audio record", "bla");
           name=methodCall.argument("name");
           recordAudioInNative(result);
@@ -80,7 +84,6 @@ public class MainActivity extends FlutterActivity {
   }
 
   private void recordAudioInNative(MethodChannel.Result result) {
-      name="CasandraPagac";
     Intent in = new Intent(MainActivity.this, VoiceSDKActivity.class);
     in.putExtra("name",name);
 

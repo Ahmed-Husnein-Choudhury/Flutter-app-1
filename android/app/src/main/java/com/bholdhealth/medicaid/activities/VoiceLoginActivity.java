@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bholdhealth.medicaid.MainActivity;
 import com.bholdhealth.medicaid.Models.AudioRecord;
 import com.bholdhealth.medicaid.R;
 import com.bholdhealth.medicaid.Utils.Prefs;

@@ -71,6 +71,11 @@ class _State extends State<VoiceRegistrationSetUp> {
       final req = await SimplePermissions.requestPermission(
           Permission.WriteExternalStorage);
       if (req==PermissionStatus.authorized) {
+
+        setState(() {
+
+        });
+
         _registerWithVoice();
       }
     }

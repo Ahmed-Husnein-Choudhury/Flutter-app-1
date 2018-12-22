@@ -6,6 +6,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bholdhealth.medicaid.MainActivity;
 import com.bholdhealth.medicaid.Utils.FileUtils;
 
 import net.idrnd.idsdk.IDEngine;

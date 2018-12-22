@@ -3,10 +3,8 @@ package com.bholdhealth.medicaid.activities;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bholdhealth.medicaid.Models.AudioRecord;
 import com.bholdhealth.medicaid.R;
@@ -19,7 +17,7 @@ import net.idrnd.voicesdk.verify.VoiceTemplate;
 
 import io.flutter.app.FlutterActivity;
 
-public class VoiceLogin extends FlutterActivity {
+public class VoiceLoginActivity extends FlutterActivity {
 
     com.bholdhealth.medicaid.database.UsersDao usersDao;
     LinearLayout loaderView;
@@ -34,7 +32,7 @@ public class VoiceLogin extends FlutterActivity {
         setContentView(R.layout.activity_voice_login);
         getActionBar().hide();
         usersDao=new com.bholdhealth.medicaid.database.UsersDao(getApplicationContext());
-        folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceLogin.this);
+        folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceLoginActivity.this);
 
         initViews();
 
@@ -89,7 +87,7 @@ public class VoiceLogin extends FlutterActivity {
 
                                 if (verificationResult.probability > 0.8) {
                                     MainActivity.stopNative();
-                                    VoiceLogin.this.finish();
+                                    VoiceLoginActivity.this.finish();
                                 }
                                  else {
                                     com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle, loaderView);
@@ -110,6 +108,6 @@ public class VoiceLogin extends FlutterActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        VoiceLogin.this.finish();
+        VoiceLoginActivity.this.finish();
     }
 }

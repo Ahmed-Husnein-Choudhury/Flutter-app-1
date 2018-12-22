@@ -63,7 +63,7 @@
         </provider>
         <activity android:name=".activities.VoiceSDKActivity" />
         <activity android:name=".activities.AudioRecordActivity"></activity>
-        <activity android:name=".activities.VoiceLogin"></activity>
+        <activity android:name=".activities.VoiceLoginActivity"></activity>
         <activity android:name=".activities.FaceSDKActivity"></activity>
     </application>
 

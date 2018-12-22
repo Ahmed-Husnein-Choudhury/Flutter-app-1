@@ -75,7 +75,7 @@ public class MainActivity extends FlutterActivity {
   }
 
   private void startVoiceLogin() {
-    Intent in=new Intent(MainActivity.this,VoiceLogin.class);
+    Intent in=new Intent(MainActivity.this,VoiceLoginActivity.class);
     startActivity(in);
   }
 

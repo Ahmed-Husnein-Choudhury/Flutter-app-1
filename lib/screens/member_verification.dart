@@ -24,7 +24,7 @@ class MemberVerification extends StatefulWidget {
 
 class _MemberVerificationState extends State<MemberVerification> {
 
-  final String baseUrl = "http://192.168.1.37:8008/api/v1";
+  final String baseUrl = "http://ec2-3-83-176-152.compute-1.amazonaws.com:8008";
 
   int groupValue;
   String obscureEmail, obscureMobile, selectedMethod, codeSent;
@@ -182,7 +182,7 @@ class _MemberVerificationState extends State<MemberVerification> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: sendVerificationCode,
+        onPressed: _showVerificationCodeSentDialog,
         child: Text(
           "Request Verification Code",
           style: TextStyle(
@@ -460,9 +460,36 @@ class _MemberVerificationState extends State<MemberVerification> {
     }
   }
 
+  Future<Null> fixedVerificationCodeCheck() async {
+    String url = "${baseUrl}/api/v1/members/${widget.memberID}";
+
+    if (this.codeSent == "123456") {
+      var response = await get(
+          Uri.parse(url),
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+      );
+
+      print(response.body);
+      if (response.statusCode == 200) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => MemberInformation(responseData: response.body)
+            ),ModalRoute.withName('/memberInformation')
+        );
+      }
+
+
+    } else {
+      _showErrorMessageOnVerificationFailed();
+    }
+  }
+
   // verify verification code snet
   Future verifyVerificationCodeSent() async {
-    String url = "${baseUrl}/verify_verification_code";
+    String url = "${baseUrl}/api/v1/verify_verification_code";
 
     var body = {
       "method": "EMAIL",
@@ -500,7 +527,8 @@ class _MemberVerificationState extends State<MemberVerification> {
   void verifyCodeSent() {
     if (verificationFormKey.currentState.validate()) {
       verificationFormKey.currentState.save();
-      verifyVerificationCodeSent();
+      //verifyVerificationCodeSent();
+      fixedVerificationCodeCheck();
     } else {
       setState(() {
         _validate = true;

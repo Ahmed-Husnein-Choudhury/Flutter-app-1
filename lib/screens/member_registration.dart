@@ -25,12 +25,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   List<String> _genderOptions = new List<String>();
 
   // form fields
-   String memberId, dateOfBirth, gender, email, confirmEmail, mobileNumber, processedGender,
-     firstName,lastName;
-
-//  static String getFirstName(){
-//    return firstName;
-//  }
+  String memberId, dateOfBirth, gender, email, confirmEmail, mobileNumber, processedGender, firstName, lastName;
 
   int _year;
   int _month;
@@ -39,6 +34,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // controller for dateOfBirth
   final dobController = new TextEditingController();
+  final String baseUrl = "http://192.168.1.37:8008/api/v1";
 
   @override
   void initState() {
@@ -243,7 +239,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   Future _sendDataToServer() async {
     fullName=firstName+lastName;
     // url to hit
-    final String url = "http://192.168.1.37:8008/api/v1/verify_member_account/";
+    final String url = "${baseUrl}/verify_member_account/";
 
     var body = {
       "member_number": this.memberId,

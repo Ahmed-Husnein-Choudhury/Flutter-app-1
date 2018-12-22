@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bholdhealth.medicaid.MainActivity;
 import com.bholdhealth.medicaid.R;
 import com.bholdhealth.medicaid.Utils.AssetsUtils;
 import com.bholdhealth.medicaid.Utils.EngineManager;
@@ -56,6 +58,8 @@ import pl.droidsonroids.gif.GifImageView;
 import static android.content.ContentValues.TAG;
 
 public class VoiceSDKActivity extends FlutterActivity {
+
+    AsyncTask task;
 
     RippleBackground rippleBackground;
 
@@ -150,7 +154,7 @@ public class VoiceSDKActivity extends FlutterActivity {
             @Override
             public void onClick(View view) {
 
-                startRecordButton.setEnabled(false);
+              //  startRecordButton.setEnabled(false);
 
                 if (counter < Folders.MAX_REPEAT) {
 
@@ -190,83 +194,108 @@ public class VoiceSDKActivity extends FlutterActivity {
             @Override
             public void onStop(final AudioRecord recordObject) {
                 Log.d(TAG, "size of data: " + recordObject.data.length);
-
-               // showLoader();
-
-//                AsyncTask.execute(new Runnable() {
-//                    @Override
-//                    public void run() {
-
+                showLoader();
+                task=new AsyncTask() {
+                    @Override
+                    protected Object doInBackground(Object[] objects) {
+                        //Looper.prepare();
                         voices[counter] = engineManager.verifyEngine.createVoiceTemplate(recordObject.data, recordObject.sampleRate);
                         if (counter == 0) {
 
+                            //  startRecordButton.setEnabled(true);
+                            // hideLoader();
+                            VoiceSDKActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    stepCounter.setText(String.valueOf(counter + 1));
+                                    String message = String.format("Recording #%d successfully complete!", counter + 1);
+                                    Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                    changeCounter(counter + 1);
+                                    hideLoader();
 
-                            stepCounter.setText(String.valueOf(counter + 1));
-                            startRecordButton.setEnabled(true);
-                            hideLoader();
-                            String message = String.format("Recording #%d successfully complete!", counter + 1);
-        Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                            changeCounter(counter + 1);
-
-                            //hideLoader();
+                                }
+                            });
+                         //   task.cancel(true);
 
                             // hideLoader();
-                        } else if (counter == 1) {
+                        }
 
-                            //showLoader();
+                        else if (counter == 1) {
 
+                            //showLoader()
                             if (checkVoiceMatch(recordObject, voices[0], engineManager) > 0.8) {
-                                Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[0], engineManager));
-                                String message = String.format("Recording #%d successfully engineManagercomplete!", counter + 1);
-                                Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                VoiceSDKActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[0], engineManager));
+                                        String message = String.format("Recording #%d successfully complete!", counter + 1);
+                                        Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                                 stepCounter.setText(String.valueOf(counter + 1));
-                                startRecordButton.setEnabled(true);
-                                hideLoader();
-                                changeCounter(counter + 1);
+                                        hideLoader();
+                                        changeCounter(counter + 1);
+                                    }
+                                });
 
-                                // hideLoader();
+
+
                             } else {
-                                Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[0], engineManager));
-                                String message = String.format("Failed to match voice with the previous one");
+
+                                VoiceSDKActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[0], engineManager));
+                                        String message = String.format("Failed to match voice with the previous one");
                                 Toasty.error(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                startRecordButton.setEnabled(true);
 
                                 hideLoader();
-                            }
+                                    }
+                                });
 
-                        } else {
+                            }
+                        }
+
+                        else {
                             counter = 2;
 
-                            //showLoader();
 
                             if (checkVoiceMatch(recordObject, voices[1], engineManager) > 0.8) {
-                                Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[1], engineManager));
-                                Toasty.success(getApplicationContext(), "Enrollment successfully completed", Toast.LENGTH_SHORT).show();
-                                stepCounter.setText(String.valueOf(counter + 1));
-                                startRecordButton.setEnabled(true);
-                                stepCounter.setText(String.valueOf(counter + 1));
-                                saveUser(username);
 
-                                showRegistrationCompleteTextViews();
+                                VoiceSDKActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[1], engineManager));
+                                        Toasty.success(getApplicationContext(), "Enrollment successfully completed", Toast.LENGTH_SHORT).show();
+                                        stepCounter.setText(String.valueOf(counter + 1));
+                                        saveUser(username);
+                                        hideLoader();
+                                        showRegistrationCompleteTextViews();
+                                    }
+                                });
                             } else {
-                                Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[1], engineManager));
-                                String message = String.format("Failed to match voice with the previous one");
-                                Toasty.error(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                startRecordButton.setEnabled(true);
 
-                               // hideLoader();
+                                VoiceSDKActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[1], engineManager));
+                                        String message = String.format("Failed to match voice with the previous one");
+                                        Toasty.error(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+                                        hideLoader();
+                                    }
+                                });
                             }
 
 
                         }
 
+                       task.cancel(true);
+                        return null;
                     }
-                });
-//
-//            }
-//        });
-//        String message = String.format("Recording #%d successfully complete!", counter + 1);
-//        Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                };
+                task.execute();
+
+            }
+        });
         dialog.show(getFragmentManager(), "DIALOG");
     }
 
@@ -282,6 +311,7 @@ public class VoiceSDKActivity extends FlutterActivity {
 
     private void showRegistrationCompleteTextViews() {
         constraintLayoutRegistration.setVisibility(View.GONE);
+
        // loaderView.setVisibility(View.GONE);
         registrationCompleteTv1.setVisibility(View.VISIBLE);
         registrationCompleteTv2.setVisibility(View.VISIBLE);
@@ -292,11 +322,13 @@ public class VoiceSDKActivity extends FlutterActivity {
 
     private void showLoader(){
         constraintLayoutRegistration.setVisibility(View.GONE);
+        logo.setVisibility(View.GONE);
         loaderView.setVisibility(View.VISIBLE);
     }
 
     private void hideLoader(){
         constraintLayoutRegistration.setVisibility(View.VISIBLE);
+        logo.setVisibility(View.VISIBLE);
         loaderView.setVisibility(View.GONE);
     }
 

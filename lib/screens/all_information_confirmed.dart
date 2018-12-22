@@ -51,13 +51,13 @@ class InformationConfirmed extends StatelessWidget {
                             new Padding(padding: EdgeInsets.only(bottom: 20.00)),
 
 
-
                           ],
                         ),
                       ),
                     )
-                )
-            )
+                ),
+            ),
+          bottomNavigationBar: CustomBottomNavigation(context:context,index: 0),
         ));
   }
 }

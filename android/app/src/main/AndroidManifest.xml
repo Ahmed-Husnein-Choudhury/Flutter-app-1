@@ -28,7 +28,7 @@
         tools:replace="android:label"
         >
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
@@ -63,7 +63,7 @@
         </provider>
         <activity android:name=".activities.VoiceSDKActivity" />
         <activity android:name=".activities.AudioRecordActivity"></activity>
-        <activity android:name=".activities.VoiceLogin"></activity>
+        <activity android:name=".activities.VoiceLoginActivity"></activity>
         <activity android:name=".activities.FaceSDKActivity"></activity>
     </application>
 

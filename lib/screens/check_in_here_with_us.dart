@@ -50,7 +50,7 @@ class ScreenState extends State<Screen> {
 
   String lat = "23.862675";
   String lng = "90.397026";
-  String zoom = "150";
+  String zoom = "100";
 
 
 

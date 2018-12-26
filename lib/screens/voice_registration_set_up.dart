@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +16,7 @@ class VoiceRegistrationSetUp extends StatefulWidget {
   _State createState() => _State();
 }
 
-const _voiceRecognitionMethodChannel = const MethodChannel("audio");
+const _voiceRecognitionMethodChannel = const MethodChannel("biometric authentication");
 
 class _State extends State<VoiceRegistrationSetUp> {
 
@@ -36,16 +38,28 @@ class _State extends State<VoiceRegistrationSetUp> {
 
   Widget continueButton() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
+      child: Container(
+        height: 45,
+      width: 200,
       child:RaisedButton(
-        onPressed: requestPermission,
-        padding: EdgeInsets.all(15.0),
-        color: Color(0XFF00AFDF),
-        textColor: Colors.white,
-        child: Text(
-          "Continue",
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
-        ),
+          color: Color(0XFF00AFDF),
+          shape: StadiumBorder(
+            side: BorderSide(
+              width: 0.5,
+              color: Color(0XFF00AFDF),
+            ),
+          ),
+          child: Text(
+              "Continue",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.0
+              )
+          ),
+          onPressed: requestPermission
+
+      )
       )
     );
   }
@@ -57,22 +71,28 @@ class _State extends State<VoiceRegistrationSetUp> {
       final req = await SimplePermissions.requestPermission(
           Permission.WriteExternalStorage);
       if (req==PermissionStatus.authorized) {
+
+        setState(() {
+
+        });
+
         _registerWithVoice();
       }
     }
   }
 
   Future<Null> _registerWithVoice() async {
-    String response;
+    bool response;
     response = await _voiceRecognitionMethodChannel.invokeMethod("register voice",{"name":fullName});
-    // String name=_MemberRegistrationState.getFirstName();
     print("native is being called:$response");
-    (response=="ok")? Navigator.of(context).pushNamed(VoiceLogin.routeName):"";
+    response ? Navigator.of(context).pushNamed(VoiceLogin.routeName) : "not working";
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: exitApp,
+      child: Scaffold(
         body: SingleChildScrollView(
           padding: EdgeInsets.all(20.0),
       child: Container(
@@ -87,7 +107,7 @@ class _State extends State<VoiceRegistrationSetUp> {
               textAlign: TextAlign.start,
             ),
             CommonWidgets.spacer(gapHeight: 20.0),
-            instructionalText("Please allow access  to your device's microphone or contact your health plan."),
+            instructionalText("To register your voice, please allow access to your device's microphone or contact your health plan."),
             CommonWidgets.spacer(gapHeight: 30.0),
             continueButton(),
             CommonWidgets.spacer(gapHeight: 30.0),
@@ -96,7 +116,13 @@ class _State extends State<VoiceRegistrationSetUp> {
           ],
         ),
       ),
-    ));
-    ;
+    ))
+
+    );
+  }
+
+  Future<bool> exitApp() {
+    print("app exited");
+    exit(0);
   }
 }

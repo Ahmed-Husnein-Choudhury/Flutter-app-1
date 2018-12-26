@@ -4,9 +4,12 @@ import android.app.DialogFragment;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bholdhealth.medicaid.R;
@@ -19,11 +22,15 @@ import com.skyfishjy.library.RippleBackground;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static android.view.View.GONE;
+
 public class RecordDialog extends DialogFragment {
 
     public static final String PHRASE = "PHRASE";
     public static final String NAME = "NAME";
+    public String TAG=getClass().getSimpleName();
     private String userPhrase;
+    TextView phraseTv,plsTv;
     private String userName;
     private WavRecorder recorder;
     private OnStopRecording listener;
@@ -31,6 +38,7 @@ public class RecordDialog extends DialogFragment {
     private AtomicBoolean isStop = new AtomicBoolean(false);
 
     public static RecordDialog newInstance(String phrase, String name) {
+
         RecordDialog recordDialog = new RecordDialog();
         Bundle bundle = new Bundle();
         bundle.putString(NAME, name);
@@ -38,6 +46,7 @@ public class RecordDialog extends DialogFragment {
         recordDialog.setArguments(bundle);
         return recordDialog;
     }
+
 
     public void setOnStopListener(OnStopRecording listener) {
         this.listener = listener;
@@ -58,7 +67,11 @@ public class RecordDialog extends DialogFragment {
 
         });
         rippleBackground = rootView.findViewById(R.id.img);
-        ((TextView) rootView.findViewById(R.id.phrase)).setText(getArguments().getString(PHRASE));
+        //loader=rootView.findViewById(R.id.dialog_loader);
+        phraseTv=rootView.findViewById(R.id.phrase);
+        plsTv=rootView.findViewById(R.id.pls);
+
+        phraseTv.setText(getArguments().getString(PHRASE));
 //        rootView.findViewById(R.id.stop_record_btn).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -72,6 +85,7 @@ public class RecordDialog extends DialogFragment {
     }
 
     private void onStopRecord(final AudioRecord recordObject) {
+
         if (getActivity() == null) return;
         if (!isStop.getAndSet(true)) {
             getActivity().runOnUiThread(new Runnable() {
@@ -105,4 +119,5 @@ public class RecordDialog extends DialogFragment {
             Logger.writeLog(recordObject, userName, userPhrase);
         }
     }
+
 }

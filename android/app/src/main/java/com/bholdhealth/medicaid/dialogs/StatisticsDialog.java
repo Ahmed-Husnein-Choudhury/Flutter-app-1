@@ -15,15 +15,11 @@ import com.bholdhealth.medicaid.R;
 
 public class StatisticsDialog extends DialogFragment {
 
-    static TextView userNameTv;
-    static Button verify;
     static LinearLayout load;
 
-    public static StatisticsDialog newInstance(Bundle bundle, TextView userName, Button verifyButton, LinearLayout loader) {
+    public static StatisticsDialog newInstance(Bundle bundle, LinearLayout loader) {
         StatisticsDialog statisticsDialog = new StatisticsDialog();
         statisticsDialog.setArguments(bundle);
-        userNameTv=userName;
-        verify=verifyButton;
         load=loader;
         return statisticsDialog;
     }
@@ -35,7 +31,6 @@ public class StatisticsDialog extends DialogFragment {
         this.setCancelable(false);
 
         TextView verificationStatistics = rootView.findViewById(R.id.verificationStatistics);
-        TextView antispoofingStatistics = rootView.findViewById(R.id.antispoofingStatistics);
 
         com.bholdhealth.medicaid.Utils.Prefs prefs = com.bholdhealth.medicaid.Utils.Prefs.getInstance();
 
@@ -55,29 +50,13 @@ public class StatisticsDialog extends DialogFragment {
         verificationStatistics.setTextColor(rootView.getContext().getResources().getColor(
                 verificationScore > verificationThreshold ? R.color.green : R.color.red));
 
-        if (prefs.getAntispoofingEnabledFlag()) {
-            float antispoofingScore = getArguments().getFloat("ANTISPOOFING_SCORE") * 100;
-
-            antispoofingStatistics.setText(
-                    String.format(
-                            getString(
-                                    antispoofingScore > antispoofingThreshold ?
-                                            R.string.antispoofing_successful :
-                                            R.string.antispoofing_failed),
-                            antispoofingScore));
-
-
-            antispoofingStatistics.setTextColor(rootView.getContext().getResources().getColor(
-                    antispoofingScore > antispoofingThreshold ? R.color.green : R.color.red));
-        }
 
         rootView.findViewById(R.id.close_dialog_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userNameTv.setVisibility(View.VISIBLE);
-                verify.setVisibility(View.VISIBLE);
                 load.setVisibility(View.GONE);
                 StatisticsDialog.super.dismiss();
+                getActivity().finish();
             }
         });
 

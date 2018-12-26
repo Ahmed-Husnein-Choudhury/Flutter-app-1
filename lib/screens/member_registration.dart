@@ -25,12 +25,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   List<String> _genderOptions = new List<String>();
 
   // form fields
-   String memberId, dateOfBirth, gender, email, confirmEmail, mobileNumber, processedGender,
-     firstName,lastName;
-
-//  static String getFirstName(){
-//    return firstName;
-//  }
+  String memberId, dateOfBirth, gender, email, confirmEmail, mobileNumber, processedGender, firstName, lastName;
 
   int _year;
   int _month;
@@ -39,19 +34,15 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // controller for dateOfBirth
   final dobController = new TextEditingController();
+  final String baseUrl = "http://ec2-3-83-176-152.compute-1.amazonaws.com:8008";
 
   @override
   void initState() {
     super.initState();
-
     DateTime now = DateTime.now();
-    /*_year = now.year;
+    _year = now.year;
     _month = now.month;
-    _date = now.day;*/
-
-    _year = 2011;
-    _month = 1;
-    _date = 21;
+    _date = now.day;
 
     dobController.text = "$_month/$_date/$_year";
     this.dateOfBirth = "$_year-$_month-$_date";
@@ -66,6 +57,9 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0)
+          ),
           title: Text(
             "Invalid Date",
             style: TextStyle(
@@ -78,12 +72,31 @@ class _MemberRegistrationState extends State<MemberRegistration> {
             "You can't choose a future date!!!",
           ),
           actions: <Widget>[
-            new FlatButton(
+            RaisedButton(
+                color: Color(0XFF00AFDF),
+                shape: StadiumBorder(
+                  side: BorderSide(
+                    width: 1.0,
+                    color: Color(0XFF00AFDF),
+                  ),
+                ),
+                child: Text(
+                    "Close",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0
+                    )
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }
+            )
+            /*new FlatButton(
               child: new Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-            ),
+            ),*/
           ],
         );
       }
@@ -96,6 +109,9 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+            ),
             title: Text(
               "Email Mismatch!",
               style: TextStyle(
@@ -108,12 +124,25 @@ class _MemberRegistrationState extends State<MemberRegistration> {
               "Your given email and confirm email do not match each other",
             ),
             actions: <Widget>[
-              new FlatButton(
-                child: new Text("Close"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+              RaisedButton(
+                  color: Color(0XFF00AFDF),
+                  shape: StadiumBorder(
+                    side: BorderSide(
+                      width: 1.0,
+                      color: Color(0XFF00AFDF),
+                    ),
+                  ),
+                  child: Text(
+                      "Close",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0
+                      )
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }
+              )
             ],
           );
         }
@@ -127,6 +156,9 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0)
+          ),
           title: Center(
             child: Column(
               children: <Widget>[
@@ -160,10 +192,24 @@ class _MemberRegistrationState extends State<MemberRegistration> {
                 ),
                 spacer(gapHeight: 25.0),
                 RaisedButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  })
+                    color: Color(0XFF00AFDF),
+                    shape: StadiumBorder(
+                      side: BorderSide(
+                        width: 1.0,
+                        color: Color(0XFF00AFDF),
+                      ),
+                    ),
+                    child: Text(
+                        "Ok",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.0
+                        )
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }
+                )
               ],
             ),
           )
@@ -183,13 +229,14 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     } else if (gender == "Non-Conforming") {
       this.processedGender = "N";
     }
+    print(this.processedGender);
   }
 
   // send data to server
   Future _sendDataToServer() async {
     fullName=firstName+lastName;
     // url to hit
-    final String url = "http://192.168.1.37:8008/api/v1/verify_member_account/";
+    final String url = "${baseUrl}/api/v1/verify_member_account/";
 
     var body = {
       "member_number": this.memberId,
@@ -209,6 +256,8 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         },
         body: json.encode(body)
     );
+
+    print(response);
 
     if (response.statusCode == 200) {
       Navigator.push(
@@ -359,6 +408,14 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   void saveMemberInfo() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
+      print(this.memberId);
+      print(this.email);
+      print(this.confirmEmail);
+      print(this.processedGender);
+      print(this.firstName);
+      print(this.lastName);
+      print(this.dateOfBirth);
+      print(this.mobileNumber);
       // matching the given email and confirm email here
       if (this.isEmailMatched(email, confirmEmail)) {
         this.processGender(this.gender);
@@ -426,7 +483,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     return Container(
       alignment: Alignment.topLeft,
       child: TextFormField(
-        initialValue: "432723711",
         keyboardType: TextInputType.number,
         validator: validateMemberID,
         onSaved: (String memberId) {
@@ -442,7 +498,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // first name widget
   Widget firstNameField() {
     return TextFormField(
-      initialValue: "Casandra",
       validator: validateFirstName,
       onSaved: (String firstName) {
         this.firstName = firstName;
@@ -456,7 +511,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // last name widget
   Widget lastNameField() {
     return TextFormField(
-      initialValue: "Pagac",
       validator: validateLastName,
       onSaved: (String lastName) {
         this.lastName = lastName;
@@ -518,7 +572,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // email widget
   Widget emailField() {
     return TextFormField(
-      initialValue: "casandra@domain.com",
       keyboardType: TextInputType.emailAddress,
       validator: validateEmail,
       onSaved: (String email) {
@@ -533,7 +586,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // confirm email widget
   Widget confirmEmailField() {
     return TextFormField(
-      initialValue: "casandra@domain.com",
       keyboardType: TextInputType.emailAddress,
       validator: validateEmailConfirmation,
       onSaved: (String confirmedEmail) {
@@ -548,7 +600,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // Mobile number widget
   Widget mobileNumberField() {
     return TextFormField(
-      initialValue: "1234567898",
       keyboardType: TextInputType.phone,
       maxLength: 10,
       validator: validatePhoneNumber,

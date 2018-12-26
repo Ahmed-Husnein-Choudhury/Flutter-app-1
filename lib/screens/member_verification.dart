@@ -23,6 +23,9 @@ class MemberVerification extends StatefulWidget {
 }
 
 class _MemberVerificationState extends State<MemberVerification> {
+
+  final String baseUrl = "http://ec2-3-83-176-152.compute-1.amazonaws.com:8008";
+
   int groupValue;
   String obscureEmail, obscureMobile, selectedMethod, codeSent;
   bool isCodeSent = false, _validate = false;
@@ -173,18 +176,27 @@ class _MemberVerificationState extends State<MemberVerification> {
 
   // Request verification code button widget
   Widget verificationCodeButton() {
-    return MaterialButton(
-      onPressed: sendVerificationCode,
-      height: 40.0,
-      padding: EdgeInsets.all(15.0),
-      minWidth: 200.0,
-      color: Color(0XFF00AFDF),
-      textColor: Colors.white,
-      child: Text(
-        "Request Verification Code",
-        style: TextStyle(fontSize: 18.0, color: Colors.white),
+
+    return Container(
+      height: 50.0,
+      width: 250.0,
+      child: RaisedButton(
+        color: Color(0XFF00AFDF),
+        onPressed: sendVerificationCode,
+        child: Text(
+          "Request Verification Code",
+          style: TextStyle(
+              fontSize: 18.0,
+              color: Colors.white
+          ),
+        ),
+        shape: StadiumBorder(
+          side: BorderSide(
+            width: 1.0,
+            color: Color(0XFF00AFDF),
+          ),
+        ),
       ),
-      shape: Border.all(width: 1.0),
     );
   }
 
@@ -260,19 +272,26 @@ class _MemberVerificationState extends State<MemberVerification> {
 
   // Verify button widget
   Widget verifyButton() {
-    return MaterialButton(
-      onPressed: verifyCodeSent,
-      height: 30.0,
-      padding: EdgeInsets.all(15.0),
-      minWidth: 100.0,
-      color: Color(0XFF00AFDF),
-      textColor: Colors.white,
-      child: Text(
-        "Verify",
-        style: TextStyle(fontSize: 18.0, color: Colors.white),
-      ),
-      shape: Border.all(
-        width: 1.0,
+
+    return Container(
+      height: 50.0,
+      width: 150.0,
+      child: RaisedButton(
+        color: Color(0XFF1EE3B7),
+        onPressed: verifyCodeSent,
+        child: Text(
+          "Verify",
+          style: TextStyle(
+              fontSize: 18.0,
+              color: Colors.white
+          ),
+        ),
+        shape: StadiumBorder(
+          side: BorderSide(
+            width: 1.0,
+            color: Color(0XFF1EE3B7),
+          ),
+        ),
       ),
     );
   }
@@ -284,37 +303,53 @@ class _MemberVerificationState extends State<MemberVerification> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: Center(
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    'Verification Code Sent',
-                    style: TextStyle(
-                        color: Colors.green, fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                  ),
-                  Divider(
-                    height: 2.0,
-                  )
-                ],
-              ),
+          shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0)
+          ),
+          title: Center(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Verification Code Sent',
+                  style: TextStyle(
+                      color: Colors.green, fontWeight: FontWeight.bold),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                ),
+                Divider(
+                  height: 2.0,
+                )
+              ],
             ),
-            content: Container(
-              height: 180.0,
-              child: Column(
-                children: <Widget>[
-                  this.groupValue == 1
-                      ? Text(
-                          "A verification code has sent to $obscureEmail. Please check your email and verify your account",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15.0),
+          ),
+          content: Container(
+            height: 150.0,
+            child: Column(
+              children: <Widget>[
+                this.groupValue == 1
+                    ? Text(
+                        "A verification code has sent to $obscureEmail. Please check your email and verify your account",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 15.0),
+                      )
+                    : Container(),
+                spacer(gapHeight: 25.0),
+                RaisedButton(
+                    color: Color(0XFF00AFDF),
+                    shape: StadiumBorder(
+                      side: BorderSide(
+                        width: 1.0,
+                        color: Color(0XFF00AFDF),
+                      ),
+                    ),
+                    child: Text(
+                        'Ok',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.0
                         )
-                      : Container(),
-                  spacer(gapHeight: 25.0),
-                  RaisedButton(
-                    child: Text('Ok'),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                       setState(() {
@@ -338,6 +373,9 @@ class _MemberVerificationState extends State<MemberVerification> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0)
+            ),
             title: Center(
               child: Column(
                 children: <Widget>[
@@ -364,12 +402,26 @@ class _MemberVerificationState extends State<MemberVerification> {
                     "THe information provided could not be validated. Please request a new verification code and try again."
                         "If you continue to receive this error, please contact Customer Service at (800)555-2222",
                     textAlign: TextAlign.center,
+                    softWrap: true,
                     style: TextStyle(fontSize: 15.0, color: Colors.red),
                   )
                       : Container(),
                   spacer(gapHeight: 25.0),
                   RaisedButton(
-                      child: Text('Ok'),
+                      color: Color(0XFF00AFDF),
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          width: 1.0,
+                          color: Color(0XFF00AFDF),
+                        ),
+                      ),
+                      child: Text(
+                        'Ok',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0
+                        )
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       }
@@ -385,7 +437,7 @@ class _MemberVerificationState extends State<MemberVerification> {
 
   // send verification code
   Future sendVerificationCode() async {
-    String url = "http://192.168.1.37:8008/api/v1/send_verification_code";
+    String url = "${baseUrl}/api/v1/send_verification_code";
 
     var body = {
       "method": "EMAIL",
@@ -408,9 +460,36 @@ class _MemberVerificationState extends State<MemberVerification> {
     }
   }
 
+  Future<Null> fixedVerificationCodeCheck() async {
+    String url = "${baseUrl}/api/v1/members/${widget.memberID}";
+
+    if (this.codeSent == "123456") {
+      var response = await get(
+          Uri.parse(url),
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+      );
+
+      print(response.body);
+      if (response.statusCode == 200) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => MemberInformation(responseData: response.body)
+            ),ModalRoute.withName('/memberInformation')
+        );
+      }
+
+
+    } else {
+      _showErrorMessageOnVerificationFailed();
+    }
+  }
+
   // verify verification code snet
   Future verifyVerificationCodeSent() async {
-    String url = "http://192.168.1.37:8008/api/v1/verify_verification_code";
+    String url = "${baseUrl}/api/v1/verify_verification_code";
 
     var body = {
       "method": "EMAIL",

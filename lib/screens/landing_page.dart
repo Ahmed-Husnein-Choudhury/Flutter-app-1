@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:medicaid/screens/voice_login.dart';
+import 'package:medicaid/screens/member_registration.dart';
+import 'package:medicaid/utils/common_widgets.dart';
 
 class LandingPage extends StatefulWidget {
 
@@ -12,21 +15,6 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
 
-  // widget for showing logo
-  /*Widget logo() {
-    return Image.asset(
-      "assets/logo.jpg",
-      height: 100.0,
-    );
-  }*/
-
-  // dynamic gap widget
-  Widget spacer({@required double gapHeight}) {
-    return SizedBox(
-      height: gapHeight,
-    );
-  }
-
   // defining the login button widget
   Widget loginButton() {
     return Container(
@@ -34,7 +22,8 @@ class _LandingPageState extends State<LandingPage> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>new VoiceLogin()));},
+        //onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, ModalRoute.withName(HomePage.routeName)),
+        onPressed: () => Navigator.of(context).pushNamed(VoiceLogin.routeName),
         child: Text(
           "Login",
           style: TextStyle(
@@ -59,7 +48,7 @@ class _LandingPageState extends State<LandingPage> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF1EE3B7),
-        onPressed: () => Navigator.of(context).pushNamed("/memberRegistration"),
+        onPressed: () => Navigator.of(context).pushNamed(MemberRegistration.routeName),
         child: Text(
           "Register",
           style: TextStyle(
@@ -87,7 +76,7 @@ class _LandingPageState extends State<LandingPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 //logo(),
-                spacer(gapHeight: 20.0),
+                CommonWidgets.spacer(gapHeight: 20.0),
                 Text(
                   "Welcome!",
                   style: TextStyle(
@@ -95,7 +84,7 @@ class _LandingPageState extends State<LandingPage> {
                     fontSize: 34.0,
                   ),
                 ),
-                spacer(gapHeight: 15.0),
+                CommonWidgets.spacer(gapHeight: 15.0),
                 Text(
                   "Please log in to continue.",
                   style: TextStyle(
@@ -103,7 +92,7 @@ class _LandingPageState extends State<LandingPage> {
                       color: Colors.grey
                   ),
                 ),
-                spacer(gapHeight: 10.0),
+                CommonWidgets.spacer(gapHeight: 10.0),
                 Text(
                   "Don't have any account?",
                   style: TextStyle(
@@ -118,11 +107,11 @@ class _LandingPageState extends State<LandingPage> {
                       color: Colors.grey
                   ),
                 ),
-                spacer(gapHeight: 80.0),
+                CommonWidgets.spacer(gapHeight: 80.0),
                 loginButton(),
-                spacer(gapHeight: 25.0),
+                CommonWidgets.spacer(gapHeight: 25.0),
                 registerButton(),
-                spacer(gapHeight: 20.0),
+                CommonWidgets.spacer(gapHeight: 20.0),
               ],
             ),
           ),

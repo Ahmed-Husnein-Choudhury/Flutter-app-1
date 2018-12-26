@@ -3,6 +3,7 @@ import 'package:medicaid/member.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
+import 'package:medicaid/screens/facial_setup.dart';
 
 class MemberInformation extends StatefulWidget {
 
@@ -23,7 +24,12 @@ class _MemberInformationState extends State<MemberInformation> {
   @override
   initState() {
     super.initState();
-    this.member = Member.fromJson(json.decode(widget.responseData)['data']);
+    this.member = Member.fromJson(json.decode(widget.responseData));
+  }
+
+  String formatDate(String date) {
+    List<String> formattedDate = date.split("-");
+    return "${formattedDate[1]}/${formattedDate[2]}/${formattedDate[0]}";
   }
 
   // widget for showing logo
@@ -119,7 +125,7 @@ class _MemberInformationState extends State<MemberInformation> {
             ),
           ),
           spacer(gapHeight: 5.0),
-          Text(this.member.demographic.dateOfBirth)
+          Text(formatDate(this.member.demographic.dateOfBirth))
         ],
       ),
     );
@@ -250,7 +256,7 @@ class _MemberInformationState extends State<MemberInformation> {
       height: 40.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>VoiceRegistrationSetUp()));
+        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>FacialRecognitionSetup()));
         },
         child: Text(
           "Yes",

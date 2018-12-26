@@ -9,7 +9,7 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -25,8 +25,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@mipmap/ic_launcer"
         android:label="medicaid"
-        tools:replace="android:label"
-        >
+        tools:replace="android:label">
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
@@ -61,10 +60,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
         <activity android:name=".activities.VoiceSDKActivity" />
-        <activity android:name=".activities.AudioRecordActivity"></activity>
-        <activity android:name=".activities.VoiceLoginActivity"></activity>
-        <activity android:name=".activities.FaceSDKActivity"></activity>
+        <activity android:name=".activities.AudioRecordActivity" />
+        <activity android:name=".activities.VoiceLoginActivity" />
+        <activity android:name=".activities.FaceSDKActivity" />
     </application>
 
 </manifest>

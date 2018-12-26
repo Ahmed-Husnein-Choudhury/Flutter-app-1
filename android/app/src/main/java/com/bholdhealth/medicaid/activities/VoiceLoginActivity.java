@@ -2,6 +2,7 @@ package com.bholdhealth.medicaid.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,16 +26,19 @@ public class VoiceLoginActivity extends FlutterActivity {
     ImageView logo;
     com.bholdhealth.medicaid.Utils.Folders folder;
     Prefs prefs;
-    String userName="CasandraPagac";
+    //String userName="jordiwaters";
+    String userName;
     String phrase="Golden State Warriors";
+   // String TAG=getApplicationContext().getClass().getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_login);
         getActionBar().hide();
         usersDao=new com.bholdhealth.medicaid.database.UsersDao(getApplicationContext());
-        folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceLoginActivity.this);
 
+        userName=usersDao.all().get(0).getName();
+        folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceLoginActivity.this);
         initViews();
 
         initEngine();
@@ -58,6 +62,7 @@ public class VoiceLoginActivity extends FlutterActivity {
 //        verify.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
+
                 com.bholdhealth.medicaid.Models.Users user=usersDao.findByName(userName);
                 com.bholdhealth.medicaid.dialogs.RecordDialog dialog= com.bholdhealth.medicaid.dialogs.RecordDialog.newInstance(phrase,userName);
                 dialog.setOnStopListener(new com.bholdhealth.medicaid.Utils.OnStopRecording() {
@@ -77,6 +82,7 @@ public class VoiceLoginActivity extends FlutterActivity {
 
                                 VoiceTemplate record = engineManager.verifyEngine.createVoiceTemplate(recordObject.data, recordObject.sampleRate);
                                 VoiceTemplate template = VoiceTemplate.loadFromFile(folder.getTemplate(userName));
+                              //  Log.d(TAG,"name: "+userName);
                                 VerifyResult verificationResult = engineManager.verifyEngine.verify(record, template);
                                 bundle.putFloat("VERIFICATION_SCORE", verificationResult.probability);
 
@@ -91,7 +97,7 @@ public class VoiceLoginActivity extends FlutterActivity {
                                     VoiceLoginActivity.this.finish();
                                 }
                                  else {
-                                    com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle, loaderView);
+                                    com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle,loaderView);
                                     dialog.show(getFragmentManager(), "STATISTICS");
 
                                 }

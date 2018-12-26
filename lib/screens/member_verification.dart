@@ -182,7 +182,7 @@ class _MemberVerificationState extends State<MemberVerification> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: _showVerificationCodeSentDialog,
+        onPressed: sendVerificationCode,
         child: Text(
           "Request Verification Code",
           style: TextStyle(
@@ -437,7 +437,7 @@ class _MemberVerificationState extends State<MemberVerification> {
 
   // send verification code
   Future sendVerificationCode() async {
-    String url = "${baseUrl}/send_verification_code";
+    String url = "${baseUrl}/api/v1/send_verification_code";
 
     var body = {
       "method": "EMAIL",
@@ -527,8 +527,7 @@ class _MemberVerificationState extends State<MemberVerification> {
   void verifyCodeSent() {
     if (verificationFormKey.currentState.validate()) {
       verificationFormKey.currentState.save();
-      //verifyVerificationCodeSent();
-      fixedVerificationCodeCheck();
+      verifyVerificationCodeSent();
     } else {
       setState(() {
         _validate = true;

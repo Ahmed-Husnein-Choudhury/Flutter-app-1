@@ -27,7 +27,7 @@ class _LandingPageState extends State<LandingPage> {
       child: RaisedButton(
         color: Color(0XFF00AFDF),
         //onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, ModalRoute.withName(HomePage.routeName)),
-        onPressed: () => isRegistered? Navigator.of(context).pushNamed(VoiceLogin.routeName):showErrorDialog(),
+        onPressed: () => isRegistered? Navigator.of(context).pushNamed(VoiceLogin.routeName):showErrorDialog("You haven't registered yet!!","Please register before logging in."),
         child: Text(
           "Login",
           style: TextStyle(fontSize: 18.0, color: Colors.white),
@@ -44,13 +44,17 @@ class _LandingPageState extends State<LandingPage> {
 
   // defining the register button widget
   Widget registerButton() {
+
+    checkIfUserRegistered();
+
     return Container(
       height: 50.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF1EE3B7),
         onPressed: () =>
-            Navigator.of(context).pushNamed(MemberRegistration.routeName),
+        !isRegistered?
+            Navigator.of(context).pushNamed(MemberRegistration.routeName):showErrorDialog("You have already Registered","Please login"),
           //  Navigator.of(context).pushNamed(VoiceRegistrationSetUp.routeName),
         child: Text(
           "Register",
@@ -116,7 +120,7 @@ class _LandingPageState extends State<LandingPage> {
     }
   }
 
-  void showErrorDialog() {
+  void showErrorDialog(String title,String body) {
       showDialog(context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
@@ -125,7 +129,7 @@ class _LandingPageState extends State<LandingPage> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "You haven't registered yet!!",
+                      title,
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
@@ -144,7 +148,7 @@ class _LandingPageState extends State<LandingPage> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "Please register before logging in.",
+                      body,
 
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 15.0),

@@ -112,12 +112,9 @@ public class VoiceSDKActivity extends FlutterActivity {
         startRecordButton = findViewById(R.id.start_record_btn);
         continueButton = findViewById(R.id.continue_btn);
         error = findViewById(R.id.errorUsername);
-        stepCounter = findViewById(R.id.step_counter);
         registrationCompleteTv1 = findViewById(R.id.registration_complete_tv1);
         registrationCompleteTv2 = findViewById(R.id.registration_complete_tv2);
-        stepsTv = findViewById(R.id.steps_tv);
         logo = findViewById(R.id.logo);
-        linearLayoutCounter = findViewById(R.id.linearLayout_counter);
         constraintLayoutRegistration = findViewById(R.id.constraint_layout_voice_registration);
         gif=findViewById(R.id.gif_imageView);
         loaderView= findViewById(R.id.voice_registration_loader);

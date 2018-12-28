@@ -26,10 +26,9 @@ class _LandingPageState extends State<LandingPage> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        //onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, ModalRoute.withName(HomePage.routeName)),
-        onPressed: () => isRegistered? Navigator.of(context).pushNamed(VoiceLogin.routeName):showErrorDialog(),
+        onPressed: () => isRegistered ? Navigator.of(context).pushNamed(VoiceLogin.routeName):showErrorDialog("You have not registered yet!!","Please register before logging in."),
         child: Text(
-          "Login",
+          "Log In",
           style: TextStyle(fontSize: 18.0, color: Colors.white),
         ),
         shape: StadiumBorder(
@@ -44,13 +43,17 @@ class _LandingPageState extends State<LandingPage> {
 
   // defining the register button widget
   Widget registerButton() {
+
+    checkIfUserRegistered();
+
     return Container(
       height: 50.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF1EE3B7),
         onPressed: () =>
-            Navigator.of(context).pushNamed(MemberRegistration.routeName),
+        !isRegistered?
+            Navigator.of(context).pushNamed(MemberRegistration.routeName):showErrorDialog("You have already Registered","Please login"),
           //  Navigator.of(context).pushNamed(VoiceRegistrationSetUp.routeName),
         child: Text(
           "Register",
@@ -84,24 +87,24 @@ class _LandingPageState extends State<LandingPage> {
                 fontSize: 34.0,
               ),
             ),
-            CommonWidgets.spacer(gapHeight: 15.0),
-            Text(
-              "Please log in to continue.",
-              style: TextStyle(fontSize: 14.0, color: Colors.grey),
-            ),
-            CommonWidgets.spacer(gapHeight: 10.0),
-            Text(
-              "Don't have any account?",
-              style: TextStyle(fontSize: 14.0, color: Colors.grey),
-            ),
-            Text(
-              "Please register for one.",
-              style: TextStyle(fontSize: 14.0, color: Colors.grey),
-            ),
             CommonWidgets.spacer(gapHeight: 80.0),
             loginButton(),
+            CommonWidgets.spacer(gapHeight: 15.0),
+            Text(
+              "Log in to continue.",
+              style: TextStyle(fontSize: 15.0, color: Colors.grey),
+            ),
             CommonWidgets.spacer(gapHeight: 25.0),
             registerButton(),
+            CommonWidgets.spacer(gapHeight: 15.0),
+            Text(
+              "Don't have any account?",
+              style: TextStyle(fontSize: 15.0, color: Colors.grey),
+            ),
+            Text(
+              "Register now for access",
+              style: TextStyle(fontSize: 15.0, color: Colors.grey),
+            ),
             CommonWidgets.spacer(gapHeight: 20.0),
           ],
         ),
@@ -116,7 +119,7 @@ class _LandingPageState extends State<LandingPage> {
     }
   }
 
-  void showErrorDialog() {
+  void showErrorDialog(String title,String body) {
       showDialog(context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
@@ -125,7 +128,7 @@ class _LandingPageState extends State<LandingPage> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "You haven't registered yet!!",
+                      title,
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
@@ -144,7 +147,7 @@ class _LandingPageState extends State<LandingPage> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "Please register before logging in.",
+                      body,
 
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 15.0),

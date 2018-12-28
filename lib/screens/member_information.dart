@@ -1,8 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:medicaid/member.dart';
 import 'dart:convert';
-import 'package:http/http.dart';
-import 'package:medicaid/screens/voice_registration_set_up.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'package:medicaid/member.dart';
 import 'package:medicaid/screens/facial_setup.dart';
 
 class MemberInformation extends StatefulWidget {
@@ -36,7 +37,7 @@ class _MemberInformationState extends State<MemberInformation> {
   Widget logo() {
     return Center(
       child: Image.asset(
-        "assets/logo.jpg",
+        "assets/logo.png",
         height: 100.0,
       ),
     );
@@ -99,7 +100,7 @@ class _MemberInformationState extends State<MemberInformation> {
         children: <Widget>[
           Expanded(
             flex: 1,
-            child: Text(this.member.clientInfo.clientName),
+            child: Text(this.member.demographic.firstName+" "+this.member.demographic.lastName),
           ),
           Expanded(
             flex: 1,
@@ -138,7 +139,7 @@ class _MemberInformationState extends State<MemberInformation> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(
-            "Adress",
+            "Address",
             style: TextStyle(
                 color: Colors.grey,
                 fontSize: 15.0,
@@ -209,39 +210,40 @@ class _MemberInformationState extends State<MemberInformation> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(
-            "Information Correct ?",
+            "Is the Information Correct?",
             style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 18.0,
                 fontWeight: FontWeight.bold
-            ),
-          ),
-          Text(
-            "Yes, please continue",
-            style: TextStyle(
-              fontSize: 15.0
             ),
           ),
           spacer(gapHeight: 10.0),
           confirmationButton(),
           spacer(gapHeight: 10.0),
-          Text(
-            "No, please contact your health plan",
-            style: TextStyle(
-                fontSize: 15.0
-            ),
-          ),
-          spacer(gapHeight: 20.0),
-          Text(
-            this.member.medicaidInfo.memberPlan.planName,
-            style: TextStyle(
-                fontSize: 15.0
-            ),
-          ),
-          spacer(gapHeight: 5.0),
-          Text(
-            "Customer Service (880) 555-2222",
-            style: TextStyle(
-                fontSize: 15.0
+          RichText(
+            text: TextSpan(
+              style: TextStyle(
+                fontSize: 14.0,
+                height: 1.2
+              ),
+              children: [
+                TextSpan(
+                  text: "If it is incorrect, please contact our ${this.member.medicaidInfo.memberPlan.planName.toUpperCase()} Customer Service Team"
+                      " directly at ",
+                  style: new TextStyle(color: Colors.black),
+                ),
+                TextSpan(
+                  text: '(800) 555-2222',
+                  style: new TextStyle(color: Colors.blue),
+                  recognizer: TapGestureRecognizer()..onTap = () async {
+                    String url = "tel:800555-2222";
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    } else{
+                      throw 'Could not launch $url';
+                    }
+                  }
+                ),
+              ],
             ),
           ),
         ],

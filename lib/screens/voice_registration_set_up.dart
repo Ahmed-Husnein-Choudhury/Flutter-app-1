@@ -23,7 +23,7 @@ class _State extends State<VoiceRegistrationSetUp> {
   Widget logo() {
     return Center(
       child: Image.asset(
-        "assets/logo.jpg",
+        "assets/logo.png",
         height: 100.0,
       ),
     );

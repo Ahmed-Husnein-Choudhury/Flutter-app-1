@@ -453,22 +453,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     );
   }
 
-  /*// widget for choosing date of birth
-  Widget dobField(BuildContext context) {
-    return GestureDetector(
-      onTap: _showDatePicker,
-      onDoubleTap: _showDatePicker,
-      child: TextFormField(
-        keyboardType: TextInputType.datetime,
-        controller: dobController,
-        validator: validateDateOfBirth,
-        decoration: InputDecoration(
-          labelText: "Date of Birth*",
-        ),
-      ),
-    );
-  }*/
-
   // widget for choosing date of birth
   Widget dobField(BuildContext context) {
     return TextField(

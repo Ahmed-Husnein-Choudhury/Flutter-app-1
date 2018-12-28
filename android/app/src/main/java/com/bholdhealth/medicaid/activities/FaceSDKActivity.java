@@ -1,8 +1,8 @@
 package com.bholdhealth.medicaid.activities;
 
-import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,9 +19,9 @@ import net.idrnd.idsdk.result.EnrollResultContainer;
 import net.idrnd.idsdk.result.VerifyResult;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import io.flutter.app.FlutterActivity;
@@ -30,7 +30,10 @@ public class FaceSDKActivity extends FlutterActivity {
 
     String TAG = FaceSDKActivity.class.getSimpleName();
     String dataRootDir, filePath;
-    byte[] initial;
+    byte[] saveFaceArray;
+    ArrayList<Byte> bla;
+    SharedPreferences storedFaceData;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,10 @@ public class FaceSDKActivity extends FlutterActivity {
         // MainActivity.stopNative();
 
         dataRootDir = getExternalFilesDir("").getAbsolutePath();
+
+
+        storedFaceData = getApplicationContext().getSharedPreferences("store face", MODE_PRIVATE);
+        editor = storedFaceData.edit();
 
         // 2) Copy assets to the data dir
 
@@ -72,40 +79,47 @@ public class FaceSDKActivity extends FlutterActivity {
 //        }
 
         multiEvent.faceEvent.image = FileUtils.loadFile(filePath);
-        Log.d(TAG,"byte array: "+multiEvent);
+        Log.d(TAG, "byte array: " + multiEvent);
 
 
+        if (storedFaceData.getString("face data", null) != null) {
+            Log.d(TAG,"size of byte array shared preference not null");
+            saveFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
+            Log.d(TAG,"size of byte array3: "+saveFaceArray.length);
+        }
 
-        EnrollResultContainer enrollResultContainer = idEngine.enroll(multiEvent, initial);
+        EnrollResultContainer enrollResultContainer = idEngine.enroll(multiEvent, saveFaceArray);
 
-        Log.d(TAG,"profile: "+initial);
+        Log.d(TAG, "profile: " + saveFaceArray);
 
         byte[] profile = Arrays.copyOf(enrollResultContainer.serializedProfile, enrollResultContainer.serializedProfile.length);
 
 
         if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.OK) {
 
-            Toast.makeText(getApplicationContext(),"enrolled",Toast.LENGTH_LONG).show();
-            initial=enrollResultContainer.serializedProfile;
-            Log.d(TAG,"finished profile: "+initial);
+            Toast.makeText(getApplicationContext(), "enrolled", Toast.LENGTH_LONG).show();
+
+            saveFaceArray = enrollResultContainer.serializedProfile;
+            saveFace(saveFaceArray);
+            Log.d(TAG, "finished profile: " + saveFaceArray);
 
             finishPlatformChannel();
-        }
-
-        else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.EMPTY_PROFILE) Toast.makeText(getApplicationContext(),"empty profile",Toast.LENGTH_LONG).show();
-        else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.INTERNAL_ERROR) Toast.makeText(getApplicationContext(),"internal error",Toast.LENGTH_LONG).show();
-        else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.INVALID_INPUT) Toast.makeText(getApplicationContext(),"invalid input",Toast.LENGTH_LONG).show();
-        else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.UNDEFINED) {
+        } else if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.EMPTY_PROFILE)
+            Toast.makeText(getApplicationContext(), "empty profile", Toast.LENGTH_LONG).show();
+        else if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.INTERNAL_ERROR)
+            Toast.makeText(getApplicationContext(), "internal error", Toast.LENGTH_LONG).show();
+        else if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.INVALID_INPUT)
+            Toast.makeText(getApplicationContext(), "invalid input", Toast.LENGTH_LONG).show();
+        else if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.UNDEFINED) {
 
             Toast.makeText(getApplicationContext(), "undefined", Toast.LENGTH_LONG).show();
-           // initial=enrollResultContainer.serializedProfile;
             finishPlatformChannel();
-        }
-        else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.NOT_SCORED) Toast.makeText(getApplicationContext(),"not scored",Toast.LENGTH_LONG).show();
+        } else if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.NOT_SCORED)
+            Toast.makeText(getApplicationContext(), "not scored", Toast.LENGTH_LONG).show();
 
 
         else {
-            Toast.makeText(getApplicationContext(),"not enrolled",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "not enrolled", Toast.LENGTH_LONG).show();
             finishPlatformChannel();
         }
 
@@ -146,16 +160,31 @@ public class FaceSDKActivity extends FlutterActivity {
     }
 
 
-    public static void copyFile(File sourceFile, File destFile) throws IOException {
-        if (!destFile.getParentFile().exists())
-            destFile.getParentFile().mkdirs();
+    private void saveFace(byte[] profile) {
 
-        if (!destFile.exists()) {
-            destFile.createNewFile();
+        String tempString = Base64.encodeToString(profile, Base64.NO_WRAP);
+        byte[] tempArray, tempArray2;
+
+        if (storedFaceData.getString("face data", null) != null) {
+//            tempString = storedFaceData.getString("face data", null);
+//            tempArray = Base64.decode(tempString, Base64.NO_WRAP);
+//            Log.d(TAG, "size of byte array: " + tempArray.length);
+//            tempArray2 = tempArray = profile;
+       //     tempString = Base64.encodeToString(tempArray2, Base64.NO_WRAP);
+            tempString = Base64.encodeToString(profile, Base64.NO_WRAP);
+
+            editor.putString("face data", tempString);
+
+            editor.commit();
+            Log.d(TAG, "size of byte array2: " + profile.length);
+
+
+        } else {
+            Log.d(TAG, "face is being saved: "+profile.length);
+
+            editor.putString("face data", tempString);
+            editor.commit();
         }
-
-        FileChannel source = null;
-        FileChannel destination = null;
     }
 
 }

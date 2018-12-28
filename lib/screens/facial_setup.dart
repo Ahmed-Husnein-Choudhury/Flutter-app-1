@@ -7,8 +7,12 @@ import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 
 class FacialRecognitionSetup extends StatefulWidget {
+
+  String healthPlanName;
   // defining the route here
   static final String routeName = "/facialRecognitionSetup";
+
+  FacialRecognitionSetup({@required String healthPlanName});
 
   @override
   _FacialRecognitionSetupState createState() => _FacialRecognitionSetupState();
@@ -162,9 +166,9 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   // defining the instructional text widget
   Widget instructionalText() {
     return Text(
-      "Let's get started. Setting up extra authentication is required for you to receive the best experience with this"
-          " app. In order to help protect your privacy, you must provide two additional levels of authentication. "
-          "This should take less than 30 seconds to complete. To continue, press: Let's get started",
+      "In order to help protect your privacy and provide you with the best experience, we will"
+          " need to set up an extra layer of security. This will include facial recognition and "
+          "speech recognition. This one-time setup should take less than 30 seconds to complete.",
       style: TextStyle(
         fontSize: 15.0,
       ),
@@ -179,7 +183,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Health Plan 1"),
+          Text(widget.healthPlanName),
           CommonWidgets.spacer(gapHeight: 5.0),
           Text("Customer Service (800) 555-2222"),
         ],

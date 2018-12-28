@@ -256,7 +256,15 @@ class _MemberInformationState extends State<MemberInformation> {
       height: 40.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>FacialRecognitionSetup()));
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FacialRecognitionSetup(
+                healthPlanName: this.member.medicaidInfo.memberPlan.planName,
+              )
+            )
+          );
         },
         child: Text(
           "Yes",

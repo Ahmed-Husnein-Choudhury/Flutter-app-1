@@ -98,7 +98,7 @@ class _LandingPageState extends State<LandingPage> {
             registerButton(),
             CommonWidgets.spacer(gapHeight: 15.0),
             Text(
-              "Don't have any account?",
+              "Don't have an account?",
               style: TextStyle(fontSize: 15.0, color: Colors.grey),
             ),
             Text(

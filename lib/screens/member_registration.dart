@@ -277,7 +277,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     DatePicker.showDatePicker(
       context,
       minYear: 1920,
-      maxYear: _year,
+      maxYear: DateTime.now().year,
       initialYear: _year,
       initialMonth: _month,
       initialDate: _date,
@@ -408,14 +408,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   void saveMemberInfo() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      print(this.memberId);
-      print(this.email);
-      print(this.confirmEmail);
-      print(this.processedGender);
-      print(this.firstName);
-      print(this.lastName);
-      print(this.dateOfBirth);
-      print(this.mobileNumber);
       // matching the given email and confirm email here
       if (this.isEmailMatched(email, confirmEmail)) {
         this.processGender(this.gender);

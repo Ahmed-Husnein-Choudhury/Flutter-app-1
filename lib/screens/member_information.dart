@@ -36,7 +36,7 @@ class _MemberInformationState extends State<MemberInformation> {
   Widget logo() {
     return Center(
       child: Image.asset(
-        "assets/logo.jpg",
+        "assets/logo.png",
         height: 100.0,
       ),
     );

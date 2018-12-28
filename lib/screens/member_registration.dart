@@ -440,7 +440,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   Widget logo() {
     return Center(
       child: Image.asset(
-        "assets/logo.jpg",
+        "assets/logo.png",
         height: 100.0,
       ),
     );
@@ -455,15 +455,14 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // widget for choosing date of birth
   Widget dobField(BuildContext context) {
-    return GestureDetector(
+    return TextField(
+      keyboardType: TextInputType.datetime,
+      controller: dobController,
+      textInputAction: TextInputAction.none,
       onTap: _showDatePicker,
-      onDoubleTap: _showDatePicker,
-      child: TextFormField(
-        controller: dobController,
-        validator: validateDateOfBirth,
-        decoration: InputDecoration(
-          labelText: "Date of Birth*",
-        ),
+      focusNode: FocusNode(),
+      decoration: InputDecoration(
+        labelText: "Date of Birth*",
       ),
     );
   }
@@ -552,20 +551,24 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // gender widget
   Widget genderWidget () {
-    return Container(
-      width: 320.0,
-      child: DropdownButton(
-        value: this.gender,
-        items: _genderOptions.map((String gender) {
-          return DropdownMenuItem(
-              value: gender,
-              child: Text(""+gender)
-          );
-        }).toList(),
-        onChanged: (String gender) {
-          _setGender(gender);
-        },
-      )
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+            child: DropdownButton(
+              value: this.gender,
+              items: _genderOptions.map((String gender) {
+                return DropdownMenuItem(
+                    value: gender,
+                    child: Text(""+gender)
+                );
+              }).toList(),
+              onChanged: (String gender) {
+                _setGender(gender);
+              },
+            )
+        )
+      ],
     );
   }
 

@@ -11,7 +11,7 @@ class CommonWidgets {
   static Widget logo() {
     return Center(
       child: Image.asset(
-        "assets/logo.jpg",
+        "assets/logo.png",
         height: 100.0,
       ),
     );

@@ -12,7 +12,7 @@ class FacialRecognitionSetup extends StatefulWidget {
   // defining the route here
   static final String routeName = "/facialRecognitionSetup";
 
-  FacialRecognitionSetup({@required String healthPlanName});
+  FacialRecognitionSetup({this.healthPlanName});
 
   @override
   _FacialRecognitionSetupState createState() => _FacialRecognitionSetupState();
@@ -38,10 +38,10 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     bool registrationComplete = false;
 
     if (pictureNumber >= 1) {
-      successString = "Success!";
+      successString = "Congratulations!";
       dialogBody =
-          "Great, the picture was successfully taken. Only $pictureNumber more picture(s) left to take!";
-      buttonText = "OK";
+          "You have completed step ${3-pictureNumber} of 3";
+      buttonText = "Continue to Step ${3-pictureNumber+1}";
     } else {
       successString = "Congratulations!";
       dialogBody = "You have successfully registered your face";

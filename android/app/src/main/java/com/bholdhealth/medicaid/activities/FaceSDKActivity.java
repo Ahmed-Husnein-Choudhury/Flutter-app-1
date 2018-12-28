@@ -87,6 +87,8 @@ public class FaceSDKActivity extends FlutterActivity {
 
             Toast.makeText(getApplicationContext(),"enrolled",Toast.LENGTH_LONG).show();
             initial=enrollResultContainer.serializedProfile;
+            Log.d(TAG,"finished profile: "+initial);
+
             finishPlatformChannel();
         }
 
@@ -95,8 +97,8 @@ public class FaceSDKActivity extends FlutterActivity {
         else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.INVALID_INPUT) Toast.makeText(getApplicationContext(),"invalid input",Toast.LENGTH_LONG).show();
         else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.UNDEFINED) {
 
-            //Toast.makeText(getApplicationContext(), "undefined", Toast.LENGTH_LONG).show();
-            initial=enrollResultContainer.serializedProfile;
+            Toast.makeText(getApplicationContext(), "undefined", Toast.LENGTH_LONG).show();
+           // initial=enrollResultContainer.serializedProfile;
             finishPlatformChannel();
         }
         else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.NOT_SCORED) Toast.makeText(getApplicationContext(),"not scored",Toast.LENGTH_LONG).show();

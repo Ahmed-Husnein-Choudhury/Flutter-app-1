@@ -123,7 +123,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
       if (image != null) {
         this.imageFile = image;
         this.isCaptured = true;
-        _registerFace(imageFile.toString());
+        _registerFace(imageFile.path);
         pictureNumber--;
         _reOpenCameraDialog(pictureNumber);
 

@@ -26,10 +26,9 @@ class _LandingPageState extends State<LandingPage> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        //onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, ModalRoute.withName(HomePage.routeName)),
-        onPressed: () => isRegistered? Navigator.of(context).pushNamed(VoiceLogin.routeName):showErrorDialog("You haven't registered yet!!","Please register before logging in."),
+        onPressed: () => isRegistered ? Navigator.of(context).pushNamed(VoiceLogin.routeName):showErrorDialog("You have not registered yet!!","Please register before logging in."),
         child: Text(
-          "Login",
+          "Log In",
           style: TextStyle(fontSize: 18.0, color: Colors.white),
         ),
         shape: StadiumBorder(
@@ -88,24 +87,24 @@ class _LandingPageState extends State<LandingPage> {
                 fontSize: 34.0,
               ),
             ),
-            CommonWidgets.spacer(gapHeight: 15.0),
-            Text(
-              "Please log in to continue.",
-              style: TextStyle(fontSize: 14.0, color: Colors.grey),
-            ),
-            CommonWidgets.spacer(gapHeight: 10.0),
-            Text(
-              "Don't have any account?",
-              style: TextStyle(fontSize: 14.0, color: Colors.grey),
-            ),
-            Text(
-              "Please register for one.",
-              style: TextStyle(fontSize: 14.0, color: Colors.grey),
-            ),
             CommonWidgets.spacer(gapHeight: 80.0),
             loginButton(),
+            CommonWidgets.spacer(gapHeight: 15.0),
+            Text(
+              "Log in to continue.",
+              style: TextStyle(fontSize: 15.0, color: Colors.grey),
+            ),
             CommonWidgets.spacer(gapHeight: 25.0),
             registerButton(),
+            CommonWidgets.spacer(gapHeight: 15.0),
+            Text(
+              "Don't have any account?",
+              style: TextStyle(fontSize: 15.0, color: Colors.grey),
+            ),
+            Text(
+              "Register now for access",
+              style: TextStyle(fontSize: 15.0, color: Colors.grey),
+            ),
             CommonWidgets.spacer(gapHeight: 20.0),
           ],
         ),

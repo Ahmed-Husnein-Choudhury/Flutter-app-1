@@ -29,6 +29,7 @@ class _MemberVerificationState extends State<MemberVerification> {
   int groupValue;
   String obscureEmail, obscureMobile, selectedMethod, codeSent;
   bool isCodeSent = false, _validate = false;
+  String verifyCodeSentText = "Request Verification Code";
 
   // global form key
   GlobalKey<FormState> verificationFormKey = GlobalKey();
@@ -179,12 +180,12 @@ class _MemberVerificationState extends State<MemberVerification> {
 
     return Container(
       height: 50.0,
-      width: 250.0,
+      width: 300.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
         onPressed: sendVerificationCode,
         child: Text(
-          "Request Verification Code",
+          verifyCodeSentText,
           style: TextStyle(
               fontSize: 18.0,
               color: Colors.white
@@ -234,6 +235,7 @@ class _MemberVerificationState extends State<MemberVerification> {
         onSaved: (String sentCode) {
           this.codeSent = sentCode;
         },
+        onEditingComplete: verifyCodeSent,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 20.0,
@@ -262,8 +264,6 @@ class _MemberVerificationState extends State<MemberVerification> {
             spacer(gapHeight: 10.0),
             verifyCodeField(),
             spacer(gapHeight: 20.0),
-            verifyButton(),
-            spacer(gapHeight: 10.0),
           ],
         ),
       )
@@ -454,36 +454,13 @@ class _MemberVerificationState extends State<MemberVerification> {
     );
 
     if (response.statusCode == 200) {
-      _showVerificationCodeSentDialog();
+      //_showVerificationCodeSentDialog();
+      setState(() {
+        this.verifyCodeSentText = "Verification Code Sent";
+        this.isCodeSent = true;
+      });
     } else {
       print(response.statusCode.toString());
-    }
-  }
-
-  Future<Null> fixedVerificationCodeCheck() async {
-    String url = "${baseUrl}/api/v1/members/${widget.memberID}";
-
-    if (this.codeSent == "123456") {
-      var response = await get(
-          Uri.parse(url),
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-          },
-      );
-
-      print(response.body);
-      if (response.statusCode == 200) {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => MemberInformation(responseData: response.body)
-            ),ModalRoute.withName('/memberInformation')
-        );
-      }
-
-
-    } else {
-      _showErrorMessageOnVerificationFailed();
     }
   }
 
@@ -506,11 +483,6 @@ class _MemberVerificationState extends State<MemberVerification> {
         body:  json.encode(body)
     );
 
-
-    /*context,
-    MaterialPageRoute(
-    builder: (context) => MemberInformation(responseData: responseBody)
-    )*/
     if (response.statusCode == 200) {
       String responseBody = response.body;
       Navigator.of(context).pushAndRemoveUntil(

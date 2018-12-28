@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:medicaid/screens/home_page.dart';
 import 'package:medicaid/screens/contact.dart';
@@ -55,4 +56,16 @@ class CustomBottomNavigation extends BottomNavigationBar {
         ),
       ]
   );
+}
+
+class CallOption {
+  static void launchCaller()  async {
+    String url = "tel:800555-2222";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else{
+      throw 'Could not launch $url';
+    }
+
+  }
 }

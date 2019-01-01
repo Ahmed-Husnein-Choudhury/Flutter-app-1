@@ -222,7 +222,7 @@ class CommonWidgets {
     return SizedBox(
         height: 80.0,
         child: Container(
-          color: Color(cardBackGroundColor),
+          color: Color(0XFFF3F3F3),
           padding: EdgeInsets.only(left: 40.0, top: 5.0, bottom: 5.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -244,8 +244,8 @@ class CommonWidgets {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(primaryText),
-                      optionalText != null ? Text(optionalText) : Center()
+                      Text(primaryText, style: TextStyle(color: Color(0XFF6A6A6A), fontSize: 15.0),),
+                      optionalText != null ? Text(optionalText,  style: TextStyle(color: Color(0XFF6A6A6A), fontSize: 15.0),) : Center()
                     ],
                   ),
                 ),

@@ -51,11 +51,11 @@ class CustomBottomNavigation extends BottomNavigationBar {
           Navigator.of(context).pushReplacementNamed(Contact.routeName);
         }
       },
-      type: BottomNavigationBarType.shifting,
+      type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
           icon: new Icon(Icons.home, color: index == 0 ? Colors.white : Color(0XFF00AFDF),),
-          title: Column(
+          title: index == 0 ? Column(
             children: <Widget>[
               SizedBox(height: 10.0,),
               SizedBox(
@@ -67,12 +67,12 @@ class CustomBottomNavigation extends BottomNavigationBar {
                 ),
               )
             ],
-          )
+          ) : Container()
           //title: new Text('Home', style: TextStyle(color: index == 0 ? Colors.white : Color(0XFF00AFDF),)),
         ),
         BottomNavigationBarItem(
           icon: new Icon(Icons.search, color: index == 1 ? activeRouteLinkColor : Color(0XFF00AFDF),),
-          title: Column(
+          title: index == 1 ? Column(
             children: <Widget>[
               SizedBox(height: 10.0,),
               SizedBox(
@@ -84,11 +84,11 @@ class CustomBottomNavigation extends BottomNavigationBar {
                 ),
               )
             ],
-          )
+          ) : Container()
         ),
         BottomNavigationBarItem(
           icon: new Icon(Icons.message, color: index == 2 ? activeRouteLinkColor : Color(0XFF00AFDF),),
-          title: Column(
+          title: index == 2 ? Column(
             children: <Widget>[
               SizedBox(height: 10.0,),
               SizedBox(
@@ -100,11 +100,11 @@ class CustomBottomNavigation extends BottomNavigationBar {
                 ),
               )
             ],
-          )
+          ) : Container()
         ),
         BottomNavigationBarItem(
           icon: new Icon(Icons.call, color: index == 3 ? activeRouteLinkColor : Color(0XFF00AFDF),),
-          title: Column(
+          title: index == 3 ? Column(
             children: <Widget>[
               SizedBox(height: 10.0,),
               SizedBox(
@@ -116,7 +116,7 @@ class CustomBottomNavigation extends BottomNavigationBar {
                 ),
               )
             ],
-          )
+          ) : Container()
         ),
       ]
   );

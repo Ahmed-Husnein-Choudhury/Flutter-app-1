@@ -21,9 +21,10 @@ class _ReferalsAndAuthrizationsState extends State<ReferalsAndAuthrizations> {
             Text(
               title,
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  height: 1.0,
-                  fontSize: 14.0
+                fontWeight: FontWeight.bold,
+                height: 1.0,
+                fontSize: 15.0,
+                color: Color(0XFF6A6A6A)
               ),
             ),
             SizedBox(
@@ -34,7 +35,7 @@ class _ReferalsAndAuthrizationsState extends State<ReferalsAndAuthrizations> {
               style: TextStyle(
                   color: Colors.grey,
                   height: 1.0,
-                  fontSize: 12.0
+                  fontSize: 13.0
               ),
             )
           ],
@@ -44,25 +45,16 @@ class _ReferalsAndAuthrizationsState extends State<ReferalsAndAuthrizations> {
 
   Widget tilesHeading(String heading) {
     return Container(
-      height: 40.0,
-      color: Color(0XFFF8F9FF),
-      padding: EdgeInsets.only(top: 10.0, bottom: 25.0),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: Color(0XFFF8F9FF)
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.only(top: 10.0),
+      child: Text(
+        heading,
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            height: 1.0,
+            fontSize: 18.0,
+            color: Color(0XFF00AFDF)
         ),
-        child: Row(
-          children: <Widget>[
-            Text(
-              heading,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                height: 1.0,
-                fontSize: 18.0
-              ),
-            )
-          ],
-        )
       )
     );
   }
@@ -72,6 +64,8 @@ class _ReferalsAndAuthrizationsState extends State<ReferalsAndAuthrizations> {
     return Scaffold(
       appBar: CustomAppBar(title: "Referrals & Authorization"),
       body: Container(
+        color: Color(0XFFF3F3F3),
+        padding: EdgeInsets.only(left: 10.0),
         child: SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 10.0, left: 10.0),
           child: Column(

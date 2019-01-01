@@ -95,9 +95,10 @@ class ScreenState extends State<Screen> {
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: new Container(
+            color: Color(0XFFF3F3F3),
             child: new Column(children: <Widget>[
               new Padding(
-                padding: EdgeInsets.fromLTRB(31.00, 47.00, 15.00, 0.00),
+                padding: EdgeInsets.fromLTRB(10.00, 50.00, 15.00, 0.00),
                 child: new Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -106,7 +107,7 @@ class ScreenState extends State<Screen> {
                     new Text(
                       SWIPE,
                       style:
-                      TextStyle(color: Color(0XFF8785FF), fontSize: 25.00),
+                      TextStyle(color:  Color(0XFF00AFDF), fontSize: 23.00),
                     ),
                     new Padding(padding: EdgeInsets.only(top: 20.00)),
                     textView(BASED_ON_YOUR_LOCATION),
@@ -114,21 +115,28 @@ class ScreenState extends State<Screen> {
                     new Text(
                       ADDRESS,
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 17.00),
+                        fontSize: 16.00,
+                        color: Color(0XFF6A6A6A),
+                        fontWeight: FontWeight.bold
+                      ),
                     ),
                     new Padding(padding: EdgeInsets.only(top: 18.00)),
                     new Text(
                       HOSPITAL_NAME,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 17.00),
+                        style: TextStyle(
+                            fontSize: 16.00,
+                            color: Color(0XFF6A6A6A),
+                            fontWeight: FontWeight.bold
+                        )
                     ),
                     new Padding(padding: EdgeInsets.only(top: 18.00)),
                     new InkWell(
                       child: new Text(
                         NOT_CORRECT,
                         style: TextStyle(
-                            color: Color(NotCorrectLocation.appBarTextColor),
-                            fontSize: 15.00),
+                            color:  Color(0XFF00AFDF),
+                            fontSize: 15.00,
+                        ),
                       ),
                       onTap: () {
                         Navigator.push(
@@ -137,11 +145,6 @@ class ScreenState extends State<Screen> {
                         );
                       },
                     ),
-                    //  new RaisedButton(onPressed:() {Navigator.push(context, MaterialPageRoute(builder: (context)=>MapTest(),));}),
-//                    new RaisedButton(onPressed: () {
-//                      Navigator.push(
-//                          context, SlideRightRoute("Your Plan Details"));
-//                    }),
                   ],
                 ),
               ),

@@ -18,7 +18,7 @@ class _State extends State<YourPlanDetails> {
   final String firstName = "Ben";
   final String lastName = "Hoefs";
   final double copay = 100.0;
-  final double deductible = 400.0;
+  final double deductible = 500.0;
   final double outOfPocketMax = 1000.0;
 
   double getCopayPercentage(double copay) {
@@ -47,8 +47,8 @@ class _State extends State<YourPlanDetails> {
       percent: getCopayPercentage(copay),
       center: Text("\$${copay.toString()} out of \$200.00",style: TextStyle(color: Colors.white),),
       linearStrokeCap: LinearStrokeCap.roundAll,
-      progressColor: Colors.green[600],
-      backgroundColor: Color(0XFF8785FF),
+      progressColor:  Color(0XFF00AFDF),
+      backgroundColor: Color(0XFFD4D4D4),
     );
 
     var deductibleWidget = new LinearPercentIndicator(
@@ -59,8 +59,8 @@ class _State extends State<YourPlanDetails> {
       percent: getDeductiblePercentage(deductible),
       center: Text("\$${deductible.toString()} out of \$500.0",style: TextStyle(color: Colors.white),),
       linearStrokeCap: LinearStrokeCap.roundAll,
-      progressColor: Colors.green[600],
-      backgroundColor: Color(0XFF8785FF),
+      progressColor:  Color(0XFF1EE3B7),
+      backgroundColor: Color(0XFFD4D4D4),
     );
 
     var outOfPocketMaxWidget = new LinearPercentIndicator(
@@ -71,165 +71,206 @@ class _State extends State<YourPlanDetails> {
       percent: getOutOfPocketMaxPercentage(outOfPocketMax),
       center: Text("\$${outOfPocketMax.toString()} out of \$1500.00",style: TextStyle(color: Colors.white),),
       linearStrokeCap: LinearStrokeCap.roundAll,
-      progressColor: Colors.green[600],
-      backgroundColor: Color(0XFF8785FF),
+      progressColor:  Color(0XFF00AFDF),
+      backgroundColor: Color(0XFFD4D4D4),
 
     );
 
     return new Scaffold(
             appBar: CustomAppBar(title: "Your Plan Details"),
-            body: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: new Padding(
-                  padding: EdgeInsets.fromLTRB(20.0, 40.0, 15.0, 10.0),
-                  child: new Center(
-                      child: new Container(
-                    child: new Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new Text("Eligible",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.green[600],
-                            )),
-                        new Padding(padding: EdgeInsets.only(top: 15.0)),
-                        new Text(
-                          FOR_CARE_ON,
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.black54),
-                        ),
-                        new Padding(padding: EdgeInsets.only(top: 15.0)),
-                        new Stack(
-                          children: <Widget>[
-                            new Align(
-                              alignment: Alignment.centerLeft,
-                              child: new Column(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
-                                children: <Widget>[
-                                  new Text(
-                                    "Start Date",
-                                    style: TextStyle(color: Color(0XFF8785FF)),
-                                  ),
-                                  new Text(
-                                    startDate,
-                                    style: TextStyle(fontSize: 18.0),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            new Align(
-                                alignment: AlignmentDirectional.bottomCenter,
-                                child: new Text(
-                                  "-",
+            body: Container(
+              color: Color(0XFFF3F3F3),
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: new Padding(
+                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 15.0, 10.0),
+                    child: new Center(
+                        child: new Container(
+                          child: new Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Text("Eligible",
                                   style: TextStyle(
-                                      fontSize: 45.0, color: Colors.black54),
-                                )),
-                            new Align(
-                              alignment: Alignment.centerRight,
-                              child: new Column(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
+                                    fontSize: 20.0,
+                                    color:  Color(0XFF00AFDF),
+                                  )),
+                              new Padding(padding: EdgeInsets.only(top: 15.0)),
+                              new Text(
+                                FOR_CARE_ON,
+                                style:
+                                TextStyle(fontSize: 15.0, color: Colors.black54),
+                              ),
+                              new Padding(padding: EdgeInsets.only(top: 15.0)),
+                              new Stack(
                                 children: <Widget>[
-                                  new Text("End Date",
-                                      style:
-                                          TextStyle(color: Color(0XFF8785FF))),
-                                  new Text(endDate,
-                                      style: TextStyle(fontSize: 18.0))
+                                  new Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: new Column(
+                                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                                      textBaseline: TextBaseline.alphabetic,
+                                      children: <Widget>[
+                                        new Text(
+                                          "Start Date",
+                                          style: TextStyle(color:  Color(0XFF1676B3)),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10.0),
+                                        ),
+                                        new Text(
+                                          startDate,
+                                          style: TextStyle(fontSize: 15.0, color: Color(0XFF6A6A6A)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  new Align(
+                                      alignment: AlignmentDirectional.bottomCenter,
+                                      child: Padding(
+                                          padding: EdgeInsets.only(top: 8.0),
+                                          child: new Text(
+                                            "-",
+                                            style: TextStyle(
+                                                fontSize: 45.0, color: Colors.black54),
+                                          )),
+                                  ),
+                                  new Align(
+                                    alignment: Alignment.centerRight,
+                                    child: new Column(
+                                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                                      textBaseline: TextBaseline.alphabetic,
+                                      children: <Widget>[
+                                        new Text("End Date",
+                                            style:
+                                            TextStyle(color:  Color(0XFF1676B3))),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10.0),
+                                        ),
+                                        new Text(endDate,
+                                            style: TextStyle(fontSize: 15.0, color: Color(0XFF6A6A6A)))
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                        new Padding(padding: EdgeInsets.only(top: 25.0)),
-                        new Text(
-                          "Coverage-Medical",
-                          style: TextStyle(fontSize: 20.0),
-                        ),
-                        Padding(padding: EdgeInsets.only(top: 25.0)),
+                              new Padding(padding: EdgeInsets.only(top: 10.0)),
+                              new Text(
+                                "Coverage-Medical",
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    color:  Color(0XFF00AFDF),
+                                  ),
+                              ),
+                              Padding(padding: EdgeInsets.only(top: 15.0)),
 
-                        new Stack(
-                          children: <Widget>[
-                            new Align(
-                              alignment: Alignment.centerLeft,
-                              child: new Column(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
+                              new Stack(
                                 children: <Widget>[
-                                  new Text("Patient First Name"),
-                                  new Text(firstName,style: TextStyle(fontSize: 18.0),),
+                                  new Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: new Column(
+                                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                                      textBaseline: TextBaseline.alphabetic,
+                                      children: <Widget>[
+                                        new Text(
+                                          "Patient First Name",
+                                          style: TextStyle(
+                                            color:  Color(0XFFD4D4D4),
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        Padding(padding: EdgeInsets.only(top: 5.0)),
+                                        new Text(
+                                          firstName,
+                                          style: TextStyle(
+                                            color:  Color(0XFF6A6A6A),
+                                            fontSize: 16.0
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  new Align(
+                                    alignment: Alignment.centerRight,
+                                    child: new Column(
+                                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                                      textBaseline: TextBaseline.alphabetic,
+                                      children: <Widget>[
+                                        new Text(
+                                          "Patient Last Name",
+                                          style: TextStyle(
+                                            color:  Color(0XFFD4D4D4),
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        Padding(padding: EdgeInsets.only(top: 5.0)),
+                                        new Text(
+                                          lastName,
+                                          style: TextStyle(
+                                              color:  Color(0XFF6A6A6A),
+                                              fontSize: 16.0
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ),
-                            new Align(
-                              alignment: Alignment.centerRight,
-                              child: new Column(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
-                                children: <Widget>[
-                                  new Text("Patient Last Name"),
-                                  new Text(lastName,style: TextStyle(fontSize: 18.0))
-                                ],
+
+                              Padding(padding: EdgeInsets.only(top: 30.0)),
+
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                                child: new Stack(
+                                  children: <Widget>[
+                                    new Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: new Text("Copay", style: TextStyle(color: Color(0XFF6A6A6A), fontSize: 14.0),)),
+                                    new Align(
+                                      alignment: Alignment.centerRight,
+                                      child: new Text("\$200.00 to go",style: TextStyle(color: Color(0XFF6A6A6A))),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                              copayWidget,
+                              // ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                                child: new Stack(
+                                  children: <Widget>[
+                                    new Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: new Text("Deductible", style: TextStyle(color: Color(0XFF6A6A6A)))),
+                                    new Align(
+                                      alignment: Alignment.centerRight,
+                                      child: new Text("\$500.00 to go", style: TextStyle(color: Color(0XFF6A6A6A))),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              deductibleWidget,
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                                child: new Stack(
+                                  children: <Widget>[
+                                    new Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: new Text("Out of Pocket Max",style: TextStyle(color: Color(0XFF6A6A6A)))),
+                                    new Align(
+                                      alignment: Alignment.centerRight,
+                                      child: new Text("\$1500.00 to go", style: TextStyle(color: Color(0XFF6A6A6A))),
+                                    )
+                                  ],
+                                ),
+                              ),
 
-                        Padding(padding: EdgeInsets.only(top: 30.0)),
-
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                          child: new Stack(
-                            children: <Widget>[
-                              new Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: new Text("Copay")),
-                              new Align(
-                                alignment: Alignment.centerRight,
-                                child: new Text("\$200.00 to go"),
-                              )
+                              outOfPocketMaxWidget,
+                              //flex: 1,
                             ],
                           ),
-                        ),
-                        copayWidget,
-                        // ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                          child: new Stack(
-                            children: <Widget>[
-                              new Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: new Text("Deductible")),
-                              new Align(
-                                alignment: Alignment.centerRight,
-                                child: new Text("\$500.00 to go"),
-                              )
-                            ],
-                          ),
-                        ),
-                        deductibleWidget,
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                          child: new Stack(
-                            children: <Widget>[
-                              new Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: new Text("Out of Pocket Max")),
-                              new Align(
-                                alignment: Alignment.centerRight,
-                                child: new Text("\$1500.00 to go"),
-                              )
-                            ],
-                          ),
-                        ),
-
-                        outOfPocketMaxWidget,
-                        //flex: 1,
-                      ],
-                    ),
-                  )),
-                )
+                        )),
+                  )
+              ),
             ),
           bottomNavigationBar: BaseTheme(
             context: context,

@@ -32,10 +32,12 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
                 children: <Widget>[
                   Text(
                     title,
+
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        height: 1.0,
-                        fontSize: 16.0
+                      color: Color(0XFF6A6A6A),
+                      fontWeight: FontWeight.bold,
+                      height: 1.0,
+                      fontSize: 16.0
                     ),
                   ),
                   Container(
@@ -44,7 +46,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
                     margin: EdgeInsets.only(left: 110.0),
                     alignment: Alignment.topRight,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Color(0XFF1EE3B7),
                       shape: BoxShape.circle,
                     ),
                   )
@@ -56,7 +58,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
               Text(
                 subTitle,
                 style: TextStyle(
-                    color: Colors.grey,
+                    color: Color(0XFFD4D4D4),
                     height: 1.0,
                     fontSize: 14.0
                 ),
@@ -79,9 +81,10 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
                 Text(
                   title,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      height: 1.0,
-                      fontSize: 16.0
+                    color: Color(0XFF6A6A6A),
+                    fontWeight: FontWeight.bold,
+                    height: 1.0,
+                    fontSize: 16.0
                   ),
                 ),
                 Container(
@@ -90,7 +93,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
                   margin: EdgeInsets.only(left: 100.0),
                   alignment: Alignment.topRight,
                   decoration: BoxDecoration(
-                    color: Colors.orange,
+                    color: Color(0XFF00AFDF),
                     shape: BoxShape.circle,
                   ),
                 )
@@ -102,7 +105,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
             Text(
               subTitle,
               style: TextStyle(
-                  color: Colors.grey,
+                  color: Color(0XFFD4D4D4),
                   height: 1.0,
                   fontSize: 14.0
               ),
@@ -125,6 +128,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
                 Text(
                   title,
                   style: TextStyle(
+                      color: Color(0XFF6A6A6A),
                       fontWeight: FontWeight.bold,
                       height: 1.0,
                       fontSize: 16.0
@@ -136,7 +140,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
                   margin: EdgeInsets.only(left: 110.0),
                   alignment: Alignment.topRight,
                   decoration: BoxDecoration(
-                    color: Colors.purple,
+                    color: Color(0XFF1676B3),
                     shape: BoxShape.circle,
                   ),
                 )
@@ -148,7 +152,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
             Text(
               subTitle,
               style: TextStyle(
-                  color: Colors.grey,
+                  color: Color(0XFFD4D4D4),
                   height: 1.0,
                   fontSize: 14.0
               ),
@@ -194,9 +198,9 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
             Text(
               subTitle,
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  height: 1.0,
-                  fontSize: 16.0
+                fontWeight: FontWeight.bold,
+                height: 1.0,
+                fontSize: 16.0,
               ),
             ),
             SizedBox(
@@ -210,7 +214,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
 
   Widget claimDetails({@required String title, @required String subTitle}) {
     return Container(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,7 +222,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
           Text(
             title,
             style: TextStyle(
-                color: Colors.grey,
+                color: Color(0XFFD4D4D4),
                 height: 1.0,
                 fontSize: 14.0
             ),
@@ -229,9 +233,10 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
           Text(
             subTitle,
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                height: 1.0,
-                fontSize: 16.0
+              fontWeight: FontWeight.bold,
+              height: 1.0,
+              fontSize: 16.0,
+              color: Color(0XFF6A6A6A),
             ),
           ),
           SizedBox(
@@ -257,14 +262,14 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
                   height: 200.0,
                   width: 50.0,
                   child: Container(
-                    color: Color(0XFFAC65F8),
+                    color: Color(0XFF1EE3B7),
                   ),
                 ),
                 SizedBox(
                   height: calculatedPercent,
                   width: 50.0,
                   child: Container(
-                    color: Color(0XFFD0D5FC),
+                    color: Color(0XFFD4D4D4),
                   ),
                 )
               ],
@@ -307,50 +312,104 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
       child: Row(
         children: <Widget>[
           Expanded(
-            flex: 3,
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.flag, color: Colors.grey,),
-                SizedBox(width: 5.0,),
-                Text(
-                  "Flag",
-                  style: TextStyle(
-                    color: Colors.grey
+            flex: 10,
+            child: Container(
+              padding: EdgeInsets.all(3.0),
+              decoration: ShapeDecoration(
+                color: Color(0XFF00AFDF),
+                shape: StadiumBorder(
+                  side: BorderSide(
+                    width: 1.0,
+                    color: Color(0XFF00AFDF)
                   ),
-                ),
-              ],
+                )
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.flag, color: Colors.white,),
+                  SizedBox(width: 5.0,),
+                  Text(
+                    "Flag",
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(
-            flex: 3,
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.event_note, color: Colors.grey,),
-                SizedBox(width: 5.0,),
-                Text(
-                  "Notes",
-                  style: TextStyle(
-                      color: Colors.grey
-                  ),
-                ),
-              ],
+            flex: 1,
+            child: SizedBox(
+
             ),
           ),
           Expanded(
-            flex: 3,
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.monetization_on, color: Colors.grey,),
-                SizedBox(width: 5.0,),
-                Text(
-                  "Mark Paid",
-                  style: TextStyle(
-                      color: Colors.grey
+            flex: 10,
+            child: Container(
+              padding: EdgeInsets.all(3.0),
+              decoration: ShapeDecoration(
+                  color: Color(0XFF00AFDF),
+                  shape: StadiumBorder(
+                    side: BorderSide(
+                        width: 1.0,
+                        color: Color(0XFF00AFDF)
+                    ),
+                  )
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.event_note, color: Colors.white,),
+                  SizedBox(width: 5.0,),
+                  Text(
+                    "Notes",
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          )
+          ),
+          Expanded(
+            flex: 1,
+            child: SizedBox(
+
+            ),
+          ),
+          Expanded(
+            flex: 12,
+            child: Container(
+              padding: EdgeInsets.all(3.0),
+              decoration: ShapeDecoration(
+                  color: Color(0XFF00AFDF),
+                  shape: StadiumBorder(
+                    side: BorderSide(
+                        width: 1.0,
+                        color: Color(0XFF00AFDF)
+                    ),
+                  )
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.monetization_on, color: Colors.white,),
+                  SizedBox(width: 5.0,),
+                  Text(
+                    "Mark Paid",
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -361,6 +420,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
     return Scaffold(
       appBar: CustomAppBar(title: "Claim & Past Appointments"),
       body: Container(
+        color: Color(0XFFF3F3F3),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

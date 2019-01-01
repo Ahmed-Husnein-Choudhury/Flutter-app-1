@@ -39,8 +39,8 @@ class _HomePageState extends State<HomePage> {
               child: Text(
                 optionTitle,
                 style: TextStyle(
-                    color: Color(0XFF6A6A6A),
-                  //color: Color(0XFF00AFDF),
+                  //  color: Color(0XFF6A6A6A),
+                  color: Color(0XFF00AFDF),
                   fontSize: 15.0,
                 ),
                 textAlign: TextAlign.center,

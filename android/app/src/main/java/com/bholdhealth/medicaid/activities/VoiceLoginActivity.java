@@ -38,6 +38,7 @@ public class VoiceLoginActivity extends FlutterActivity {
         usersDao=new com.bholdhealth.medicaid.database.UsersDao(getApplicationContext());
 
         userName=usersDao.all().get(0).getName();
+        phrase=usersDao.all().get(0).getPhrase();
         folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceLoginActivity.this);
         initViews();
 

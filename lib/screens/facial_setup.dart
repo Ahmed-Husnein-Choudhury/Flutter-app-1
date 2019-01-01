@@ -177,6 +177,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 
   // defining the health plan details text widget
   Widget healthPlanLabel() {
+
     return Container(
       alignment: Alignment.centerLeft,
       child: Column(
@@ -267,8 +268,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   }
 
   Future<Null> _registerFace(String fileName) async {
-    String response;
-    response = await _faceRegistrationMethodChannel
+    bool response = await _faceRegistrationMethodChannel
         .invokeMethod("register face", {"file path": fileName});
     print("file has been sent to native");
   }

@@ -75,7 +75,7 @@ class _State extends State<VoiceRegistrationSetUp> {
 
     bool response;
     response = await _voiceRecognitionMethodChannel
-        .invokeMethod("register voice", {"name": fullName});
+        .invokeMethod("register voice", {"name": fullName,"phone number":phoneNumber});
     print("native is being called:$response");
 
     prefs.setBool("is registered", response);

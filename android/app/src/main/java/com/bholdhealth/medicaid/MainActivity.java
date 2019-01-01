@@ -19,7 +19,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
   static Context context;
-  String name,pictureFilePath;
+  String name,pictureFilePath,phoneNumber;
   public static String CHANNEL = "biometric authentication";
   public static String FACE_CHANNEL = "register face";
   static MethodChannel.Result methodResult;
@@ -52,6 +52,7 @@ public class MainActivity extends FlutterActivity {
           //Toast.makeText(getApplicationContext(), "platform channel working", Toast.LENGTH_SHORT).show();
           Log.d("audio record", "bla");
           name=methodCall.argument("name");
+          phoneNumber=methodCall.argument("phone number");
           recordAudioInNative(result);
 
           Log.d("audio record", "bla");
@@ -85,6 +86,7 @@ public class MainActivity extends FlutterActivity {
   private void recordAudioInNative(MethodChannel.Result result) {
     Intent in = new Intent(MainActivity.this, VoiceSDKActivity.class);
     in.putExtra("name",name);
+    in.putExtra("phone number",phoneNumber);
 
     startActivity(in);
 
@@ -93,5 +95,9 @@ public class MainActivity extends FlutterActivity {
   public static void stopNative() {
     //  Toast.makeText(context,"stopNative called",Toast.LENGTH_SHORT).show();
     methodResult.success(true);
+  }
+
+  public static void stopNativeFacialRegistration(boolean enrolled){
+    methodResult.success(enrolled);
   }
 }

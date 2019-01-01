@@ -67,4 +67,10 @@ public class UsersDao extends AbstractDao<Users> {
         }
         return null;
     }
+
+    public void deleteUser(){
+        SQLiteDatabase db=helper.getWritableDatabase();
+        db.delete(Users.TABLE_NAME,null,null);
+        db.execSQL("DROP TABLE IF EXISTS "+Users.TABLE_NAME);
+    }
 }

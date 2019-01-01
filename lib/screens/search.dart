@@ -50,7 +50,10 @@ class _SearchState extends State<Search> {
           },
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(context: context, index: 1)
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 1),
+      )
     );
   }
 }

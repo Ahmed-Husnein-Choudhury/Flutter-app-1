@@ -57,7 +57,10 @@ class InformationConfirmed extends StatelessWidget {
                     )
                 ),
             ),
-          bottomNavigationBar: CustomBottomNavigation(context:context,index: 0),
+          bottomNavigationBar: BaseTheme(
+            context: context,
+            navigation: CustomBottomNavigation(context: context, index: 0),
+          ),
         ));
   }
 }

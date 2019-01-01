@@ -80,7 +80,10 @@ class _MessagesState extends State<Messages> {
             }
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(context: context, index: 2),
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 2),
+      ),
     );
   }
 }

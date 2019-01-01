@@ -50,7 +50,10 @@ class _ContactState extends State<Contact> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(context: context, index: 3),
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 3),
+      ),
     );
   }
 }

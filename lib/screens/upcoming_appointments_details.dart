@@ -171,7 +171,10 @@ class _UpcomingAppointMentsDetailsState extends State<UpcomingAppointMentsDetail
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(context: context,index: 4),
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 4),
+      )
     );
   }
 }

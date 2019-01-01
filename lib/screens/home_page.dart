@@ -17,27 +17,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  static final oddColumnTextColor = 0XFFFB06EF8;
+  /*static final oddColumnTextColor = 0XFFFB06EF8;
   static final evenColumnTextColor = 0XFF919EFA;
   static final oddColumnBackGroundColor = 0XFFF8F9FF;
-  static final evenColumnBackGroundColor = 0XFFECECFE;
+  static final evenColumnBackGroundColor = 0XFFECECFE;*/
   static final activeRouteLinkColor = 0XFFB4BDFB;
 
   Widget menuOption({@required String optionTitle, @required bool isOdd,@required VoidCallback onTap }) {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        margin: EdgeInsets.all(0.0),
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0)
+        ),
+        margin: EdgeInsets.only(left: 15.0, top: 10.0, right: 15.0),
         child: Container(
-            height: 120.0,
+            height: 100.0,
             padding: EdgeInsets.all(25.0),
-            color: Color(isOdd ? oddColumnBackGroundColor : evenColumnBackGroundColor),
             child: Center(
               child: Text(
                 optionTitle,
                 style: TextStyle(
-                    color: Color(isOdd ? oddColumnTextColor : evenColumnTextColor),
-                    fontSize: 14.0
+                    color: Color(0XFF6A6A6A),
+                  //color: Color(0XFF00AFDF),
+                  fontSize: 15.0,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -52,8 +56,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: "Home"),
-      bottomNavigationBar: CustomBottomNavigation(context: context, index: 0),
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 0),
+      ),
       body: Container(
+        color: Color(0XFFF3F3F3),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -91,6 +99,9 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.of(context).pushNamed(ReferalsAndAuthrizations.routeName);
                   }
+              ),
+              SizedBox(
+                height: 20.0,
               ),
             ],
           ),

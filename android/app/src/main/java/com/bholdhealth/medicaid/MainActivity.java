@@ -38,7 +38,6 @@ public class MainActivity extends FlutterActivity {
 
   @RequiresApi(api = Build.VERSION_CODES.M)
   private void initCustomToast() {
-   // Toasty.Config.getInstance().setSuccessColor(getColor(R.color.themeBlue));
   }
 
   private void initPlatformChannel() {
@@ -49,7 +48,6 @@ public class MainActivity extends FlutterActivity {
 
         methodResult = result;
         if (methodCall.method.equals("register voice")) {
-          //Toast.makeText(getApplicationContext(), "platform channel working", Toast.LENGTH_SHORT).show();
           Log.d("audio record", "bla");
           name=methodCall.argument("name");
           phoneNumber=methodCall.argument("phone number");
@@ -93,7 +91,6 @@ public class MainActivity extends FlutterActivity {
   }
 
   public static void stopNative() {
-    //  Toast.makeText(context,"stopNative called",Toast.LENGTH_SHORT).show();
     methodResult.success(true);
   }
 

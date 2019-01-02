@@ -12,8 +12,6 @@ class Contact extends StatefulWidget {
 
 class _ContactState extends State<Contact> {
 
-  static final activeRouteLinkColor = 0XFFB4BDFB;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,22 +25,22 @@ class _ContactState extends State<Contact> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   CommonWidgets.spacer(gapHeight: 50.0),
-                  Text("How would you like to contact us?"),
+                  Text("How would you like to contact us?", style: TextStyle(color: Color(0XFF6A6A6A), fontSize: 15.0),),
                   CommonWidgets.spacer(gapHeight: 50.0),
                   CommonWidgets.callOption(
                     primaryText: "Call us directly",
                     optionalText: "888-555-1234",
-                    color: Colors.lightGreen
+                    color: Color(0XFF1EE3B7),
                   ),
-                  CommonWidgets.boxDivider(1.0),
+                  CommonWidgets.boxDivider(2.0),
                   CommonWidgets.callOption(
                     primaryText: "We can call you now",
-                    color: Colors.purple
+                    color:  Color(0XFF00AFDF),
                   ),
-                  CommonWidgets.boxDivider(1.0),
+                  CommonWidgets.boxDivider(2.0),
                   CommonWidgets.callOption(
                     primaryText: "We can call you later",
-                    color: Colors.grey
+                    color:  Color(0XFF1676B3),
                   ),
                   CommonWidgets.boxDivider(1.0),
                 ],
@@ -50,7 +48,10 @@ class _ContactState extends State<Contact> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(context: context, index: 3),
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 3),
+      ),
     );
   }
 }

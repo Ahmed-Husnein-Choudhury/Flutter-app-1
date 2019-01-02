@@ -10,17 +10,32 @@ class CustomAppBar extends AppBar {
   CustomAppBar({Key key, @required String title}) : super(
     key: key,
     iconTheme: IconThemeData(
-        color: Color(0XFF7F8EF9)
+      color: Color(0XFF00AFDF),
     ),
-    title: Text(title, style: TextStyle(color: Color(0XFF7F8EF9), fontSize: 15.0)),
-    backgroundColor: Color(0XFFF8F9FF),
+    title: Text(title, style: TextStyle(color: Color(0XFF00AFDF), fontSize: 15.0)),
+    //backgroundColor: Color(0XFFF8F9FF),
+    backgroundColor: Color(0XFFF3F3F3),
     elevation: 0.5,
   );
 }
 
+class BaseTheme extends Theme {
+  BaseTheme({BuildContext context, @required CustomBottomNavigation navigation}) : super(
+    data: Theme.of(context).copyWith(
+        canvasColor: Color(0XFF30368A),
+        textTheme: Theme
+            .of(context)
+            .textTheme
+            .copyWith(caption: new TextStyle(color: Color(0XFF00AFDF)))),
+    child: navigation
+  );
+}
+
+
 class CustomBottomNavigation extends BottomNavigationBar {
 
-  static final activeRouteLinkColor = 0XFF919EFA;
+  //static final activeRouteLinkColor = 0XFF919EFA;
+  static final activeRouteLinkColor = Colors.white;
 
   CustomBottomNavigation({BuildContext context,@required int index})
       : super (
@@ -39,20 +54,69 @@ class CustomBottomNavigation extends BottomNavigationBar {
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
-          icon: new Icon(Icons.home, color: index == 0 ? Color(activeRouteLinkColor) : Color(0XFFCCCCCC),),
-          title: new Text('Home', style: TextStyle(color: index == 0 ? Color(activeRouteLinkColor) : Color(0XFFCCCCCC))),
+          icon: new Icon(Icons.home, color: index == 0 ? Colors.white : Color(0XFF00AFDF),),
+          title: index == 0 ? Column(
+            children: <Widget>[
+              SizedBox(height: 10.0,),
+              SizedBox(
+                height: 4.0,
+                child: Container(
+                  color: Colors.white,
+                  width: 50.0,
+                  padding: EdgeInsets.only(top: 10.0),
+                ),
+              )
+            ],
+          ) : Container()
+          //title: new Text('Home', style: TextStyle(color: index == 0 ? Colors.white : Color(0XFF00AFDF),)),
         ),
         BottomNavigationBarItem(
-          icon: new Icon(Icons.search, color: index == 1 ? Color(activeRouteLinkColor) : Color(0XFFCCCCCC),),
-          title: new Text('Search', style: TextStyle(color: index == 1 ? Color(activeRouteLinkColor) : Color(0XFFCCCCCC))),
+          icon: new Icon(Icons.search, color: index == 1 ? activeRouteLinkColor : Color(0XFF00AFDF),),
+          title: index == 1 ? Column(
+            children: <Widget>[
+              SizedBox(height: 10.0,),
+              SizedBox(
+                height: 4.0,
+                child: Container(
+                  color: Colors.white,
+                  width: 50.0,
+                  padding: EdgeInsets.only(top: 10.0),
+                ),
+              )
+            ],
+          ) : Container()
         ),
         BottomNavigationBarItem(
-          icon: new Icon(Icons.message, color: index == 2 ? Color(activeRouteLinkColor) : Color(0XFFCCCCCC),),
-          title: new Text('Messages', style: TextStyle(color: index == 2 ? Color(activeRouteLinkColor) : Color(0XFFCCCCCC))),
+          icon: new Icon(Icons.message, color: index == 2 ? activeRouteLinkColor : Color(0XFF00AFDF),),
+          title: index == 2 ? Column(
+            children: <Widget>[
+              SizedBox(height: 10.0,),
+              SizedBox(
+                height: 4.0,
+                child: Container(
+                  color: Colors.white,
+                  width: 50.0,
+                  padding: EdgeInsets.only(top: 10.0),
+                ),
+              )
+            ],
+          ) : Container()
         ),
         BottomNavigationBarItem(
-          icon: new Icon(Icons.call, color: index == 3 ? Color(activeRouteLinkColor) : Color(0XFFCCCCCC),),
-          title: new Text('Contacts', style: TextStyle(color: index == 3 ? Color(activeRouteLinkColor) : Color(0XFFCCCCCC))),
+          icon: new Icon(Icons.call, color: index == 3 ? activeRouteLinkColor : Color(0XFF00AFDF),),
+          title: index == 3 ? Column(
+            children: <Widget>[
+              SizedBox(height: 10.0,),
+              SizedBox(
+                height: 4.0,
+                child: Container(
+                  color: Colors.white,
+                  width: 50.0,
+                  padding: EdgeInsets.only(top: 10.0),
+                ),
+              )
+            ],
+          ) : Container()
         ),
       ]
   );

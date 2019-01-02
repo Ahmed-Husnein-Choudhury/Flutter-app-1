@@ -13,40 +13,57 @@ class UpcomingAppointments extends StatefulWidget {
 class _UpcomingAppointmentsState extends State<UpcomingAppointments> {
 
   Widget appointmentListTile () {
-    return Container(
-      child: ListTile(
-        onTap: () {
-          Navigator.of(context).pushNamed(UpcomingAppointMentsDetails.routeName);
-        },
-        leading: RichText(
-            text: TextSpan(
-              style: new TextStyle(
-                fontSize: 12.0,
-                color: Colors.black,
-              ),
-              children: <TextSpan>[
-                new TextSpan(text: '4:15 ', style: TextStyle(fontSize: 16.0, color: Colors.deepOrangeAccent, fontWeight: FontWeight.bold)),
-                new TextSpan(text: 'PM', style: TextStyle(color: Colors.grey)),
-              ],
-            )
-        ),
-        title: Text(
-          "November 5, 2018",
-        ),
-        subtitle: Text(
-          "Upcoming appointment for Nayra with Chunnu",
-          style: TextStyle(
-              color: Colors.grey,
-              fontSize: 12.0
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      color: Colors.white,
+      child: Container(
+        child: ListTile(
+          onTap: () {
+            Navigator.of(context).pushNamed(UpcomingAppointMentsDetails.routeName);
+          },
+          leading: Container(
+            decoration: ShapeDecoration(
+              color: Color(0XFF00AFDF),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)
+              )
+            ),
+            padding: EdgeInsets.all(10.0),
+            child: Icon(Icons.watch_later, color: Colors.white,),
           ),
+          title: Text(
+            "Upcoming Appointment",
+            style: TextStyle(
+                color: Color(0XFF6A6A6A),
+                fontSize: 15.0
+            ),
+          ),
+          subtitle: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "11/17/18 | 8:00am",
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12.0
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 5.0),
+              ),
+              Text(
+                "Appointment details listed here",
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13.0
+                ),
+              ),
+            ],
+          ),
+          isThreeLine: true,
+          contentPadding: EdgeInsets.all(10.0),
         ),
-        contentPadding: EdgeInsets.all(10.0),
-      ),
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 2.0,
-          color: Colors.white
-        )
       ),
     );
   }
@@ -56,6 +73,8 @@ class _UpcomingAppointmentsState extends State<UpcomingAppointments> {
     return Scaffold(
       appBar: CustomAppBar(title: "Upcoming Appointments"),
       body: Container(
+        color: Color(0XFFF3F3F3),
+        padding: EdgeInsets.only(left: 10.0, right: 10.0),
         child: ListView.builder(
           itemCount: 15,
           itemBuilder: (context, index) {
@@ -63,7 +82,10 @@ class _UpcomingAppointmentsState extends State<UpcomingAppointments> {
           }
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(context: context,index: 4),
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 4),
+      )
     );
   }
 }

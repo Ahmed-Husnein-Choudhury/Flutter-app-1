@@ -14,15 +14,16 @@ class _ClaimsAndAppointmentsState extends State<ClaimsAndAppointments> {
 
   Widget singleRow({@required String providerName, @required String visitingDate, @required String processedDate, @required String purpose, @required double oweAmount}) {
     return Container(
-      color: Color(0XFFF9FAFF),
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).pushNamed(ClaimAndAppointmentsDetails.routeName);
         },
         child: Card(
-            elevation: 0.0,
-            shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
-            margin: EdgeInsets.only(top: 2.5, bottom: 2.5),
+            elevation: 0.5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0)
+            ),
+            margin: EdgeInsets.only(top: 2.5, bottom: 5, left: 5.0, right: 5.0),
             child: Padding(
               padding: EdgeInsets.all(10.0),
               child: Column(
@@ -39,13 +40,14 @@ class _ClaimsAndAppointmentsState extends State<ClaimsAndAppointments> {
                             Text(
                               "Provider: $providerName",
                               style: TextStyle(
-                                  color: Colors.deepOrangeAccent
+                                  color: Color(0XFF00AFDF)
                               ),
                             ),
                             Text(
                               "$providerName visits on $visitingDate",
                               style: TextStyle(
-                                  fontSize: 12.0
+                                fontSize: 12.0,
+                                color: Color(0XFF6A6A6A)
                               ),
                             ),
                             SizedBox(
@@ -89,7 +91,7 @@ class _ClaimsAndAppointmentsState extends State<ClaimsAndAppointments> {
                             Text(
                               "\$$oweAmount",
                               style: TextStyle(
-                                  color: Color(0XFFB678F9)
+                                  color: Color(0XFF1676B3)
                               ),
                             ),
                           ],
@@ -110,7 +112,8 @@ class _ClaimsAndAppointmentsState extends State<ClaimsAndAppointments> {
     return Scaffold(
       appBar: CustomAppBar(title: "Claim & Appointments"),
       body: Container(
-        padding: EdgeInsets.all(10.0),
+        color: Color(0XFFF3F3F3),
+        padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
         child: ListView.builder(
           itemCount: 10,
           itemBuilder: (context, index) {
@@ -124,7 +127,11 @@ class _ClaimsAndAppointmentsState extends State<ClaimsAndAppointments> {
           }
         )
       ),
-      bottomNavigationBar: CustomBottomNavigation(context: context,index: 4),
+
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 4),
+      )
     );
   }
 }

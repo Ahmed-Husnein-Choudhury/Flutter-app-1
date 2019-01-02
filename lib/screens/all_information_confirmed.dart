@@ -36,13 +36,24 @@ class InformationConfirmed extends StatelessWidget {
                             // new Padding(padding: EdgeInsets.only(top:94.00 )),
                             new Text(
                               "Excellent!",
-                              style: TextStyle(color: Color(0XFF8785FF), fontSize: 30.00),
+                              style: TextStyle(
+                                  fontSize: 30.0,
+                                  color: Color(0XFF00AFDF),
+                                  fontWeight: FontWeight.bold
+                              ),
                             ),
                             new Padding(padding: EdgeInsets.only(top: 50.00)),
                             textView("You are confirmed at"),
                             new Padding(padding: EdgeInsets.only(top: 10.00)),
 
-                            new Text(_hospitalName,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.00),),
+                            new Text(
+                              _hospitalName,
+                              style: TextStyle(
+                                fontSize: 17.00,
+                                color: Color(0XFF6A6A6A),
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
 
                             new Padding(padding: EdgeInsets.only(top: 30.00)),
 
@@ -57,7 +68,10 @@ class InformationConfirmed extends StatelessWidget {
                     )
                 ),
             ),
-          bottomNavigationBar: CustomBottomNavigation(context:context,index: 0),
+          bottomNavigationBar: BaseTheme(
+            context: context,
+            navigation: CustomBottomNavigation(context: context, index: 4),
+          ),
         ));
   }
 }

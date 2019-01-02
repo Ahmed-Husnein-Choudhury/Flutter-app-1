@@ -37,9 +37,10 @@ class _UpcomingAppointMentsDetailsState extends State<UpcomingAppointMentsDetail
             Text(
               subTitle,
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  height: 1.0,
-                  fontSize: 16.0
+                fontWeight: FontWeight.bold,
+                height: 1.0,
+                fontSize: 16.0,
+                color: Color(0XFF6A6A6A),
               ),
             ),
             SizedBox(
@@ -78,7 +79,7 @@ class _UpcomingAppointMentsDetailsState extends State<UpcomingAppointMentsDetail
                 margin: EdgeInsets.only(left: 70.0),
                 alignment: Alignment.topRight,
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: Color(0XFF1EE3B7),
                   shape: BoxShape.circle,
                 ),
               ) : Container(
@@ -87,7 +88,7 @@ class _UpcomingAppointMentsDetailsState extends State<UpcomingAppointMentsDetail
                 margin: EdgeInsets.only(left: 100.0),
                 alignment: Alignment.centerRight,
                 decoration: BoxDecoration(
-                  color: Colors.orange,
+                  color: Color(0XFF1EAEE3),
                   shape: BoxShape.circle,
                 ),
               )
@@ -99,9 +100,10 @@ class _UpcomingAppointMentsDetailsState extends State<UpcomingAppointMentsDetail
           Text(
             subTitle,
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                height: 1.0,
-                fontSize: 16.0
+              fontWeight: FontWeight.bold,
+              height: 1.0,
+              fontSize: 16.0,
+              color: Color(0XFF6A6A6A),
             ),
           ),
           SizedBox(
@@ -122,6 +124,7 @@ class _UpcomingAppointMentsDetailsState extends State<UpcomingAppointMentsDetail
     return Scaffold(
       appBar: CustomAppBar(title: "Upcoming Appointments"),
       body: Container(
+        color: Color(0XFFF3F3F3),
         child: SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 10.0, left: 10.0),
           child: Column(
@@ -171,7 +174,10 @@ class _UpcomingAppointMentsDetailsState extends State<UpcomingAppointMentsDetail
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(context: context,index: 4),
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 4),
+      )
     );
   }
 }

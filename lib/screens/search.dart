@@ -17,23 +17,32 @@ class _SearchState extends State<Search> {
   var searchOptions = ["Urgent Care", "Providers", "Places", "Pharmacies", "Estimated Care Cost", "Estimated Drug Cost"];
 
   Widget singleTile(int index) {
-    return Container(
-      padding: EdgeInsets.only(left: 2.0, top: 10.0, bottom: 5.0,),
-      child: ListTile(
-        leading: Icon(iconList[index]),
-        title: Text(
-          searchOptions[index],
-          style: TextStyle(
-          fontSize: 16.0,
-          fontWeight: FontWeight.bold,
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0)
+      ),
+      child: Container(
+        padding: EdgeInsets.only(left: 2.0, top: 10.0, bottom: 5.0,),
+        child: ListTile(
+          leading: Container(
+            decoration: ShapeDecoration(
+                color: Color(0XFF00AFDF),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)
+                )
+            ),
+            padding: EdgeInsets.all(10.0),
+            child: Icon(iconList[index], color: Colors.white,),
+          ),
+          title: Text(
+            searchOptions[index],
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      decoration: BoxDecoration(
-          border: Border.all(
-              width: 2.0,
-              color: Colors.white
-          )
       ),
     );
   }
@@ -43,6 +52,8 @@ class _SearchState extends State<Search> {
     return Scaffold(
       appBar: CustomAppBar(title: "Search"),
       body: Container(
+        color: Color(0XFFF3F3F3),
+        padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
         child: ListView.builder(
           itemCount: iconList.length,
           itemBuilder: (context, index) {
@@ -50,7 +61,10 @@ class _SearchState extends State<Search> {
           },
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(context: context, index: 1)
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 1),
+      )
     );
   }
 }

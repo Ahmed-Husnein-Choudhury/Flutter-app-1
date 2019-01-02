@@ -14,50 +14,52 @@ class _MessagesState extends State<Messages> {
   static final activeRouteLinkColor = 0XFFB4BDFB;
 
   Widget messageTile ({@required String heading, String time, String body}) {
-    return Container(
-      child: ListTile(
-        onTap: null,
-        leading: Container(
-          padding: EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-            color: Colors.purple,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(Icons.games, color: Colors.white),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            SizedBox(height: 5.0,),
-            Text(
-              heading,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              time,
-              style: TextStyle(
-                fontSize: 12.0
-              ),
-            )
-          ],
-        ),
-        subtitle: Text(
-          body,
-          style: TextStyle(
-              color: Colors.grey,
-              fontSize: 14.0
-          ),
-        ),
-        isThreeLine: true,
-        contentPadding: EdgeInsets.all(10.0),
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0)
       ),
-      decoration: BoxDecoration(
-          border: Border.all(
-              width: 2.0,
-              color: Color(0XFFF8F9FF)
-          )
+      color: Colors.white,
+      child: Container(
+        child: ListTile(
+          onTap: null,
+          leading: Container(
+            padding: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Color(0XFF00AFDF),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.textsms, color: Colors.white),
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(height: 5.0,),
+              Text(
+                heading,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                    color: Color(0XFF6A6A6A)
+                ),
+              ),
+              Text(
+                time,
+                style: TextStyle(
+                  fontSize: 12.0,
+                  color: Colors.grey
+                ),
+              )
+            ],
+          ),
+          subtitle: Text(
+            body,
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: 14.0
+            ),
+          ),
+          isThreeLine: true,
+          contentPadding: EdgeInsets.all(10.0),
+        ),
       ),
     );
   }
@@ -68,7 +70,8 @@ class _MessagesState extends State<Messages> {
       backgroundColor: Color(0XFFF8F9FF),
       appBar: CustomAppBar(title: "Messages"),
       body: Container(
-        color: Colors.white,
+        color: Color(0XFFF3F3F3),
+        padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0),
         child: ListView.builder(
             itemCount: 15,
             itemBuilder: (context, index) {
@@ -80,7 +83,10 @@ class _MessagesState extends State<Messages> {
             }
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(context: context, index: 2),
+      bottomNavigationBar: BaseTheme(
+        context: context,
+        navigation: CustomBottomNavigation(context: context, index: 2),
+      ),
     );
   }
 }

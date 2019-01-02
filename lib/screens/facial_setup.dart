@@ -26,10 +26,12 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   File imageFile;
   bool isCaptured;
   int pictureNumber = 3;
+  bool isCameraOpened;
 
   @override
   initState() {
     this.isCaptured = false;
+    this.isCameraOpened = false;
     super.initState();
   }
 
@@ -127,6 +129,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
       if (image != null) {
         this.imageFile = image;
         this.isCaptured = true;
+        this.isCameraOpened = true;
         _registerFace(imageFile.toString());
         pictureNumber--;
         _reOpenCameraDialog(pictureNumber);
@@ -147,6 +150,9 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         Permission.WriteExternalStorage);
     if (cameraPermission == PermissionStatus.authorized &&
         writePermission == PermissionStatus.authorized) {
+      setState(() {
+        this.isCameraOpened = true;
+      });
       _openCamera();
     } else {
       // do something
@@ -245,30 +251,42 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                 ),
               )
             : SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.all(20.0),
-                  child: Column(
-                    children: <Widget>[
-                      CommonWidgets.spacer(gapHeight: 20.0),
-                      logo(),
-                      CommonWidgets.spacer(gapHeight: 30.0),
-                      instructionalText(),
-                      CommonWidgets.spacer(gapHeight: 50.0),
-                      getStartedButton(),
-                      CommonWidgets.spacer(gapHeight: 30.0),
-                      healthPlanLabel(),
-                      CommonWidgets.spacer(gapHeight: 30.0),
-                      bottomPrivacyTextLabel(),
-                      CommonWidgets.spacer(gapHeight: 20.0),
-                    ],
+          child: isCameraOpened == false ? Container(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              children: <Widget>[
+                CommonWidgets.spacer(gapHeight: 20.0),
+                logo(),
+                CommonWidgets.spacer(gapHeight: 30.0),
+                instructionalText(),
+                CommonWidgets.spacer(gapHeight: 50.0),
+                getStartedButton(),
+                CommonWidgets.spacer(gapHeight: 30.0),
+                healthPlanLabel(),
+                CommonWidgets.spacer(gapHeight: 30.0),
+                bottomPrivacyTextLabel(),
+                CommonWidgets.spacer(gapHeight: 20.0),
+              ],
+            ),
+          ) : Container(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(
+                    strokeWidth: 2.0,
                   ),
-                ),
-              ));
+                ],
+              )
+            ),
+          ),
+        ));
   }
 
   Future<Null> _registerFace(String fileName) async {
-    String response;
-    response = await _faceRegistrationMethodChannel
+    bool response = await _faceRegistrationMethodChannel
         .invokeMethod("register face", {"file path": fileName});
     print("file has been sent to native");
   }

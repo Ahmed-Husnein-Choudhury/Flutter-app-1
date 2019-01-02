@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:medicaid/routes.dart';
-import 'package:medicaid/screens/landing_page.dart';
+import 'package:medicaid/screens/facial_setup.dart';
 import 'package:medicaid/screens/home_page.dart';
 
 List<CameraDescription> cameras;
@@ -16,7 +16,7 @@ Future<void> main() async {
       title: "B.Hold",
       debugShowCheckedModeBanner: false,
       routes: Routes.routeList,
-      home:HomePage()
+      home:FacialRecognitionSetup(healthPlanName: "heufhue",)
   ));
 }
 //g

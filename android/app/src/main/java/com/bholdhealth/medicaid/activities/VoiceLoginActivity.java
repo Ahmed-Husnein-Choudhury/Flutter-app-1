@@ -56,7 +56,7 @@ public class VoiceLoginActivity extends FlutterActivity {
     private void initViews() {
         loaderView=findViewById(R.id.loader);
         logo=findViewById(R.id.logo);
-        Glide.with(this).load(R.drawable.bhold_logo_final__1_).into(logo);
+        Glide.with(this).load(R.drawable.logo).into(logo);
     }
 
     private void initVerification() {

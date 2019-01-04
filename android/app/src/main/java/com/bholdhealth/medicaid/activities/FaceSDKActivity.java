@@ -15,15 +15,10 @@ import net.idrnd.idsdk.conf.FaceEngineConf;
 import net.idrnd.idsdk.conf.IDEngineConf;
 import net.idrnd.idsdk.event.FaceEvent;
 import net.idrnd.idsdk.event.MultiEvent;
-import net.idrnd.idsdk.event.VerifySettings;
 import net.idrnd.idsdk.result.EnrollResultContainer;
-import net.idrnd.idsdk.result.VerifyResult;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import es.dmoral.toasty.Toasty;
 import io.flutter.app.FlutterActivity;
@@ -32,7 +27,7 @@ public class FaceSDKActivity extends FlutterActivity {
 
     String TAG = FaceSDKActivity.class.getSimpleName();
     String dataRootDir, filePath;
-    byte[] saveFaceArray;
+    byte[] savedFaceArray;
     ArrayList<Byte> bla;
     SharedPreferences storedFaceData;
     SharedPreferences.Editor editor;
@@ -48,7 +43,7 @@ public class FaceSDKActivity extends FlutterActivity {
         Log.d(TAG, "face activity called: " + filePath);
 
         // MainActivity.stopNative();
-        gson = new Gson();
+       // gson = new Gson();
         dataRootDir = getExternalFilesDir("").getAbsolutePath();
 
 
@@ -93,17 +88,21 @@ public class FaceSDKActivity extends FlutterActivity {
 //        }
 
         multiEvent.faceEvent.image = FileUtils.loadFile(filePath);
+       // multiEvent.faceEvent.image = FileUtils.loadImageAndRotate(filePath,-90);
         Log.d(TAG, "byte array: " + multiEvent);
 
         if (storedFaceData.getString("face data", null) != null) {
             Log.d(TAG, "size of byte array shared preference not null");
-            saveFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
-            Log.d(TAG, "size of byte array3: " + saveFaceArray.length);
+            savedFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
+            Log.d(TAG, "size of byte array3: " + savedFaceArray.length);
         }
 
-        EnrollResultContainer enrollResultContainer = idEngine.enroll(multiEvent, saveFaceArray);
+        Log.d(TAG, "logging before checking");
+        Log.d(TAG, "logging before checking"+multiEvent.toString());
 
-        Log.d(TAG, "profile: " + saveFaceArray);
+        EnrollResultContainer enrollResultContainer = idEngine.enroll(multiEvent, savedFaceArray);
+
+        Log.d(TAG, "profile: " + savedFaceArray);
 
         if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.OK) {
 
@@ -111,13 +110,13 @@ public class FaceSDKActivity extends FlutterActivity {
 
 //            if (storedFaceData.getString("face data", null) != null) {
 //                Log.d(TAG,"size of byte array shared preference not null");
-//                saveFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
-//                Log.d(TAG,"size of byte array3: "+saveFaceArray.length);
+//                savedFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
+//                Log.d(TAG,"size of byte array3: "+savedFaceArray.length);
 //            }
 
-            saveFaceArray = enrollResultContainer.serializedProfile;
-            saveFace(saveFaceArray);
-            Log.d(TAG, "finished profile: " + saveFaceArray);
+            savedFaceArray = enrollResultContainer.serializedProfile;
+            saveFace(savedFaceArray);
+            Log.d(TAG, "finished profile: " + savedFaceArray);
 
             Toasty.success(getApplicationContext(), "Enrollment Successful", Toast.LENGTH_LONG).show();
 
@@ -131,7 +130,7 @@ public class FaceSDKActivity extends FlutterActivity {
 
 //        System.out.println(enrollResultContainer.enrollResult.getProfileMaturity());
 //
-//        multiEvent.faceEvent.image = FileUtils.loadFile(dataRootDir + "/test/leo2.jpg");
+//        multiEvent.faceEvent.image = FileUtils.loadFile(dataRootDir + "/test/leo2.jpg",-90);
 //
 //        enrollResultContainer = idEngine.enroll(multiEvent, profile);
 //

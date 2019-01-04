@@ -3,12 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 
 class FacialRecognitionSetup extends StatefulWidget {
-
   String healthPlanName;
+
   // defining the route here
   static final String routeName = "/facialRecognitionSetup";
 
@@ -24,9 +25,12 @@ const _faceRegistrationMethodChannel =
 class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   // image file
   File imageFile;
+  bool response;
+  var image;
   bool isCaptured;
   int pictureNumber = 3;
   bool isCameraOpened;
+  CameraController controller;
 
   @override
   initState() {
@@ -35,15 +39,14 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     super.initState();
   }
 
-  void _reOpenCameraDialog(int pictureNumber) {
+  void _openCameraDialogEnrolled(int pictureNumber) {
     String successString, dialogBody, buttonText;
     bool registrationComplete = false;
 
     if (pictureNumber >= 1) {
       successString = "Congratulations!";
-      dialogBody =
-          "You have completed step ${3-pictureNumber} of 3";
-      buttonText = "Continue to Step ${3-pictureNumber+1}";
+      dialogBody = "You have completed step ${3 - pictureNumber} of 3";
+      buttonText = "Continue to Step ${3 - pictureNumber + 1}";
     } else {
       successString = "Congratulations!";
       dialogBody = "You have successfully registered your face";
@@ -74,12 +77,11 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                 ),
               ),
               content: Container(
-                height: 130.0,
+                height: 145.0,
                 child: Column(
                   children: <Widget>[
                     Text(
                       dialogBody,
-
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 15.0),
                     ),
@@ -92,26 +94,25 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                             color: Color(0XFF00AFDF),
                           ),
                         ),
-                        child: Text(
-                            buttonText,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15.0
-                            )
-                        ),
+                        child: Text(buttonText,
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 15.0)),
                         onPressed: !registrationComplete
                             ? () {
-                          Navigator.of(context).pop();
-                          setState(() {
-                            this.isCaptured = false;
-                            this.imageFile = null;
-                          });
-                          _openCamera();
-                        }
+                                Navigator.of(context).pop();
+                                setState(() {
+                                  this.isCaptured = false;
+                                  this.imageFile = null;
+                                });
+                                _openCamera();
+                              }
                             : () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>VoiceRegistrationSetUp()));
-                        }
-                    )
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            VoiceRegistrationSetUp()));
+                              })
                   ],
                 ),
               ));
@@ -124,15 +125,15 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   }
 
   _openCamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+
+    frontCameraSelected(CameraDescription(lensDirection: CameraLensDirection.front));
+
+    image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       if (image != null) {
         this.imageFile = image;
         this.isCaptured = true;
-        this.isCameraOpened = true;
-        _registerFace(imageFile.toString());
-        pictureNumber--;
-        _reOpenCameraDialog(pictureNumber);
+        _registerFace(imageFile.path);
 
         print("Path: " + imageFile.path);
       } else {
@@ -140,6 +141,13 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         //Navigator.of(context).popUntil(ModalRoute.withName('/facialRecognitioSetup'));
       }
     });
+  }
+
+  void frontCameraSelected(CameraDescription cameraDescription) async {
+    if (controller != null) {
+      await controller.dispose();
+    }
+    controller = CameraController(cameraDescription, ResolutionPreset.high);
   }
 
   // requesting permission to access camera
@@ -221,10 +229,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         onPressed: requestCameraPermission,
         child: Text(
           "Let's get started",
-          style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.white
-          ),
+          style: TextStyle(fontSize: 18.0, color: Colors.white),
         ),
         shape: StadiumBorder(
           side: BorderSide(
@@ -251,43 +256,111 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                 ),
               )
             : SingleChildScrollView(
-          child: isCameraOpened == false ? Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              children: <Widget>[
-                CommonWidgets.spacer(gapHeight: 20.0),
-                logo(),
-                CommonWidgets.spacer(gapHeight: 30.0),
-                instructionalText(),
-                CommonWidgets.spacer(gapHeight: 50.0),
-                getStartedButton(),
-                CommonWidgets.spacer(gapHeight: 30.0),
-                healthPlanLabel(),
-                CommonWidgets.spacer(gapHeight: 30.0),
-                bottomPrivacyTextLabel(),
-                CommonWidgets.spacer(gapHeight: 20.0),
-              ],
-            ),
-          ) : Container(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                  ),
-                ],
-              )
-            ),
+                child: isCameraOpened == false
+                    ? Container(
+                        padding: EdgeInsets.all(20.0),
+                        child: Column(
+                          children: <Widget>[
+                            CommonWidgets.spacer(gapHeight: 20.0),
+                            logo(),
+                            CommonWidgets.spacer(gapHeight: 30.0),
+                            instructionalText(),
+                            CommonWidgets.spacer(gapHeight: 50.0),
+                            getStartedButton(),
+                            CommonWidgets.spacer(gapHeight: 30.0),
+                            healthPlanLabel(),
+                            CommonWidgets.spacer(gapHeight: 30.0),
+                            bottomPrivacyTextLabel(),
+                            CommonWidgets.spacer(gapHeight: 20.0),
+                          ],
+                        ),
+                      )
+                    : loadingScreen(),
+              ));
+  }
+
+  Widget loadingScreen() {
+    return Container(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
+      child: Center(
+          child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image.asset(
+            "assets/bhold_static_loading.jpg",
+            height: 100.0,
+            width: 100.0,
           ),
-        ));
+//              CircularProgressIndicator(
+//                strokeWidth: 2.0,
+//              ),
+          Padding(
+            padding: EdgeInsets.only(top: 20.0),
+          ),
+          Text(
+            "Loading...",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+          )
+        ],
+      )),
+    );
   }
 
   Future<Null> _registerFace(String fileName) async {
-    bool response = await _faceRegistrationMethodChannel
+    response = await _faceRegistrationMethodChannel
         .invokeMethod("register face", {"file path": fileName});
-    print("file has been sent to native");
+    print("file has been sent to native: $response");
+
+    this.isCameraOpened = true;
+
+    if (response) {
+      print("response: $response");
+      pictureNumber--;
+      _openCameraDialogEnrolled(pictureNumber);
+    } else {
+      print("response: $response");
+      _openCameraDialogFailed();
+    }
   }
+
+  void _openCameraDialogFailed() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text("Enrollment Failed",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Padding(padding: EdgeInsets.only(top: 10.0)),
+                  Divider(
+                    height: 2.0,
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      loadingScreen();
+                      Navigator.of(context).pop();
+                      _openCamera();
+                    },
+                    color: Color(0XFF00AFDF),
+                    shape: StadiumBorder(
+                      side: BorderSide(
+                        width: 1.0,
+                        color: Color(0XFF00AFDF),
+                      ),
+                    ),
+                    child: Text("Try Again"),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
 }

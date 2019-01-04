@@ -2,6 +2,7 @@ package com.bholdhealth.medicaid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -19,6 +20,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
   static Context context;
+  Image image;
   String name,pictureFilePath,phoneNumber;
   public static String CHANNEL = "biometric authentication";
   public static String FACE_CHANNEL = "register face";
@@ -64,6 +66,8 @@ public class MainActivity extends FlutterActivity {
 
         else if(methodCall.method.equals("register face")){
           pictureFilePath=methodCall.argument("file path");
+//          image=methodCall.argument("file");
+//          Log.d(TAG,"received file: "+image);
           Intent in=new Intent(MainActivity.this,FaceSDKActivity.class);
           in.putExtra("file path",pictureFilePath);
           startActivity(in);

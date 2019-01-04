@@ -1,36 +1,40 @@
 package com.bholdhealth.medicaid.activities;
 
-import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.bholdhealth.medicaid.MainActivity;
 import com.bholdhealth.medicaid.Utils.FileUtils;
+import com.google.gson.Gson;
 
 import net.idrnd.idsdk.IDEngine;
 import net.idrnd.idsdk.conf.FaceEngineConf;
 import net.idrnd.idsdk.conf.IDEngineConf;
 import net.idrnd.idsdk.event.FaceEvent;
 import net.idrnd.idsdk.event.MultiEvent;
-import net.idrnd.idsdk.event.VerifySettings;
 import net.idrnd.idsdk.result.EnrollResultContainer;
-import net.idrnd.idsdk.result.VerifyResult;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.util.Arrays;
 
+import java.util.ArrayList;
+
+import es.dmoral.toasty.Toasty;
 import io.flutter.app.FlutterActivity;
 
 public class FaceSDKActivity extends FlutterActivity {
 
     String TAG = FaceSDKActivity.class.getSimpleName();
     String dataRootDir, filePath;
-    byte[] initial;
+    byte[] savedFaceArray;
+    ArrayList<Byte> bla;
+    SharedPreferences storedFaceData;
+    SharedPreferences.Editor editor;
+    byte[] profile;
+    Gson gson;
+    String json;
+    IDEngine idEngine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,25 +43,37 @@ public class FaceSDKActivity extends FlutterActivity {
         Log.d(TAG, "face activity called: " + filePath);
 
         // MainActivity.stopNative();
-
+       // gson = new Gson();
         dataRootDir = getExternalFilesDir("").getAbsolutePath();
+
+
+        storedFaceData = getApplicationContext().getSharedPreferences("store face", MODE_PRIVATE);
+        editor = storedFaceData.edit();
 
         // 2) Copy assets to the data dir
 
         FileUtils.copyAssetFolder(getAssets(), "data", dataRootDir);
 
+//        if (storedFaceData.getString("id engine instance", null) != null) {
+//            json = storedFaceData.getString("id engine instance", null);
+//            idEngine = gson.fromJson(json, IDEngine.class);
+//            Log.d(TAG,"stored idEngine instance is found");
+//
+//        } else {
+            IDEngineConf conf = new IDEngineConf();
 
-        IDEngineConf conf = new IDEngineConf();
+            FaceEngineConf faceConf = new FaceEngineConf();
+            faceConf.dataPath = dataRootDir + "/face";
+            conf.faceEngineConf = faceConf;
 
-        FaceEngineConf faceConf = new FaceEngineConf();
-        faceConf.dataPath = dataRootDir + "/face";
-        conf.faceEngineConf = faceConf;
+            idEngine = new IDEngine(conf);
+            System.out.println("ID SDK build info: " + idEngine.getBuildInfo());
 
-        Log.d(TAG, "face activity called (2): " + dataRootDir);
-
-        IDEngine idEngine = new IDEngine(conf);
-        System.out.println("ID SDK build info: " + idEngine.getBuildInfo());
-
+//            json = gson.toJson(idEngine);
+//            editor.putString("id engine instance", json);
+//            editor.apply();
+//            Log.d(TAG,"idEngine instance is stored");
+//        }
 
         MultiEvent multiEvent = new MultiEvent();
 
@@ -72,88 +88,108 @@ public class FaceSDKActivity extends FlutterActivity {
 //        }
 
         multiEvent.faceEvent.image = FileUtils.loadFile(filePath);
-        Log.d(TAG,"byte array: "+multiEvent);
+       // multiEvent.faceEvent.image = FileUtils.loadImageAndRotate(filePath,-90);
+        Log.d(TAG, "byte array: " + multiEvent);
 
+        if (storedFaceData.getString("face data", null) != null) {
+            Log.d(TAG, "size of byte array shared preference not null");
+            savedFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
+            Log.d(TAG, "size of byte array3: " + savedFaceArray.length);
+        }
 
+        Log.d(TAG, "logging before checking");
+        Log.d(TAG, "logging before checking"+multiEvent.toString());
 
-        EnrollResultContainer enrollResultContainer = idEngine.enroll(multiEvent, initial);
+        EnrollResultContainer enrollResultContainer = idEngine.enroll(multiEvent, savedFaceArray);
 
-        Log.d(TAG,"profile: "+initial);
-
-        byte[] profile = Arrays.copyOf(enrollResultContainer.serializedProfile, enrollResultContainer.serializedProfile.length);
-
+        Log.d(TAG, "profile: " + savedFaceArray);
 
         if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.OK) {
 
-            Toast.makeText(getApplicationContext(),"enrolled",Toast.LENGTH_LONG).show();
-            initial=enrollResultContainer.serializedProfile;
-            finishPlatformChannel();
+            //   profile = Arrays.copyOf(enrollResultContainer.serializedProfile, enrollResultContainer.serializedProfile.length);
+
+//            if (storedFaceData.getString("face data", null) != null) {
+//                Log.d(TAG,"size of byte array shared preference not null");
+//                savedFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
+//                Log.d(TAG,"size of byte array3: "+savedFaceArray.length);
+//            }
+
+            savedFaceArray = enrollResultContainer.serializedProfile;
+            saveFace(savedFaceArray);
+            Log.d(TAG, "finished profile: " + savedFaceArray);
+
+            Toasty.success(getApplicationContext(), "Enrollment Successful", Toast.LENGTH_LONG).show();
+
+            finishPlatformChannelEnrolled(true);
+
+
+        } else {
+            Toasty.error(getApplicationContext(), "Enrollment Failed", Toast.LENGTH_LONG).show();
+            finishPlatformChannelEnrolled(false);
         }
 
-        else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.EMPTY_PROFILE) Toast.makeText(getApplicationContext(),"empty profile",Toast.LENGTH_LONG).show();
-        else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.INTERNAL_ERROR) Toast.makeText(getApplicationContext(),"internal error",Toast.LENGTH_LONG).show();
-        else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.INVALID_INPUT) Toast.makeText(getApplicationContext(),"invalid input",Toast.LENGTH_LONG).show();
-        else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.UNDEFINED) {
-
-            //Toast.makeText(getApplicationContext(), "undefined", Toast.LENGTH_LONG).show();
-            initial=enrollResultContainer.serializedProfile;
-            finishPlatformChannel();
-        }
-        else if(enrollResultContainer.enrollResult.getResultCode()==IDEngine.ResultCode.NOT_SCORED) Toast.makeText(getApplicationContext(),"not scored",Toast.LENGTH_LONG).show();
-
-
-        else {
-            Toast.makeText(getApplicationContext(),"not enrolled",Toast.LENGTH_LONG).show();
-            finishPlatformChannel();
-        }
-
-        System.out.println(enrollResultContainer.enrollResult.getProfileMaturity());
-
-        multiEvent.faceEvent.image = FileUtils.loadFile(dataRootDir + "/test/leo2.jpg");
-
-        enrollResultContainer = idEngine.enroll(multiEvent, profile);
-
-        profile = Arrays.copyOf(enrollResultContainer.serializedProfile, enrollResultContainer.serializedProfile.length);
-
-        System.out.println(enrollResultContainer.enrollResult.getProfileMaturity());
-
-
-        float verificationThreshold = 0.9f;
-
-        multiEvent.faceEvent.image = FileUtils.loadFile(dataRootDir + "/test/mel.jpg");
-
-        VerifyResult verifyResult = idEngine.verify(multiEvent, new VerifySettings(), profile);
-
-        System.out.println("Face result: " + verifyResult.getFaceResult());
-        System.out.println("Verification result: " + (verifyResult.getScore() > verificationThreshold ? "SUCCESSFUL" : "FAILED"));
-
-
-        multiEvent.faceEvent.image = FileUtils.loadFile(dataRootDir + "/test/leo3.jpg");
-
-        verifyResult = idEngine.verify(multiEvent, new VerifySettings(), profile);
-
-        System.out.println("Face result: " + verifyResult.getFaceResult());
-        System.out.println("Verification result: " + (verifyResult.getScore() > verificationThreshold ? "SUCCESSFUL" : "FAILED"));
+//        System.out.println(enrollResultContainer.enrollResult.getProfileMaturity());
+//
+//        multiEvent.faceEvent.image = FileUtils.loadFile(dataRootDir + "/test/leo2.jpg",-90);
+//
+//        enrollResultContainer = idEngine.enroll(multiEvent, profile);
+//
+//        profile = Arrays.copyOf(enrollResultContainer.serializedProfile, enrollResultContainer.serializedProfile.length);
+//
+//        System.out.println(enrollResultContainer.enrollResult.getProfileMaturity());
+//
+//
+//        float verificationThreshold = 0.9f;
+//
+//        multiEvent.faceEvent.image = FileUtils.loadFile(dataRootDir + "/test/mel.jpg");
+//
+//        VerifyResult verifyResult = idEngine.verify(multiEvent, new VerifySettings(), profile);
+//
+//        System.out.println("Face result: " + verifyResult.getFaceResult());
+//        System.out.println("Verification result: " + (verifyResult.getScore() > verificationThreshold ? "SUCCESSFUL" : "FAILED"));
+//
+//
+//        multiEvent.faceEvent.image = FileUtils.loadFile(dataRootDir + "/test/leo3.jpg");
+//
+//        verifyResult = idEngine.verify(multiEvent, new VerifySettings(), profile);
+//
+//        System.out.println("Face result: " + verifyResult.getFaceResult());
+//        System.out.println("Verification result: " + (verifyResult.getScore() > verificationThreshold ? "SUCCESSFUL" : "FAILED"));
     }
 
-    private void finishPlatformChannel() {
+    private void finishPlatformChannelEnrolled(boolean enrolled) {
 
-        MainActivity.stopNative();
+        MainActivity.stopNativeFacialRegistration(enrolled);
         FaceSDKActivity.this.finish();
 
     }
 
 
-    public static void copyFile(File sourceFile, File destFile) throws IOException {
-        if (!destFile.getParentFile().exists())
-            destFile.getParentFile().mkdirs();
+    private void saveFace(byte[] profile) {
 
-        if (!destFile.exists()) {
-            destFile.createNewFile();
+        String tempString = Base64.encodeToString(profile, Base64.NO_WRAP);
+        byte[] tempArray, tempArray2;
+
+        if (storedFaceData.getString("face data", null) != null) {
+//            tempString = storedFaceData.getString("face data", null);
+//            tempArray = Base64.decode(tempString, Base64.NO_WRAP);
+//            Log.d(TAG, "size of byte array: " + tempArray.length);
+//            tempArray2 = tempArray = profile;
+            //     tempString = Base64.encodeToString(tempArray2, Base64.NO_WRAP);
+            tempString = Base64.encodeToString(profile, Base64.NO_WRAP);
+
+            editor.putString("face data", tempString);
+
+            editor.commit();
+            Log.d(TAG, "size of byte array2: " + profile.length);
+
+
+        } else {
+            Log.d(TAG, "face is being saved: " + profile.length);
+
+            editor.putString("face data", tempString);
+            editor.commit();
         }
-
-        FileChannel source = null;
-        FileChannel destination = null;
     }
 
 }

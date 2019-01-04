@@ -2,12 +2,18 @@
     <string name="phrase">Golden State Warriors</string>
     <string name="start_recording">Start Recording</string>
     <string name="stop_recording">Stop Recording</string>
-    <string name="voice_recognition_tip">Please press the button to prompt a popup and say the phrase given below.</string>
+    <string name="voice_recognition_tip">Please press the button to prompt a popup and say the phrase you have chosen.</string>
     <string name="voice_recognition_error">Username already exists! Please use another Username.</string>
     <string name="successfully_registered">Your voice has been successfully registered.</string>
     <string name="verification_successful">Verification Successful</string>
     <string name="verification_failed">Verification Failed</string>
     <string name="antispoofing_successful">Anti-spoofing Successful</string>
     <string name="antispoofing_failed">Anti-spoofing Failed</string>
+
+    <string-array name="phrases">
+       <item>My voice is my security phrase</item>
+        <item>Golden State Warriors</item>
+
+    </string-array>
 
 </resources>

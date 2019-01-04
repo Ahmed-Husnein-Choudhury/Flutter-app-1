@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:medicaid/member.dart';
 import 'package:medicaid/screens/facial_setup.dart';
+import 'package:medicaid/screens/voice_registration_set_up.dart';
 
 class MemberInformation extends StatefulWidget {
 
@@ -262,9 +263,11 @@ class _MemberInformationState extends State<MemberInformation> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FacialRecognitionSetup(
+              builder: (context) =>
+                  FacialRecognitionSetup(
                 healthPlanName: this.member.medicaidInfo.memberPlan.planName,
               )
+           // VoiceRegistrationSetUp()
             )
           );
         },

@@ -38,6 +38,7 @@ public class VoiceLoginActivity extends FlutterActivity {
         usersDao=new com.bholdhealth.medicaid.database.UsersDao(getApplicationContext());
 
         userName=usersDao.all().get(0).getName();
+        phrase=usersDao.all().get(0).getPhrase();
         folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceLoginActivity.this);
         initViews();
 
@@ -55,7 +56,7 @@ public class VoiceLoginActivity extends FlutterActivity {
     private void initViews() {
         loaderView=findViewById(R.id.loader);
         logo=findViewById(R.id.logo);
-        Glide.with(this).load(R.drawable.bhold_logo_final__1_).into(logo);
+        Glide.with(this).load(R.drawable.logo).into(logo);
     }
 
     private void initVerification() {

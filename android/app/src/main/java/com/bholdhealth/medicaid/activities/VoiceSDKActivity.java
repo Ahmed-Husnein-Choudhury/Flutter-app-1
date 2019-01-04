@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,6 +46,8 @@ import net.idrnd.voicesdk.media.SpeechProcessor;
 import net.idrnd.voicesdk.verify.VerifyResult;
 import net.idrnd.voicesdk.verify.VoiceTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -56,6 +60,7 @@ import io.flutter.app.FlutterActivity;
 import pl.droidsonroids.gif.GifImageView;
 
 import static android.content.ContentValues.TAG;
+import static android.view.View.GONE;
 
 public class VoiceSDKActivity extends FlutterActivity {
 
@@ -63,7 +68,10 @@ public class VoiceSDKActivity extends FlutterActivity {
 
     RippleBackground rippleBackground;
 
-    Button  startRecordButton, continueButton;
+    Button startRecordButton, continueButton,resetButton;
+
+    Spinner voiceRegSpinner;
+    ArrayList<String> voiceRegPhrases;
 
     CardView continueCardView;
 
@@ -81,7 +89,8 @@ public class VoiceSDKActivity extends FlutterActivity {
     ImageView logo;
     GifImageView gif;
     String name;
-    TextView record, phrase, stepCounter, registrationCompleteTv1, registrationCompleteTv2, stepsTv;
+    String phoneNumber;
+    TextView record, phrase, registrationCompleteTv1, registrationCompleteTv2, stepsTv;
     LinearLayout linearLayoutCounter;
     ConstraintLayout constraintLayoutRegistration;
     Spinner spinner;
@@ -105,29 +114,82 @@ public class VoiceSDKActivity extends FlutterActivity {
 
         setContentView(R.layout.activity_voice_sdk);
         getActionBar().hide();
+
+        initData();
+
+        saveVoice();
+
+        resetVoice();
+
+        initSpinner();
+
+        initAssets();
+
+
+
+    }
+
+    private void resetVoice() {
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                counter=0;
+                saveVoice();
+                phrase.setVisibility(GONE);
+                spinner.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void initSpinner() {
+        voiceRegPhrases = new ArrayList<>();
+        spinner = findViewById(R.id.spinner);
+
+        voiceRegPhrases.addAll(Arrays.asList(getResources().getStringArray(R.array.phrases)));
+        voiceRegPhrases.add(phoneNumber);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, voiceRegPhrases);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                phraseString = spinner.getSelectedItem().toString();
+                phrase.setText(spinner.getSelectedItem().toString());
+                Log.d(TAG, "phrase string: " + phraseString);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+    }
+
+    private void initData() {
+
         name = getIntent().getStringExtra("name");
+
+        phoneNumber = getIntent().getStringExtra("phone number");
+
         context = VoiceSDKActivity.this;
         dao = new UsersDao(context);
         phrase = findViewById(R.id.phrase);
         startRecordButton = findViewById(R.id.start_record_btn);
         continueButton = findViewById(R.id.continue_btn);
+        resetButton=findViewById(R.id.reset_btn);
         error = findViewById(R.id.errorUsername);
-        stepCounter = findViewById(R.id.step_counter);
         registrationCompleteTv1 = findViewById(R.id.registration_complete_tv1);
         registrationCompleteTv2 = findViewById(R.id.registration_complete_tv2);
-        stepsTv = findViewById(R.id.steps_tv);
         logo = findViewById(R.id.logo);
-        linearLayoutCounter = findViewById(R.id.linearLayout_counter);
         constraintLayoutRegistration = findViewById(R.id.constraint_layout_voice_registration);
-        gif=findViewById(R.id.gif_imageView);
-        loaderView= findViewById(R.id.voice_registration_loader);
-        continueCardView=findViewById(R.id.continue_card);
-        Glide.with(this).load(R.drawable.bhold_logo_final__1_).into(logo);
+        gif = findViewById(R.id.gif_imageView);
+        loaderView = findViewById(R.id.voice_registration_loader);
+        continueCardView = findViewById(R.id.continue_card);
+        Glide.with(this).load(R.drawable.logo).into(logo);
         folder = new com.bholdhealth.medicaid.Utils.Folders(VoiceSDKActivity.this);
-        initAssets();
-
-        saveVoice();
-
 
     }
 
@@ -150,11 +212,13 @@ public class VoiceSDKActivity extends FlutterActivity {
 
     private void saveVoice() {
 
+        startRecordButton.setText("Start Recording (Step 1)");
+
         startRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-              //  startRecordButton.setEnabled(false);
+                //  startRecordButton.setEnabled(false);
 
                 if (counter < Folders.MAX_REPEAT) {
 
@@ -162,14 +226,14 @@ public class VoiceSDKActivity extends FlutterActivity {
                     final String username = name;
                     final EngineManager engineManager = EngineManager.getInstance();
                     final Folders folders = new Folders(VoiceSDKActivity.this);
-                    Users users = dao.findByName(name);
+                   // Users users = dao.findByName(name);
 
-                    if (users != null) {
-                        String string = String.format(S_ALREADY_EXISTS_PLEASE_USE_ANOTHER_USERNAME, username);
-                        error.setText(string);
-                        error.setVisibility(View.VISIBLE);
-                        return;
-                    }
+//                    if (users != null) {
+//                        String string = String.format(S_ALREADY_EXISTS_PLEASE_USE_ANOTHER_USERNAME, username);
+//                        error.setText(string);
+//                        error.setVisibility(View.VISIBLE);
+//                        return;
+//                    }
 
                     Log.d(TAG, "before setOnStopListener: " + counter);
 
@@ -195,7 +259,7 @@ public class VoiceSDKActivity extends FlutterActivity {
             public void onStop(final AudioRecord recordObject) {
                 Log.d(TAG, "size of data: " + recordObject.data.length);
                 showLoader();
-                task=new AsyncTask() {
+                task = new AsyncTask() {
                     @Override
                     protected Object doInBackground(Object[] objects) {
                         //Looper.prepare();
@@ -207,20 +271,20 @@ public class VoiceSDKActivity extends FlutterActivity {
                             VoiceSDKActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    stepCounter.setText(String.valueOf(counter + 1));
                                     String message = String.format("Recording #%d successfully complete!", counter + 1);
                                     Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                    startRecordButton.setText("Start Recording (Step 2)");
                                     changeCounter(counter + 1);
+                                    spinner.setVisibility(GONE);
+                                    phrase.setVisibility(View.VISIBLE);
                                     hideLoader();
 
                                 }
                             });
-                         //   task.cancel(true);
+                            //   task.cancel(true);
 
                             // hideLoader();
-                        }
-
-                        else if (counter == 1) {
+                        } else if (counter == 1) {
 
                             //showLoader()
                             if (checkVoiceMatch(recordObject, voices[0], engineManager) > 0.8) {
@@ -230,12 +294,11 @@ public class VoiceSDKActivity extends FlutterActivity {
                                         Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[0], engineManager));
                                         String message = String.format("Recording #%d successfully complete!", counter + 1);
                                         Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                stepCounter.setText(String.valueOf(counter + 1));
                                         hideLoader();
+                                        startRecordButton.setText("Start Recording (Step 3)");
                                         changeCounter(counter + 1);
                                     }
                                 });
-
 
 
                             } else {
@@ -245,16 +308,14 @@ public class VoiceSDKActivity extends FlutterActivity {
                                     public void run() {
                                         Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[0], engineManager));
                                         String message = String.format("Failed to match voice with the previous one");
-                                Toasty.error(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                        Toasty.error(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
-                                hideLoader();
+                                        hideLoader();
                                     }
                                 });
 
                             }
-                        }
-
-                        else {
+                        } else {
                             counter = 2;
 
 
@@ -265,10 +326,8 @@ public class VoiceSDKActivity extends FlutterActivity {
                                     public void run() {
                                         Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[1], engineManager));
                                         Toasty.success(getApplicationContext(), "Enrollment successfully completed", Toast.LENGTH_SHORT).show();
-                                        stepCounter.setText(String.valueOf(counter + 1));
-                                        saveUser(username);
                                         hideLoader();
-                                        showRegistrationCompleteTextViews();
+                                        showRegistrationCompleteTextViews(username);
                                     }
                                 });
                             } else {
@@ -288,7 +347,7 @@ public class VoiceSDKActivity extends FlutterActivity {
 
                         }
 
-                       task.cancel(true);
+                        task.cancel(true);
                         return null;
                     }
                 };
@@ -309,34 +368,35 @@ public class VoiceSDKActivity extends FlutterActivity {
         return score;
     }
 
-    private void showRegistrationCompleteTextViews() {
-        constraintLayoutRegistration.setVisibility(View.GONE);
+    private void showRegistrationCompleteTextViews(String username) {
+        constraintLayoutRegistration.setVisibility(GONE);
 
-       // loaderView.setVisibility(View.GONE);
+        // loaderView.setVisibility(View.GONE);
         registrationCompleteTv1.setVisibility(View.VISIBLE);
         registrationCompleteTv2.setVisibility(View.VISIBLE);
         continueCardView.setVisibility(View.VISIBLE);
 
-        continuetoNextPage(continueButton);
+        continuetoNextPage(continueButton,username);
     }
 
-    private void showLoader(){
-        constraintLayoutRegistration.setVisibility(View.GONE);
-        logo.setVisibility(View.GONE);
+    private void showLoader() {
+        constraintLayoutRegistration.setVisibility(GONE);
+        logo.setVisibility(GONE);
         loaderView.setVisibility(View.VISIBLE);
     }
 
-    private void hideLoader(){
+    private void hideLoader() {
         constraintLayoutRegistration.setVisibility(View.VISIBLE);
         logo.setVisibility(View.VISIBLE);
-        loaderView.setVisibility(View.GONE);
+        loaderView.setVisibility(GONE);
     }
 
-    private void continuetoNextPage(Button continueBtn) {
+    private void continuetoNextPage(Button continueBtn,final String username) {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "continue button clicked!!");
+                saveUser(username);
                 MainActivity.stopNative();
                 VoiceSDKActivity.this.finish();
             }
@@ -389,6 +449,8 @@ public class VoiceSDKActivity extends FlutterActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+//        dao.deleteUser();
+//        Log.d(TAG,"user deleted!!");
         VoiceSDKActivity.this.finish();
     }
 }

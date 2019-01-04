@@ -2,6 +2,7 @@ package com.bholdhealth.medicaid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -19,7 +20,8 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
   static Context context;
-  String name,pictureFilePath;
+  Image image;
+  String name,pictureFilePath,phoneNumber;
   public static String CHANNEL = "biometric authentication";
   public static String FACE_CHANNEL = "register face";
   static MethodChannel.Result methodResult;
@@ -38,7 +40,6 @@ public class MainActivity extends FlutterActivity {
 
   @RequiresApi(api = Build.VERSION_CODES.M)
   private void initCustomToast() {
-   // Toasty.Config.getInstance().setSuccessColor(getColor(R.color.themeBlue));
   }
 
   private void initPlatformChannel() {
@@ -49,9 +50,9 @@ public class MainActivity extends FlutterActivity {
 
         methodResult = result;
         if (methodCall.method.equals("register voice")) {
-          //Toast.makeText(getApplicationContext(), "platform channel working", Toast.LENGTH_SHORT).show();
           Log.d("audio record", "bla");
           name=methodCall.argument("name");
+          phoneNumber=methodCall.argument("phone number");
           recordAudioInNative(result);
 
           Log.d("audio record", "bla");
@@ -65,7 +66,8 @@ public class MainActivity extends FlutterActivity {
 
         else if(methodCall.method.equals("register face")){
           pictureFilePath=methodCall.argument("file path");
-          Toast.makeText(getApplicationContext(),"platform channel successful: "+pictureFilePath,Toast.LENGTH_SHORT).show();
+//          image=methodCall.argument("file");
+//          Log.d(TAG,"received file: "+image);
           Intent in=new Intent(MainActivity.this,FaceSDKActivity.class);
           in.putExtra("file path",pictureFilePath);
           startActivity(in);
@@ -86,13 +88,17 @@ public class MainActivity extends FlutterActivity {
   private void recordAudioInNative(MethodChannel.Result result) {
     Intent in = new Intent(MainActivity.this, VoiceSDKActivity.class);
     in.putExtra("name",name);
+    in.putExtra("phone number",phoneNumber);
 
     startActivity(in);
 
   }
 
   public static void stopNative() {
-    //  Toast.makeText(context,"stopNative called",Toast.LENGTH_SHORT).show();
     methodResult.success(true);
+  }
+
+  public static void stopNativeFacialRegistration(boolean enrolled){
+    methodResult.success(enrolled);
   }
 }

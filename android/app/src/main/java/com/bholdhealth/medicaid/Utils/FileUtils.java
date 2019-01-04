@@ -1,7 +1,11 @@
 package com.bholdhealth.medicaid.Utils;
 
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -70,5 +74,28 @@ public class FileUtils {
         } catch(IOException E) {}
 
         return data;
+    }
+
+    public static byte[] loadImageAndRotate(String pathString, int angle) {
+        byte[] bytes = loadFile(pathString);
+
+        // 1) Decode bitmap from the image
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0,bytes.length);
+
+        // 2) Set up rotation matrix with the given angle
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+
+        // 3) Perform rotation
+
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        // 4) Retrieve JPEG image from bitmap
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+        return stream.toByteArray();
     }
 }

@@ -11,8 +11,8 @@
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:visibility="visible"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:visibility="visible" />
 
 
     <TextView
@@ -43,25 +43,23 @@
     <android.support.v7.widget.CardView
         android:id="@+id/continue_card"
         android:layout_width="200dp"
-        android:layout_marginTop="12dp"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="25dp"
+        android:layout_marginTop="12dp"
         android:visibility="gone"
+        app:cardCornerRadius="25dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/registration_complete_tv2"
-        >
+        app:layout_constraintTop_toBottomOf="@id/registration_complete_tv2">
 
-    <Button
-        android:id="@+id/continue_btn"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/start_button_background"
-        android:padding="10dp"
-        android:textColor="#ffffff"
-        android:text="Continue to Log In"
-        android:textSize="12dp"
-        />
+        <Button
+            android:id="@+id/continue_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/start_button_background"
+            android:padding="10dp"
+            android:text="Continue to Log In"
+            android:textColor="#ffffff"
+            android:textSize="12dp" />
 
     </android.support.v7.widget.CardView>
 
@@ -89,24 +87,46 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
-            android:id="@+id/phrase_text"
-            android:layout_width="wrap_content"
+        <!--<TextView-->
+        <!--android:id="@+id/phrase_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Golden State Warriors"-->
+        <!--android:textColor="#000000"-->
+        <!--android:textSize="17sp"-->
+        <!--app:layout_constraintBottom_toTopOf="@id/start_record_card"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="250dp"
+            android:layout_marginTop="16dp"
+            android:visibility="visible"
             android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:text="Golden State Warriors"
-            android:textColor="#000000"
-            android:textSize="17sp"
+            android:background="#D3D3D3"
             app:layout_constraintBottom_toTopOf="@id/start_record_card"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!--<ImageView-->
+            <!--android:id="@+id/spinner_arrow"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--app:layout_constraintBottom_toTopOf="@id/start_record_card"-->
+            <!--app:layout_constraintLeft_toRightOf="@id/spinner"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/arrow_down" />-->
+
         <TextView
             android:id="@+id/phrase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:layout_marginTop="16dp"
             android:text="@string/phrase"
             android:textColor="#000000"
             android:textSize="17sp"
@@ -132,77 +152,54 @@
             app:layout_constraintBottom_toTopOf="@id/start_record_card"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phrase_text" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
 
         <android.support.v7.widget.CardView
             android:id="@+id/start_record_card"
-            android:layout_width="200dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="25dp"
             android:visibility="visible"
+            app:cardCornerRadius="25dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/errorUsername"
-            >
+            app:layout_constraintTop_toBottomOf="@id/errorUsername">
 
 
-        <Button
-            android:layout_width="match_parent"
-            android:id="@+id/start_record_btn"
-            android:textColor="#ffffff"
-            android:layout_height="match_parent"
-            android:background="@drawable/start_button_background"
-            android:text="Start Recording"
-            android:textSize="12dp"
-             />
+            <Button
+                android:id="@+id/start_record_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/start_button_background"
+                android:text="Start Recording (Step 1)"
+                android:textColor="#ffffff"
+                android:textSize="12dp" />
 
         </android.support.v7.widget.CardView>
 
-        <TextView
-            android:id="@+id/steps_tv"
-            android:layout_width="wrap_content"
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/reset_card"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Steps"
-            android:textColor="#000"
-            android:textSize="20sp"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="25dp"
+            app:cardCornerRadius="25dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_record_card" />
+            app:layout_constraintTop_toBottomOf="@id/start_record_card">
 
-        <LinearLayout
-            android:id="@+id/linearLayout_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/steps_tv">
 
-            <TextView
-                android:id="@+id/step_counter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="#000"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+            <Button
+                android:id="@+id/reset_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/reset_button_background"
+                android:text="Reset"
+                android:textColor="#ffffff"
+                android:textSize="12dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/3"
-                android:textColor="#000"
-                android:textSize="20sp"
-
-                />
-
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
 
     </android.support.constraint.ConstraintLayout>
@@ -221,11 +218,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <pl.droidsonroids.gif.GifImageView
-            android:layout_width="match_parent"
             android:id="@+id/gif_imageView"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/loading_animation_03"
-            />
+            android:src="@drawable/loading_animation_03" />
     </LinearLayout>
 
 

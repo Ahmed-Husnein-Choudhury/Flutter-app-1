@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:medicaid/screens/member_verification.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 
-String fullName;
+String fullName,phoneNumber;
 
 class MemberRegistration extends StatefulWidget {
 
@@ -235,6 +235,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // send data to server
   Future _sendDataToServer() async {
     fullName=firstName+lastName;
+    phoneNumber=mobileNumber;
     // url to hit
     final String url = "${baseUrl}/api/v1/verify_member_account/";
 

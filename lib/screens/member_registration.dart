@@ -48,7 +48,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
     this.dateOfBirth = "$_year-$_month-$_date";
 
     _genderOptions.addAll(["Male", "Female", "Transgender", "Non-Conforming"]);
-    gender = _genderOptions.elementAt(0);
+    gender = null;
   }
 
   // alert dialog if date is invalid
@@ -549,7 +549,8 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       children: <Widget>[
         Container(
             child: DropdownButton(
-              value: this.gender,
+              hint: Text("Gender"),
+              value: gender,
               items: _genderOptions.map((String gender) {
                 return DropdownMenuItem(
                     value: gender,

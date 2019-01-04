@@ -79,6 +79,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/prompt_instruction_tv"
             android:layout_marginBottom="80dp"
             android:text="@string/voice_recognition_tip"
             android:textAlignment="center"
@@ -102,15 +103,14 @@
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="250dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
             android:visibility="visible"
             android:layout_height="wrap_content"
-            android:background="#D3D3D3"
             app:layout_constraintBottom_toTopOf="@id/start_record_card"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/prompt_instruction_tv" />
 
         <!--<ImageView-->
             <!--android:id="@+id/spinner_arrow"-->

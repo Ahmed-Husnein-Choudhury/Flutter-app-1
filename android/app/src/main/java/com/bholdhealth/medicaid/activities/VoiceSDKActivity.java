@@ -57,6 +57,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 //timport es.dmoral.toasty.Toasty;
 import es.dmoral.toasty.Toasty;
 import io.flutter.app.FlutterActivity;
+import me.srodrigo.androidhintspinner.HintAdapter;
+import me.srodrigo.androidhintspinner.HintSpinner;
 import pl.droidsonroids.gif.GifImageView;
 
 import static android.content.ContentValues.TAG;
@@ -84,12 +86,11 @@ public class VoiceSDKActivity extends FlutterActivity {
     float score = 0;
 
     com.bholdhealth.medicaid.Utils.Folders folder;
-    String userName = "CasandraPagac";
 
     ImageView logo;
     GifImageView gif;
-    String name;
-    String phoneNumber;
+    String name="CasandraPagac";
+    String phoneNumber="123456789";
     TextView record, phrase, registrationCompleteTv1, registrationCompleteTv2, stepsTv;
     LinearLayout linearLayoutCounter;
     ConstraintLayout constraintLayoutRegistration;
@@ -148,31 +149,44 @@ public class VoiceSDKActivity extends FlutterActivity {
         voiceRegPhrases.addAll(Arrays.asList(getResources().getStringArray(R.array.phrases)));
         voiceRegPhrases.add(phoneNumber);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, voiceRegPhrases);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                phraseString = spinner.getSelectedItem().toString();
-                phrase.setText(spinner.getSelectedItem().toString());
+       final HintSpinner<String> hintSpinner = new HintSpinner<>(
+                spinner,
+                new HintAdapter<>(this, "Select Security Phrase", voiceRegPhrases),
+                new HintSpinner.Callback<String>() {
+                    @Override
+                    public void onItemSelected(int position, String itemAtPosition) {
+                        phraseString = itemAtPosition;
+                phrase.setText(itemAtPosition);
                 Log.d(TAG, "phrase string: " + phraseString);
-            }
+                    }
+                });
+        hintSpinner.init();
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, voiceRegPhrases);
+//        spinner.setAdapter(adapter);
+//
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                phraseString = spinner.getSelectedItem().toString();
+//                phrase.setText(spinner.getSelectedItem().toString());
+//                Log.d(TAG, "phrase string: " + phraseString);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
 
     }
 
     private void initData() {
 
-        name = getIntent().getStringExtra("name");
-
-        phoneNumber = getIntent().getStringExtra("phone number");
+//        name = getIntent().getStringExtra("name");
+//
+//        phoneNumber = getIntent().getStringExtra("phone number");
 
         context = VoiceSDKActivity.this;
         dao = new UsersDao(context);

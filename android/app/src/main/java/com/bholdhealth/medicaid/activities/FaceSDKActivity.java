@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.bholdhealth.medicaid.MainActivity;
+import com.bholdhealth.medicaid.Utils.AssetsExtractor;
 import com.bholdhealth.medicaid.Utils.FileUtils;
 import com.google.gson.Gson;
 
@@ -24,6 +25,8 @@ import es.dmoral.toasty.Toasty;
 import io.flutter.app.FlutterActivity;
 
 public class FaceSDKActivity extends FlutterActivity {
+
+
 
     String TAG = FaceSDKActivity.class.getSimpleName();
     String dataRootDir, filePath;
@@ -44,7 +47,7 @@ public class FaceSDKActivity extends FlutterActivity {
 
         // MainActivity.stopNative();
        // gson = new Gson();
-        dataRootDir = getExternalFilesDir("").getAbsolutePath();
+      //  dataRootDir = getExternalFilesDir("").getAbsolutePath();
 
 
         storedFaceData = getApplicationContext().getSharedPreferences("store face", MODE_PRIVATE);
@@ -52,7 +55,11 @@ public class FaceSDKActivity extends FlutterActivity {
 
         // 2) Copy assets to the data dir
 
-        FileUtils.copyAssetFolder(getAssets(), "data", dataRootDir);
+        //FileUtils.copyAssetFolder(getAssets(), "data", dataRootDir);
+        AssetsExtractor assetsExtractor=new AssetsExtractor(getApplicationContext());
+        dataRootDir=assetsExtractor.extract(AssetsExtractor.IDSDK_INIT_DATA_PATH);
+
+        Log.d(TAG,"face SDK data directory: "+dataRootDir);
 
 //        if (storedFaceData.getString("id engine instance", null) != null) {
 //            json = storedFaceData.getString("id engine instance", null);
@@ -63,7 +70,7 @@ public class FaceSDKActivity extends FlutterActivity {
             IDEngineConf conf = new IDEngineConf();
 
             FaceEngineConf faceConf = new FaceEngineConf();
-            faceConf.dataPath = dataRootDir + "/face";
+            faceConf.dataPath = dataRootDir;
             conf.faceEngineConf = faceConf;
 
             idEngine = new IDEngine(conf);

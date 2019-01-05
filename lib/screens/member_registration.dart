@@ -31,6 +31,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   int _month;
   int _date;
   String _format = 'mm-dd-yyyy';
+  bool isDateButtonDisabled=false;
 
   // controller for dateOfBirth
   final dobController = new TextEditingController();
@@ -274,6 +275,9 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   /// Display date picker.
   void _showDatePicker() {
+    setState(() {
+      isDateButtonDisabled=true;
+    });
     print("logging from date picker");
     DatePicker.showDatePicker(
       context,
@@ -311,6 +315,10 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         });
       },
     );
+    setState(() {
+      isDateButtonDisabled=false;
+
+    });
   }
 
   void _changeDatetime(int year, int month, int date) {
@@ -452,7 +460,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       keyboardType: TextInputType.datetime,
       controller: dobController,
       textInputAction: TextInputAction.none,
-      onTap: _showDatePicker,
+      onTap: !isDateButtonDisabled?_showDatePicker:null,
       focusNode: FocusNode(),
       decoration: InputDecoration(
         labelText: "Date of Birth*",

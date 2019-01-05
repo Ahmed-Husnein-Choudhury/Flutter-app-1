@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:medicaid/member.dart';
 import 'package:medicaid/screens/facial_setup.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
+import 'package:intl/intl.dart';
 
 class MemberInformation extends StatefulWidget {
 
@@ -22,11 +23,26 @@ class MemberInformation extends StatefulWidget {
 class _MemberInformationState extends State<MemberInformation> {
 
   Member member;
+  final formatter=new NumberFormat("###-###-####");
+  String numberFormat="###-###-####";
+  String phoneNumber;
+  List<String> subString;
+  int numberFormatCounter=0;
 
   @override
   initState() {
     super.initState();
     this.member = Member.fromJson(json.decode(widget.responseData));
+    phoneNumber=this.member.contactInfo.primaryPhoneNumber;
+
+//    while(numberFormatCounter<=2){
+//     subString.add(splitString(phoneNumber,0,2));
+//
+//    }
+  }
+
+ String splitString(String inputString,int startIndex,int endIndex){
+    String outputString=inputString.substring(0,2);
   }
 
   String formatDate(String date) {
@@ -197,7 +213,7 @@ class _MemberInformationState extends State<MemberInformation> {
           ),
           spacer(gapHeight: 5.0),
           Text(
-              this.member.contactInfo.primaryPhoneNumber
+             phoneNumber
           )
         ],
       ),
@@ -285,6 +301,8 @@ class _MemberInformationState extends State<MemberInformation> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
@@ -314,4 +332,5 @@ class _MemberInformationState extends State<MemberInformation> {
       ),
     );
   }
+
 }

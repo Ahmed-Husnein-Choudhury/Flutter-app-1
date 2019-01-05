@@ -17,6 +17,7 @@ dependencies:
   path_provider: ^0.4.1
   video_player: ^0.5.2
   shared_preferences: ^0.4.2
+  intl: ^0.15.7
   flutter:
     sdk: flutter
 

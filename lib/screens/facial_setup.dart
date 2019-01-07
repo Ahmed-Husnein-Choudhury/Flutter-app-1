@@ -79,8 +79,8 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                 ),
               ),
               content: Container(
-                height: 145.0,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
                       dialogBody,

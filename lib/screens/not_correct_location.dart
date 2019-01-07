@@ -78,7 +78,7 @@ class Screen extends StatelessWidget {
                     // child:
                     RaisedButton(
                       onPressed:confirmInformation,
-                      color: Color(0XFF8785FF),
+                      color: Color(0XFF00AFDF),
                       elevation:2.0 ,
                       child: Text(
                         "Confirm Information",

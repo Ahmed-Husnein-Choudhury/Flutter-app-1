@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:medicaid/utils/utils.dart';
 
-class ReferalsAndAuthrizations extends StatefulWidget {
+class ReferralsAndAuthorizations extends StatefulWidget {
 
   static const String routeName = "/referralsAndAuthorization";
 
   @override
-  _ReferalsAndAuthrizationsState createState() => _ReferalsAndAuthrizationsState();
+  _ReferralsAndAuthorizationsState createState() => _ReferralsAndAuthorizationsState();
 }
 
-class _ReferalsAndAuthrizationsState extends State<ReferalsAndAuthrizations> {
+class _ReferralsAndAuthorizationsState extends State<ReferralsAndAuthorizations> {
 
   Widget singleInfoTile(String title, String subTitle) {
     return Container(

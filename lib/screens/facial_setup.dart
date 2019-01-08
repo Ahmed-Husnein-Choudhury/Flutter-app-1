@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
+import 'package:medicaid/screens/biometric_camera.dart';
 
 class FacialRecognitionSetup extends StatefulWidget {
   String healthPlanName;
@@ -161,7 +162,10 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
       setState(() {
         this.isCameraOpened = true;
       });
-      _openCamera();
+
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera()));
+
+      //_openCamera();
     } else {
       // do something
     }
@@ -244,20 +248,25 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: isCaptured
-            ? Container(
-                child: Center(
-                  child: Image.file(
-                    this.imageFile,
-                    fit: BoxFit.fitHeight,
-                    height: MediaQuery.of(context).size.height,
-                    colorBlendMode: BlendMode.darken,
-                  ),
-                ),
-              )
-            : SingleChildScrollView(
-                child: isCameraOpened == false
-                    ? Container(
+        body:
+//        isCaptured
+//            ?
+//        Container(
+//                child: Center(
+//                  child: Image.file(
+//                    this.imageFile,
+//                    fit: BoxFit.fitHeight,
+//                    height: MediaQuery.of(context).size.height,
+//                    colorBlendMode: BlendMode.darken,
+//                  ),
+//                ),
+//              )
+//            :
+        SingleChildScrollView(
+                child:
+//                isCameraOpened == false
+//                    ?
+                Container(
                         padding: EdgeInsets.all(20.0),
                         child: Column(
                           children: <Widget>[
@@ -275,7 +284,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                           ],
                         ),
                       )
-                    : loadingScreen(),
+//                    : loadingScreen(),
               ));
   }
 

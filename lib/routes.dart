@@ -20,6 +20,7 @@ import 'package:medicaid/screens/your_plan_details.dart';
 import 'package:medicaid/screens/check_in_here_with_us.dart';
 import 'package:medicaid/screens/all_information_confirmed.dart';
 import 'package:medicaid/screens/not_correct_location.dart';
+import 'package:medicaid/screens/biometric_camera.dart';
 
 class Routes {
 
@@ -45,6 +46,7 @@ class Routes {
     YourPlanDetails.routeName: (context) => YourPlanDetails(),
     CheckInHere.routeName: (context)=> CheckInHere(),
     InformationConfirmed.routeName: (context) => InformationConfirmed(),
-    NotCorrectLocation.routeName: (context) => NotCorrectLocation()
+    NotCorrectLocation.routeName: (context) => NotCorrectLocation(),
+    BiometricCamera.routeName: (context) => BiometricCamera(),
   };
 }

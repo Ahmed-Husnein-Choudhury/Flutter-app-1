@@ -53,6 +53,8 @@ public class FaceSDKActivity extends FlutterActivity {
         storedFaceData = getApplicationContext().getSharedPreferences("store face", MODE_PRIVATE);
         editor = storedFaceData.edit();
 
+        editor.apply();
+
         // 2) Copy assets to the data dir
 
         //FileUtils.copyAssetFolder(getAssets(), "data", dataRootDir);

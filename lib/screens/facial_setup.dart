@@ -78,8 +78,8 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                 ),
               ),
               content: Container(
-                height: 145.0,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
                       dialogBody,
@@ -127,8 +127,6 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 
   _openCamera() async {
 
-    frontCameraSelected(CameraDescription(lensDirection: CameraLensDirection.front));
-
     image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       if (image != null) {
@@ -144,12 +142,6 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     });
   }
 
-  void frontCameraSelected(CameraDescription cameraDescription) async {
-    if (controller != null) {
-      await controller.dispose();
-    }
-    controller = CameraController(cameraDescription, ResolutionPreset.high);
-  }
 
   // requesting permission to access camera
   void requestCameraPermission() async {
@@ -163,9 +155,10 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         this.isCameraOpened = true;
       });
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera()));
+      //Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera()));
 
-      //_openCamera();
+      _openCamera();
+
     } else {
       // do something
     }
@@ -264,8 +257,8 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 //            :
         SingleChildScrollView(
                 child:
-//                isCameraOpened == false
-//                    ?
+                isCameraOpened == false
+                    ?
                 Container(
                         padding: EdgeInsets.all(20.0),
                         child: Column(
@@ -284,7 +277,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                           ],
                         ),
                       )
-//                    : loadingScreen(),
+                    : loadingScreen(),
               ));
   }
 

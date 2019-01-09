@@ -213,6 +213,9 @@ class _CameraState extends State<BiometricCamera>{
     showInSnackBar('Error: ${e.code}\n${e.description}');
   }
 
+  ///This function invokes the native part of the app using the ID:"register face" which matches with the one in the MainActivity.java of the
+  ///android part
+
   Future<Null> _registerFace(String fileName) async {
     response = await _faceRegistrationMethodChannel
         .invokeMethod("register face", {"file path": fileName});

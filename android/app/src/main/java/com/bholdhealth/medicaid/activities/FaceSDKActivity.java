@@ -27,7 +27,6 @@ import io.flutter.app.FlutterActivity;
 public class FaceSDKActivity extends FlutterActivity {
 
 
-
     String TAG = FaceSDKActivity.class.getSimpleName();
     String dataRootDir, filePath;
     byte[] savedFaceArray;
@@ -46,8 +45,8 @@ public class FaceSDKActivity extends FlutterActivity {
         Log.d(TAG, "face activity called: " + filePath);
 
         // MainActivity.stopNative();
-       // gson = new Gson();
-      //  dataRootDir = getExternalFilesDir("").getAbsolutePath();
+        // gson = new Gson();
+        //  dataRootDir = getExternalFilesDir("").getAbsolutePath();
 
 
         storedFaceData = getApplicationContext().getSharedPreferences("store face", MODE_PRIVATE);
@@ -58,10 +57,10 @@ public class FaceSDKActivity extends FlutterActivity {
         // 2) Copy assets to the data dir
 
         //FileUtils.copyAssetFolder(getAssets(), "data", dataRootDir);
-        AssetsExtractor assetsExtractor=new AssetsExtractor(getApplicationContext());
-        dataRootDir=assetsExtractor.extract(AssetsExtractor.IDSDK_INIT_DATA_PATH);
+        AssetsExtractor assetsExtractor = new AssetsExtractor(getApplicationContext());
+        dataRootDir = assetsExtractor.extract(AssetsExtractor.IDSDK_INIT_DATA_PATH);
 
-        Log.d(TAG,"face SDK data directory: "+dataRootDir);
+        Log.d(TAG, "face SDK data directory: " + dataRootDir);
 
 //        if (storedFaceData.getString("id engine instance", null) != null) {
 //            json = storedFaceData.getString("id engine instance", null);
@@ -69,14 +68,14 @@ public class FaceSDKActivity extends FlutterActivity {
 //            Log.d(TAG,"stored idEngine instance is found");
 //
 //        } else {
-            IDEngineConf conf = new IDEngineConf();
+        IDEngineConf conf = new IDEngineConf();
 
-            FaceEngineConf faceConf = new FaceEngineConf();
-            faceConf.dataPath = dataRootDir;
-            conf.faceEngineConf = faceConf;
+        FaceEngineConf faceConf = new FaceEngineConf();
+        faceConf.dataPath = dataRootDir;
+        conf.faceEngineConf = faceConf;
 
-            idEngine = new IDEngine(conf);
-            System.out.println("ID SDK build info: " + idEngine.getBuildInfo());
+        idEngine = new IDEngine(conf);
+        System.out.println("ID SDK build info: " + idEngine.getBuildInfo());
 
 //            json = gson.toJson(idEngine);
 //            editor.putString("id engine instance", json);
@@ -88,16 +87,8 @@ public class FaceSDKActivity extends FlutterActivity {
 
         multiEvent.faceEvent = new FaceEvent();
 
-//        try {
-//            FileOutputStream out = new FileOutputStream(filePath);
-//            .compress(Bitmap.CompressFormat.JPEG, 100, out); //100-best quality
-//            out.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         multiEvent.faceEvent.image = FileUtils.loadFile(filePath);
-       // multiEvent.faceEvent.image = FileUtils.loadImageAndRotate(filePath,-90);
         Log.d(TAG, "byte array: " + multiEvent);
 
         if (storedFaceData.getString("face data", null) != null) {
@@ -107,7 +98,7 @@ public class FaceSDKActivity extends FlutterActivity {
         }
 
         Log.d(TAG, "logging before checking");
-        Log.d(TAG, "logging before checking"+multiEvent.toString());
+        Log.d(TAG, "logging before checking" + multiEvent.toString());
 
         EnrollResultContainer enrollResultContainer = idEngine.enroll(multiEvent, savedFaceArray);
 

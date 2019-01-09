@@ -40,108 +40,6 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     super.initState();
   }
 
-  void _openCameraDialogEnrolled(int pictureNumber) {
-    String successString, dialogBody, buttonText;
-    bool registrationComplete = false;
-
-    if (pictureNumber >= 1) {
-      successString = "Congratulations!";
-      dialogBody = "You have completed step ${3 - pictureNumber} of 3";
-      buttonText = "Continue to Step ${3 - pictureNumber + 1}";
-    } else {
-      successString = "Congratulations!";
-      dialogBody = "You have successfully registered your face";
-      buttonText = "Continue";
-      registrationComplete = true;
-    }
-
-    if (this.imageFile != null) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: Center(
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      successString,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10.0),
-                    ),
-                    Divider(
-                      height: 2.0,
-                    )
-                  ],
-                ),
-              ),
-              content: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      dialogBody,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15.0),
-                    ),
-                    CommonWidgets.spacer(gapHeight: 25.0),
-                    RaisedButton(
-                        color: Color(0XFF00AFDF),
-                        shape: StadiumBorder(
-                          side: BorderSide(
-                            width: 1.0,
-                            color: Color(0XFF00AFDF),
-                          ),
-                        ),
-                        child: Text(buttonText,
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 15.0)),
-                        onPressed: !registrationComplete
-                            ? () {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  this.isCaptured = false;
-                                  this.imageFile = null;
-                                });
-                                _openCamera();
-                              }
-                            : () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            VoiceRegistrationSetUp()));
-                              })
-                  ],
-                ),
-              ));
-        },
-      );
-    } else {
-      Navigator.of(context)
-          .popUntil(ModalRoute.withName('/facialRecognitioSetup'));
-    }
-  }
-
-  _openCamera() async {
-
-    image = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      if (image != null) {
-        this.imageFile = image;
-        this.isCaptured = true;
-        _registerFace(imageFile.path);
-
-        print("Path: " + imageFile.path);
-      } else {
-        SystemNavigator.pop();
-        //Navigator.of(context).popUntil(ModalRoute.withName('/facialRecognitioSetup'));
-      }
-    });
-  }
-
 
   // requesting permission to access camera
   void requestCameraPermission() async {
@@ -155,9 +53,11 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         this.isCameraOpened = true;
       });
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera()));
+      ///the camera is called from the function.
 
-      //_openCamera();
+      //Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera()));
+
+      _openCamera();
 
     } else {
       // do something
@@ -223,6 +123,9 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
+
+        ///the function below takes camera permission and then opens the camera
+
         onPressed: requestCameraPermission,
         child: Text(
           "Let's get started",
@@ -268,6 +171,9 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                             CommonWidgets.spacer(gapHeight: 30.0),
                             instructionalText(),
                             CommonWidgets.spacer(gapHeight: 50.0),
+
+                            ///This button opens the camera when tapped
+
                             getStartedButton(),
                             CommonWidgets.spacer(gapHeight: 30.0),
                             healthPlanLabel(),
@@ -280,6 +186,8 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                     : loadingScreen(),
               ));
   }
+
+
 
   Widget loadingScreen() {
     return Container(
@@ -309,6 +217,95 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
       )),
     );
   }
+
+  void _openCameraDialogEnrolled(int pictureNumber) {
+    String successString, dialogBody, buttonText;
+    bool registrationComplete = false;
+
+    if (pictureNumber >= 1) {
+      successString = "Congratulations!";
+      dialogBody = "You have completed step ${3 - pictureNumber} of 3";
+      buttonText = "Continue to Step ${3 - pictureNumber + 1}";
+    } else {
+      successString = "Congratulations!";
+      dialogBody = "You have successfully registered your face";
+      buttonText = "Continue";
+      registrationComplete = true;
+    }
+
+    if (this.imageFile != null) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      successString,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.0),
+                    ),
+                    Divider(
+                      height: 2.0,
+                    )
+                  ],
+                ),
+              ),
+              content: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      dialogBody,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 15.0),
+                    ),
+                    CommonWidgets.spacer(gapHeight: 25.0),
+                    RaisedButton(
+                        color: Color(0XFF00AFDF),
+                        shape: StadiumBorder(
+                          side: BorderSide(
+                            width: 1.0,
+                            color: Color(0XFF00AFDF),
+                          ),
+                        ),
+                        child: Text(buttonText,
+                            style:
+                            TextStyle(color: Colors.white, fontSize: 15.0)),
+                        onPressed: !registrationComplete
+                            ? () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            this.isCaptured = false;
+                            this.imageFile = null;
+                          });
+                          _openCamera();
+                        }
+                            : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      VoiceRegistrationSetUp()));
+                        })
+                  ],
+                ),
+              ));
+        },
+      );
+    } else {
+      Navigator.of(context)
+          .popUntil(ModalRoute.withName('/facialRecognitioSetup'));
+    }
+  }
+
+
+  ///This function invokes the native part of the app using the ID:"register face" which matches with the one in the MainActivity.java of the
+  ///android part. To access the Android activities, please open the "android" folder in the project and proceed from there
 
   Future<Null> _registerFace(String fileName) async {
     response = await _faceRegistrationMethodChannel
@@ -364,5 +361,27 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
           );
         });
   }
+
+
+  _openCamera() async {
+
+    image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      if (image != null) {
+        this.imageFile = image;
+        this.isCaptured = true;
+
+        ///this function is the bridge between flutter and native android (java)
+
+        _registerFace(imageFile.path);
+
+        print("Path: " + imageFile.path);
+      } else {
+        SystemNavigator.pop();
+        //Navigator.of(context).popUntil(ModalRoute.withName('/facialRecognitioSetup'));
+      }
+    });
+  }
+
 
 }

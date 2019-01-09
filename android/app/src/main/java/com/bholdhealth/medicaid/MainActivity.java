@@ -64,10 +64,12 @@ public class MainActivity extends FlutterActivity {
           startVoiceLogin();
         }
 
+
+        // The part below is used for Facial registration
+
+
         else if(methodCall.method.equals("register face")){
           pictureFilePath=methodCall.argument("file path");
-//          image=methodCall.argument("file");
-//          Log.d(TAG,"received file: "+image);
           Intent in=new Intent(MainActivity.this,FaceSDKActivity.class);
           in.putExtra("file path",pictureFilePath);
           startActivity(in);

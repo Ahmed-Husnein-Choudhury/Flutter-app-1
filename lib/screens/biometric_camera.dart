@@ -83,7 +83,6 @@ class _CameraState extends State<BiometricCamera>{
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                // RaisedButton(onPressed: _cameraTogglesRowWidget,child: Text("Open camera"),),
-                _cameraTogglesRowWidget(),
               ],
             ),
           ),
@@ -130,39 +129,6 @@ class _CameraState extends State<BiometricCamera>{
     );
   }
 
-  /// Display a row of toggle to select the camera (or a message if no camera is available).
-  Widget _cameraTogglesRowWidget() {
-//    if(!cameras.isEmpty) {
-//      onNewCameraSelected(CameraDescription(lensDirection: CameraLensDirection.front));
-//    }
-    final List<Widget> toggles = <Widget>[];
-
-    if (cameras.isEmpty) {
-      return const Text('No camera found');
-    } else {
-     // for (CameraDescription cameraDescription in cameras) {
-       // cameraDescription=CameraDescription(lensDirection: CameraLensDirection.front);
-
-
-
-//        toggles.add(
-//          SizedBox(
-//            width: 90.0,
-//            child: RadioListTile<CameraDescription> (
-//              title: Icon(getCameraLensIcon(cameraDescription.lensDirection)),
-//              groupValue: controller?.description,
-//              value: cameraDescription,
-//              onChanged: onNewCameraSelected,
-//            ),
-//          ),
-//        );
-    //  }
-    }
-
-    return RaisedButton(onPressed: (){frontCameraSelected(cameras[1]);},
-      child: Text("Press"),
-    );
-  }
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 

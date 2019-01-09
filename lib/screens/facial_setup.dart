@@ -155,9 +155,9 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         this.isCameraOpened = true;
       });
 
-      //Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera()));
 
-      _openCamera();
+      //_openCamera();
 
     } else {
       // do something

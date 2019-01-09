@@ -26,6 +26,7 @@ class _MemberInformationState extends State<MemberInformation> {
   final formatter=new NumberFormat("###-###-####");
   String numberFormat="###-###-####";
   String phoneNumber;
+  int pNumber;
   List<String> subString;
   int numberFormatCounter=0;
 
@@ -34,6 +35,7 @@ class _MemberInformationState extends State<MemberInformation> {
     super.initState();
     this.member = Member.fromJson(json.decode(widget.responseData));
     phoneNumber=this.member.contactInfo.primaryPhoneNumber;
+
 
 //    while(numberFormatCounter<=2){
 //     subString.add(splitString(phoneNumber,0,2));
@@ -166,8 +168,7 @@ class _MemberInformationState extends State<MemberInformation> {
           spacer(gapHeight: 5.0),
           Text(
             "${this.member.location.streetAddressOne}\n${this.member.location.addressCity}"
-                "\n${this.member.location.addressState}, ${this.member.location.addressZip}"
-                " USA"
+                "\n${this.member.location.addressState}, ${this.member.location.addressZip.substring(0,5)}"
           )
         ],
       ),

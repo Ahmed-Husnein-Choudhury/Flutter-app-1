@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:medicaid/utils/utils.dart';
 import 'package:path/path.dart';
 
@@ -80,7 +81,7 @@ class AllInformationConfirmedDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Referrals & Authorization"),
+      appBar: CustomAppBar(title: "Information Confirmed"),
       body: Container(
         color: Color(0XFFF3F3F3),
         padding: EdgeInsets.only(left: 10.0),
@@ -92,7 +93,7 @@ class AllInformationConfirmedDetails extends StatelessWidget {
             children: <Widget>[
           Padding(
               padding: EdgeInsets.only(bottom: 10.0, left: 10.0)),
-              rowStack("DATE","TODAY","VERIFIED TIME","NOW"),
+              rowStack("DATE",DateFormat('yyyy-MM-dd').format(DateTime.now()),"VERIFIED TIME",DateFormat("kk:mm:ss").format(DateTime.now())),
               padding(),
               singleInfoTile("YOU'RE ELIGIBLE TODAY WITH", "YOUR HEALTH PLAN"),
               padding(),

@@ -160,33 +160,20 @@ public class VoiceSDKActivity extends FlutterActivity {
                 Log.d(TAG, "phrase string: " + phraseString);
                     }
                 });
+
+
+
         hintSpinner.init();
 
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, voiceRegPhrases);
-//        spinner.setAdapter(adapter);
-//
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                phraseString = spinner.getSelectedItem().toString();
-//                phrase.setText(spinner.getSelectedItem().toString());
-//                Log.d(TAG, "phrase string: " + phraseString);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
 
 
     }
 
     private void initData() {
 
-//        name = getIntent().getStringExtra("name");
-//
-//        phoneNumber = getIntent().getStringExtra("phone number");
+        name = getIntent().getStringExtra("name");
+
+        phoneNumber = getIntent().getStringExtra("phone number");
 
         context = VoiceSDKActivity.this;
         dao = new UsersDao(context);

@@ -148,7 +148,10 @@ public class FaceSDKActivity extends FlutterActivity {
 
         } else {
 
-            reEnrollFace();
+            //reEnrollFace();
+
+            Toasty.error(getApplicationContext(), "Enrollment Failed", Toast.LENGTH_LONG).show();
+            finishPlatformChannelEnrolled(false);
         }
     }
 

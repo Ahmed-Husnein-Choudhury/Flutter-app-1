@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 
-class BiometricLogin extends StatefulWidget {
+class FacialLogin extends StatefulWidget {
 
   // defining the route here
-  static final String routeName = "/facialRecognitionSetup";
+  static final String routeName = "/facialLogin";
 
   @override
-  _BiometricLoginState createState() => _BiometricLoginState();
+  _FacialLoginState createState() => _FacialLoginState();
 }
 
-class _BiometricLoginState extends State<BiometricLogin> {
+class _FacialLoginState extends State<FacialLogin> {
 
   // widget for showing logo
   Widget logo() {

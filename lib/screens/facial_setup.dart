@@ -55,7 +55,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 
       ///the camera is called from the function.
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera(process: "register",)));
 
       //_openCamera();
 
@@ -159,10 +159,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 //              )
 //            :
         SingleChildScrollView(
-                child:
-                isCameraOpened == false
-                    ?
-                Container(
+                child: Container(
                         padding: EdgeInsets.all(20.0),
                         child: Column(
                           children: <Widget>[
@@ -183,7 +180,6 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                           ],
                         ),
                       )
-                    : loadingScreen(),
               ));
   }
 

@@ -10,12 +10,17 @@ import 'package:path_provider/path_provider.dart';
 
 
 class BiometricCamera extends StatefulWidget{
+
+  String process;
+
+  BiometricCamera({this.process});
+
+
   @override
   _CameraState createState()=>_CameraState();
 
   static final String routeName = "/biometricCamera";
 }
-
 
 IconData getCameraLensIcon(CameraLensDirection direction) {
       return Icons.camera_front;
@@ -77,15 +82,6 @@ class _CameraState extends State<BiometricCamera>{
             ),
           ),
           _captureControlRowWidget(),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-               // RaisedButton(onPressed: _cameraTogglesRowWidget,child: Text("Open camera"),),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -132,9 +128,6 @@ class _CameraState extends State<BiometricCamera>{
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
-  void showInSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
-  }
 
 
 
@@ -151,11 +144,6 @@ class _CameraState extends State<BiometricCamera>{
     controller.addListener(() {
       print("listener in action");
       if (mounted) setState(() {});
-      if (controller.value.hasError) {
-        print("controller Exception");
-
-        showInSnackBar('Camera error ${controller.value.errorDescription}');
-      }
     });
 
     try {
@@ -176,7 +164,9 @@ class _CameraState extends State<BiometricCamera>{
         setState(() {
           imagePath = filePath;
         });
-        if (filePath != null) showInSnackBar('Picture saved to $filePath');
+     //   if (filePath != null) showInSnackBar('Picture saved to $filePath');
+
+       // loadingScreen();
         
         _registerFace(imagePath);
       }
@@ -185,10 +175,7 @@ class _CameraState extends State<BiometricCamera>{
 
 
   Future<String> takePicture() async {
-    if (!controller.value.isInitialized) {
-      showInSnackBar('Error: select a camera first.');
-      return null;
-    }
+
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Pictures/flutter_test';
     await Directory(dirPath).create(recursive: true);
@@ -210,7 +197,6 @@ class _CameraState extends State<BiometricCamera>{
 
   void _showCameraException(CameraException e) {
     logError(e.code, e.description);
-    showInSnackBar('Error: ${e.code}\n${e.description}');
   }
 
   ///This function invokes the native part of the app using the ID:"register face" which matches with the one in the MainActivity.java of the

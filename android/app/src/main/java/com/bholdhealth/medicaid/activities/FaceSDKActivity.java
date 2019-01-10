@@ -19,6 +19,7 @@ import net.idrnd.idsdk.event.MultiEvent;
 import net.idrnd.idsdk.result.EnrollResultContainer;
 
 
+import java.io.File;
 import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
@@ -37,6 +38,9 @@ public class FaceSDKActivity extends FlutterActivity {
     Gson gson;
     String json;
     IDEngine idEngine;
+    EnrollResultContainer enrollResultContainer;
+    MultiEvent multiEvent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,7 @@ public class FaceSDKActivity extends FlutterActivity {
         FaceEngineConf faceConf = new FaceEngineConf();
         faceConf.dataPath = dataRootDir;
         conf.faceEngineConf = faceConf;
-
+        multiEvent = new MultiEvent();
         idEngine = new IDEngine(conf);
         System.out.println("ID SDK build info: " + idEngine.getBuildInfo());
 
@@ -83,50 +87,14 @@ public class FaceSDKActivity extends FlutterActivity {
 //            Log.d(TAG,"idEngine instance is stored");
 //        }
 
-        MultiEvent multiEvent = new MultiEvent();
 
-        multiEvent.faceEvent = new FaceEvent();
+//        multiEvent.faceEvent.image = FileUtils.loadImageAndRotate(filePath,-90);
 
+        enrollFace(multiEvent);
 
-        multiEvent.faceEvent.image = FileUtils.loadFile(filePath);
-        Log.d(TAG, "byte array: " + multiEvent);
-
-        if (storedFaceData.getString("face data", null) != null) {
-            Log.d(TAG, "size of byte array shared preference not null");
-            savedFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
-            Log.d(TAG, "size of byte array3: " + savedFaceArray.length);
-        }
-
-        Log.d(TAG, "logging before checking");
-        Log.d(TAG, "logging before checking" + multiEvent.toString());
-
-        EnrollResultContainer enrollResultContainer = idEngine.enroll(multiEvent, savedFaceArray);
-
-        Log.d(TAG, "profile: " + savedFaceArray);
-
-        if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.OK) {
-
-            //   profile = Arrays.copyOf(enrollResultContainer.serializedProfile, enrollResultContainer.serializedProfile.length);
-
-//            if (storedFaceData.getString("face data", null) != null) {
-//                Log.d(TAG,"size of byte array shared preference not null");
-//                savedFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
-//                Log.d(TAG,"size of byte array3: "+savedFaceArray.length);
-//            }
-
-            savedFaceArray = enrollResultContainer.serializedProfile;
-            saveFace(savedFaceArray);
-            Log.d(TAG, "finished profile: " + savedFaceArray);
-
-            Toasty.success(getApplicationContext(), "Enrollment Successful", Toast.LENGTH_LONG).show();
-
-            finishPlatformChannelEnrolled(true);
+        checkResult();
 
 
-        } else {
-            Toasty.error(getApplicationContext(), "Enrollment Failed", Toast.LENGTH_LONG).show();
-            finishPlatformChannelEnrolled(false);
-        }
 
 //        System.out.println(enrollResultContainer.enrollResult.getProfileMaturity());
 //
@@ -155,6 +123,93 @@ public class FaceSDKActivity extends FlutterActivity {
 //
 //        System.out.println("Face result: " + verifyResult.getFaceResult());
 //        System.out.println("Verification result: " + (verifyResult.getScore() > verificationThreshold ? "SUCCESSFUL" : "FAILED"));
+    }
+
+    private void checkResult() {
+
+        if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.OK) {
+
+            //   profile = Arrays.copyOf(enrollResultContainer.serializedProfile, enrollResultContainer.serializedProfile.length);
+
+//            if (storedFaceData.getString("face data", null) != null) {
+//                Log.d(TAG,"size of byte array shared preference not null");
+//                savedFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
+//                Log.d(TAG,"size of byte array3: "+savedFaceArray.length);
+//            }
+
+            savedFaceArray = enrollResultContainer.serializedProfile;
+            saveFace(savedFaceArray);
+            Log.d(TAG, "finished profile: " + savedFaceArray);
+
+            Toasty.success(getApplicationContext(), "Enrollment Successful", Toast.LENGTH_LONG).show();
+
+            finishPlatformChannelEnrolled(true);
+
+
+        } else {
+
+            reEnrollFace();
+        }
+    }
+
+    private void reEnrollFace() {
+
+        multiEvent.faceEvent.image=FileUtils.loadFile(filePath);
+
+        Log.d(TAG, "byte array: " + multiEvent);
+
+        if (storedFaceData.getString("face data", null) != null) {
+            Log.d(TAG, "size of byte array shared preference not null");
+            savedFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
+            Log.d(TAG, "size of byte array3: " + savedFaceArray.length);
+        }
+
+        Log.d(TAG, "logging before checking");
+        Log.d(TAG, "logging before checking" + multiEvent.toString());
+
+        enrollResultContainer = idEngine.enroll(multiEvent, savedFaceArray);
+
+        Log.d(TAG, "profile: " + savedFaceArray);
+
+
+        if (enrollResultContainer.enrollResult.getResultCode() == IDEngine.ResultCode.OK) {
+
+            savedFaceArray = enrollResultContainer.serializedProfile;
+            saveFace(savedFaceArray);
+            Log.d(TAG, "finished profile: " + savedFaceArray);
+
+            Toasty.success(getApplicationContext(), "Enrollment Successful", Toast.LENGTH_LONG).show();
+
+            finishPlatformChannelEnrolled(true);
+        }
+
+        else{
+            Toasty.error(getApplicationContext(), "Enrollment Failed", Toast.LENGTH_LONG).show();
+            finishPlatformChannelEnrolled(false);
+        }
+
+
+    }
+
+    private void enrollFace(MultiEvent multiEvent) {
+
+        multiEvent.faceEvent = new FaceEvent();
+
+        multiEvent.faceEvent.image = FileUtils.loadImageAndRotate(filePath,-90);
+        Log.d(TAG, "byte array: " + multiEvent);
+
+        if (storedFaceData.getString("face data", null) != null) {
+            Log.d(TAG, "size of byte array shared preference not null");
+            savedFaceArray = Base64.decode(storedFaceData.getString("face data", null), Base64.NO_WRAP);
+            Log.d(TAG, "size of byte array3: " + savedFaceArray.length);
+        }
+
+        Log.d(TAG, "logging before checking");
+        Log.d(TAG, "logging before checking" + multiEvent.toString());
+
+        enrollResultContainer = idEngine.enroll(multiEvent, savedFaceArray);
+
+        Log.d(TAG, "profile: " + savedFaceArray);
     }
 
     private void finishPlatformChannelEnrolled(boolean enrolled) {

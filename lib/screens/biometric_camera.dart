@@ -55,7 +55,7 @@ class _CameraState extends State<BiometricCamera>{
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Camera example'),
+        title: const Text('Facial Registration'),
       ),
       body: Column(
         children: <Widget>[

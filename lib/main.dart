@@ -18,8 +18,8 @@ Future<void> main() async {
       title: "B.Hold",
       debugShowCheckedModeBanner: false,
       routes: Routes.routeList,
-      home:FacialRecognitionSetup(healthPlanName: "Square",)
-      //home:FacialLogin()
+      //home:FacialRecognitionSetup(healthPlanName: "Square",)
+      home:LandingPage()
   ));
 }
 //g

@@ -5,6 +5,7 @@ import 'package:medicaid/screens/member_registration.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
+import 'package:medicaid/screens/facial_login.dart';
 
 class LandingPage extends StatefulWidget {
   // defining the route here
@@ -26,7 +27,7 @@ class _LandingPageState extends State<LandingPage> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () => isRegistered ? Navigator.of(context).pushNamed(VoiceLogin.routeName):showErrorDialog("You have not registered yet.","Please register before logging in."),
+        onPressed: () => isRegistered ? Navigator.of(context).pushNamed(FacialLogin.routeName):showErrorDialog("You have not registered yet.","Please register before logging in."),
         child: Text(
           "Log In",
           style: TextStyle(fontSize: 18.0, color: Colors.white),

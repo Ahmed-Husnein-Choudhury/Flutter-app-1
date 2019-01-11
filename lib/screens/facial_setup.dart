@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medicaid/utils/common_widgets.dart';
@@ -7,6 +8,7 @@ import 'package:camera/camera.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 import 'package:medicaid/screens/biometric_camera.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FacialRecognitionSetup extends StatefulWidget {
   String healthPlanName;
@@ -99,7 +101,23 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         children: <Widget>[
           Text(widget.healthPlanName),
           CommonWidgets.spacer(gapHeight: 5.0),
-          Text("Customer Service (800) 555-2222"),
+          RichText(text: TextSpan(style: TextStyle(fontSize: 14.0,height: 1.2),
+              children: [
+                TextSpan(text:"Customer Service ",style: TextStyle(color: Colors.black)),
+                TextSpan(
+                    text: '(800) 555-2222',
+                    style: new TextStyle(color: Colors.blue),
+                    recognizer: TapGestureRecognizer()..onTap = () async {
+                      String url = "tel:800555-2222";
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else{
+                        throw 'Could not launch $url';
+                      }
+                    }
+                ),
+              ]
+          )),
         ],
       ),
     );

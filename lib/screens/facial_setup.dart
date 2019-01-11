@@ -40,17 +40,25 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     super.initState();
   }
 
-
   // requesting permission to access camera
   void requestCameraPermission() async {
     final cameraPermission =
         await SimplePermissions.requestPermission(Permission.Camera);
     final writePermission = await SimplePermissions.requestPermission(
         Permission.WriteExternalStorage);
-    if (cameraPermission == PermissionStatus.authorized &&
-        writePermission == PermissionStatus.authorized) {
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera(process: "Facial Registration",)));
+    final audioPermission =
+        await SimplePermissions.requestPermission(Permission.RecordAudio);
+    if (cameraPermission == PermissionStatus.authorized &&
+        writePermission == PermissionStatus.authorized &&
+        audioPermission == PermissionStatus.authorized) {
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BiometricCamera(
+                    process: "Facial Registration",
+                  )));
 
       //_openCamera();
 
@@ -153,32 +161,29 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 //                ),
 //              )
 //            :
-        SingleChildScrollView(
+            SingleChildScrollView(
                 child: Container(
-                        padding: EdgeInsets.all(20.0),
-                        child: Column(
-                          children: <Widget>[
-                            CommonWidgets.spacer(gapHeight: 20.0),
-                            logo(),
-                            CommonWidgets.spacer(gapHeight: 30.0),
-                            instructionalText(),
-                            CommonWidgets.spacer(gapHeight: 50.0),
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        children: <Widget>[
+          CommonWidgets.spacer(gapHeight: 20.0),
+          logo(),
+          CommonWidgets.spacer(gapHeight: 30.0),
+          instructionalText(),
+          CommonWidgets.spacer(gapHeight: 50.0),
 
-                            ///This button opens the camera when tapped
+          ///This button opens the camera when tapped
 
-                            getStartedButton(),
-                            CommonWidgets.spacer(gapHeight: 30.0),
-                            healthPlanLabel(),
-                            CommonWidgets.spacer(gapHeight: 30.0),
-                            bottomPrivacyTextLabel(),
-                            CommonWidgets.spacer(gapHeight: 20.0),
-                          ],
-                        ),
-                      )
-              ));
+          getStartedButton(),
+          CommonWidgets.spacer(gapHeight: 30.0),
+          healthPlanLabel(),
+          CommonWidgets.spacer(gapHeight: 30.0),
+          bottomPrivacyTextLabel(),
+          CommonWidgets.spacer(gapHeight: 20.0),
+        ],
+      ),
+    )));
   }
-
-
 
   Widget loadingScreen() {
     return Container(
@@ -266,23 +271,23 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                         ),
                         child: Text(buttonText,
                             style:
-                            TextStyle(color: Colors.white, fontSize: 15.0)),
+                                TextStyle(color: Colors.white, fontSize: 15.0)),
                         onPressed: !registrationComplete
                             ? () {
-                          Navigator.of(context).pop();
-                          setState(() {
-                            this.isCaptured = false;
-                            this.imageFile = null;
-                          });
-                          _openCamera();
-                        }
+                                Navigator.of(context).pop();
+                                setState(() {
+                                  this.isCaptured = false;
+                                  this.imageFile = null;
+                                });
+                                _openCamera();
+                              }
                             : () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      VoiceRegistrationSetUp()));
-                        })
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            VoiceRegistrationSetUp()));
+                              })
                   ],
                 ),
               ));
@@ -293,7 +298,6 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
           .popUntil(ModalRoute.withName('/facialRecognitioSetup'));
     }
   }
-
 
   ///This function invokes the native part of the app using the ID:"register face" which matches with the one in the MainActivity.java of the
   ///android part. To access the Android activities, please open the "android" folder in the project and proceed from there
@@ -353,9 +357,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         });
   }
 
-
   _openCamera() async {
-
     image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       if (image != null) {
@@ -373,6 +375,4 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
       }
     });
   }
-
-
 }

@@ -19,7 +19,7 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       routes: Routes.routeList,
       home:FacialRecognitionSetup(healthPlanName: "Square",)
-     // home:FacialLogin()
+      //home:FacialLogin()
   ));
 }
 //g

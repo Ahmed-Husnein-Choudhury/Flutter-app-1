@@ -7,8 +7,7 @@ import 'package:medicaid/main.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:medicaid/screens/facial_login.dart';
-
+import 'package:medicaid/screens/voice_login.dart';
 
 class BiometricCamera extends StatefulWidget{
 
@@ -30,7 +29,7 @@ IconData getCameraLensIcon(CameraLensDirection direction) {
 void logError(String code, String message) =>
     print('Error: $code\nError Message: $message');
 
-const _faceRegistrationMethodChannel = const MethodChannel("biometric authentication");
+const _faceRecognitionMethodChannel = const MethodChannel("biometric authentication");
 
 
 class _CameraState extends State<BiometricCamera>{
@@ -210,7 +209,7 @@ class _CameraState extends State<BiometricCamera>{
 
   Future<Null> _registerFace(String fileName) async {
 
-    response = await _faceRegistrationMethodChannel
+    response = await _faceRecognitionMethodChannel
         .invokeMethod("register face", {"file path": fileName});
     print("file has been sent to native: $response");
 
@@ -366,7 +365,7 @@ class _CameraState extends State<BiometricCamera>{
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        FacialLogin()));
+                                        VoiceRegistrationSetUp()));
                           })
                     ],
                   ),
@@ -379,10 +378,50 @@ class _CameraState extends State<BiometricCamera>{
 //            .popUntil(ModalRoute.withName('/facialRecognitionSetup'));
       }
 
+
+  void _openDialogLoginSuccessful() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text("Face Successfully Verified",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Padding(padding: EdgeInsets.only(top: 10.0)),
+                  Divider(
+                    height: 2.0,
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>VoiceLogin()));
+                      //  _openCamera();
+                    },
+                    color: Color(0XFF00AFDF),
+                    shape: StadiumBorder(
+                      side: BorderSide(
+                        width: 1.0,
+                        color: Color(0XFF00AFDF),
+                      ),
+                    ),
+                    child: Text("Continue"),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
  Future<Null> _verifyFace(String fileName) async {
 
-    response = await _faceRegistrationMethodChannel
+    response = await _faceRecognitionMethodChannel
         .invokeMethod("verify face", {"file path": fileName});
+
+    response?_openDialogLoginSuccessful():" ";
 
   }
     }

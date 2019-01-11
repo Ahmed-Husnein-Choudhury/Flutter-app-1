@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medicaid/utils/common_widgets.dart';
+import 'package:simple_permissions/simple_permissions.dart';
+import 'package:medicaid/screens/biometric_camera.dart';
 
 class FacialLogin extends StatefulWidget {
 
@@ -64,7 +66,7 @@ class _FacialLoginState extends State<FacialLogin> {
 
   Widget continueButton() {
     return MaterialButton(
-      onPressed: null,
+      onPressed: requestCameraPermission,
       height: 40.0,
       padding: EdgeInsets.all(15.0),
       minWidth: 200.0,
@@ -77,6 +79,25 @@ class _FacialLoginState extends State<FacialLogin> {
       shape: Border.all(width: 1.0),
     );
   }
+
+
+  void requestCameraPermission() async {
+    final cameraPermission =
+    await SimplePermissions.requestPermission(Permission.Camera);
+    final writePermission = await SimplePermissions.requestPermission(
+        Permission.WriteExternalStorage);
+    if (cameraPermission == PermissionStatus.authorized &&
+        writePermission == PermissionStatus.authorized) {
+
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera(process: "verification",)));
+
+      //_openCamera();
+
+    } else {
+      // do something
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

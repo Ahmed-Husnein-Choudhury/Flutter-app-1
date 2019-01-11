@@ -49,13 +49,8 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         Permission.WriteExternalStorage);
     if (cameraPermission == PermissionStatus.authorized &&
         writePermission == PermissionStatus.authorized) {
-      setState(() {
-        this.isCameraOpened = true;
-      });
 
-      ///the camera is called from the function.
-
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera(process: "register",)));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera(process: "registration",)));
 
       //_openCamera();
 

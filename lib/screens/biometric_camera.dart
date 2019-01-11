@@ -1,5 +1,6 @@
 
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -171,8 +172,9 @@ class _CameraState extends State<BiometricCamera>{
      //   if (filePath != null) showInSnackBar('Picture saved to $filePath');
 
         //loadingScreen();
-        
-        _registerFace(imagePath);
+
+        widget.process=="registration"?
+        _registerFace(imagePath): verifyFace(imagePath);
       }
     });
   }
@@ -207,6 +209,7 @@ class _CameraState extends State<BiometricCamera>{
   ///android part
 
   Future<Null> _registerFace(String fileName) async {
+
     response = await _faceRegistrationMethodChannel
         .invokeMethod("register face", {"file path": fileName});
     print("file has been sent to native: $response");
@@ -221,6 +224,8 @@ class _CameraState extends State<BiometricCamera>{
       print("response: $response");
       _openCameraDialogFailed();
     }
+
+
   }
 
     Widget loadingScreen() {
@@ -373,6 +378,13 @@ class _CameraState extends State<BiometricCamera>{
 //        Navigator.of(context)
 //            .popUntil(ModalRoute.withName('/facialRecognitionSetup'));
       }
+
+ Future<Null> verifyFace(String fileName) async {
+
+    response = await _faceRegistrationMethodChannel
+        .invokeMethod("register face", {"file path": fileName});
+
+  }
     }
 
 

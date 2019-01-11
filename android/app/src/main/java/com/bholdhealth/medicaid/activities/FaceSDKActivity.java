@@ -19,7 +19,6 @@ import net.idrnd.idsdk.event.MultiEvent;
 import net.idrnd.idsdk.result.EnrollResultContainer;
 
 
-import java.io.File;
 import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
@@ -217,7 +216,7 @@ public class FaceSDKActivity extends FlutterActivity {
 
     private void finishPlatformChannelEnrolled(boolean enrolled) {
 
-        MainActivity.stopNativeFacialRegistration(enrolled);
+        MainActivity.stopNativeFacialRecognition(enrolled);
         FaceSDKActivity.this.finish();
 
     }
@@ -229,11 +228,7 @@ public class FaceSDKActivity extends FlutterActivity {
         byte[] tempArray, tempArray2;
 
         if (storedFaceData.getString("face data", null) != null) {
-//            tempString = storedFaceData.getString("face data", null);
-//            tempArray = Base64.decode(tempString, Base64.NO_WRAP);
-//            Log.d(TAG, "size of byte array: " + tempArray.length);
-//            tempArray2 = tempArray = profile;
-            //     tempString = Base64.encodeToString(tempArray2, Base64.NO_WRAP);
+
             tempString = Base64.encodeToString(profile, Base64.NO_WRAP);
 
             editor.putString("face data", tempString);

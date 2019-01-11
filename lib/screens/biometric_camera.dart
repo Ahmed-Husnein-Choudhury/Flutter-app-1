@@ -29,8 +29,7 @@ IconData getCameraLensIcon(CameraLensDirection direction) {
 void logError(String code, String message) =>
     print('Error: $code\nError Message: $message');
 
-const _faceRegistrationMethodChannel =
-const MethodChannel("biometric authentication");
+const _faceRegistrationMethodChannel = const MethodChannel("biometric authentication");
 
 
 class _CameraState extends State<BiometricCamera>{
@@ -62,10 +61,13 @@ class _CameraState extends State<BiometricCamera>{
       appBar: AppBar(
         title: const Text('Facial Registration'),
       ),
-      body: Column(
+      body:
+      Column(
         children: <Widget>[
           Expanded(
-            child: Container(
+            child:
+     // imagePath==null?
+      Container(
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
                 child: Center(
@@ -79,9 +81,11 @@ class _CameraState extends State<BiometricCamera>{
                   width: 3.0,
                 ),
               ),
-            ),
+            )
+       //   :CircularProgressIndicator(strokeWidth: 2.0,)
           ),
-          _captureControlRowWidget(),
+          _captureControlRowWidget()
+
         ],
       ),
     );
@@ -166,7 +170,7 @@ class _CameraState extends State<BiometricCamera>{
         });
      //   if (filePath != null) showInSnackBar('Picture saved to $filePath');
 
-       // loadingScreen();
+        //loadingScreen();
         
         _registerFace(imagePath);
       }
@@ -206,17 +210,17 @@ class _CameraState extends State<BiometricCamera>{
     response = await _faceRegistrationMethodChannel
         .invokeMethod("register face", {"file path": fileName});
     print("file has been sent to native: $response");
-//
-//    this.isCameraOpened = true;
-//
-//    if (response) {
-//      print("response: $response");
-//      pictureNumber--;
-//      _openCameraDialogEnrolled(pictureNumber);
-//    } else {
-//      print("response: $response");
-//      _openCameraDialogFailed();
-//    }
+
+    //this.isCameraOpened = true;
+
+    if (response) {
+      print("response: $response");
+      pictureNumber--;
+      _openCameraDialogEnrolled(pictureNumber);
+    } else {
+      print("response: $response");
+      _openCameraDialogFailed();
+    }
   }
 
     Widget loadingScreen() {
@@ -301,8 +305,7 @@ class _CameraState extends State<BiometricCamera>{
         registrationComplete = true;
       }
 
-      if (this.imageFile != null) {
-        showDialog(
+      showDialog(
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
@@ -348,8 +351,8 @@ class _CameraState extends State<BiometricCamera>{
                               ? () {
                             Navigator.of(context).pop();
                             setState(() {
-                              this.isCaptured = false;
-                              this.imageFile = null;
+//                              this.isCaptured = false;
+                              this.imagePath = null;
                             });
                             //_openCamera();
                           }
@@ -365,10 +368,11 @@ class _CameraState extends State<BiometricCamera>{
                 ));
           },
         );
-      } else {
-        Navigator.of(context)
-            .popUntil(ModalRoute.withName('/facialRecognitioSetup'));
+
+       // Navigator.push(context, MaterialPageRoute(builder: (context)=>))
+//        Navigator.of(context)
+//            .popUntil(ModalRoute.withName('/facialRecognitionSetup'));
       }
     }
-  }
+
 

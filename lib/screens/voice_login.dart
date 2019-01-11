@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/home_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VoiceLogin extends StatefulWidget {
 
@@ -101,8 +103,8 @@ class _State extends State<VoiceLogin> {
                 CommonWidgets.spacer(gapHeight: 30.0),
                 continueButton(),
                 CommonWidgets.spacer(gapHeight: 20.0),
-                instructionalText("Health Plan Service 1 \n"
-                    "Customer Service (800) 555-2222"),
+                instructionalText("Health Plan Service 1"),
+                instructionalRichText(),
                 CommonWidgets.spacer(gapHeight: 50.0),
                 instructionalText("Your privacy is very important to use. "
                     "We protect your personal health information as required by law"),
@@ -116,5 +118,27 @@ class _State extends State<VoiceLogin> {
   Future<bool> exitApp() {
     print("app exited");
     exit(0);
+  }
+
+  Widget instructionalRichText() {
+
+    return RichText(text: TextSpan(style: TextStyle(fontSize: 14.0,height: 1.2),
+        children: [
+          TextSpan(text:"Customer Service ",style: TextStyle(color: Colors.black)),
+          TextSpan(
+              text: '(800) 555-2222',
+              style: new TextStyle(color: Colors.blue),
+              recognizer: TapGestureRecognizer()..onTap = () async {
+                String url = "tel:800555-2222";
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else{
+                  throw 'Could not launch $url';
+                }
+              }
+          ),
+        ]
+    ));
+
   }
 }

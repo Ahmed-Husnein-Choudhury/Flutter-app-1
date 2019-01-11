@@ -53,7 +53,7 @@ class _LandingPageState extends State<LandingPage> {
         color: Color(0XFF1EE3B7),
         onPressed: () =>
         !isRegistered?
-            Navigator.of(context).pushNamed(MemberRegistration.routeName):showErrorDialog("You have already Registered","Please login"),
+            Navigator.of(context).pushNamed(MemberRegistration.routeName):showErrorDialog("You have already registered","Please login"),
           //  Navigator.of(context).pushNamed(VoiceRegistrationSetUp.routeName),
         child: Text(
           "Register",

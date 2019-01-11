@@ -97,11 +97,11 @@ class _HomePageState extends State<HomePage> {
                   optionTitle: "Referrals and Authorization",
                   isOdd: true,
                   onTap: () {
-                    Navigator.of(context).pushNamed(ReferalsAndAuthrizations.routeName);
+                    Navigator.of(context).pushNamed(ReferralsAndAuthorizations.routeName);
                   }
               ),
               SizedBox(
-                height: 20.0,
+                height:20.0,
               ),
             ],
           ),

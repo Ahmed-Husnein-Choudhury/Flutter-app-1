@@ -42,7 +42,7 @@ class Routes {
     ClaimAndAppointmentsDetails.routeName: (context) => ClaimAndAppointmentsDetails(),
     UpcomingAppointments.routeName: (context) => UpcomingAppointments(),
     UpcomingAppointMentsDetails.routeName: (context) => UpcomingAppointMentsDetails(),
-    ReferalsAndAuthrizations.routeName: (context) => ReferalsAndAuthrizations(),
+    ReferralsAndAuthorizations.routeName: (context) => ReferralsAndAuthorizations(),
     YourPlanDetails.routeName: (context) => YourPlanDetails(),
     CheckInHere.routeName: (context)=> CheckInHere(),
     InformationConfirmed.routeName: (context) => InformationConfirmed(),

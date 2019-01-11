@@ -9,7 +9,11 @@ class Messages extends StatefulWidget {
   _MessagesState createState() => _MessagesState();
 }
 
+
 class _MessagesState extends State<Messages> {
+
+
+  int timeInMinutes=2;
 
   static final activeRouteLinkColor = 0XFFB4BDFB;
 
@@ -64,8 +68,10 @@ class _MessagesState extends State<Messages> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Color(0XFFF8F9FF),
       appBar: CustomAppBar(title: "Messages"),
@@ -73,11 +79,12 @@ class _MessagesState extends State<Messages> {
         color: Color(0XFFF3F3F3),
         padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0),
         child: ListView.builder(
-            itemCount: 15,
+            itemCount: 4,
             itemBuilder: (context, index) {
+              timeInMinutes++;
               return messageTile(
                 heading: "Health Plan",
-                time: "9/27/18 6:54 PM",
+                time: "9/27/18 6:5$timeInMinutes PM",
                 body: "Checked in Mount Sinai"
               );
             }

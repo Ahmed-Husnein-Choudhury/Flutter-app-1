@@ -4,6 +4,7 @@ import 'package:medicaid/routes.dart';
 import 'package:medicaid/screens/facial_setup.dart';
 import 'package:medicaid/screens/home_page.dart';
 import 'package:medicaid/screens/landing_page.dart';
+import 'package:medicaid/screens/facial_login.dart';
 
 List<CameraDescription> cameras;
  // Fetch the available cameras before initializing the app.
@@ -18,7 +19,7 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       routes: Routes.routeList,
       home:FacialRecognitionSetup(healthPlanName: "Square",)
-      //home:LandingPage()
+     // home:FacialLogin()
   ));
 }
 //g

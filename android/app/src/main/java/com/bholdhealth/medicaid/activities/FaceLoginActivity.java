@@ -28,7 +28,8 @@ public class FaceLoginActivity extends FlutterActivity {
     String dataRootDir, filePath;
     byte[] savedFaceArray;
     SharedPreferences storedFaceData;
-    byte[] profile;;
+    byte[] profile;
+    ;
     IDEngine idEngine;
     EnrollResultContainer enrollResultContainer;
     MultiEvent multiEvent;
@@ -39,7 +40,7 @@ public class FaceLoginActivity extends FlutterActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         filePath = getIntent().getStringExtra("file path");
-        Log.d(TAG, "face activity called: " + filePath);
+        Log.d(TAG, "face login activity called: " + filePath);
 
         storedFaceData = getApplicationContext().getSharedPreferences("store face", MODE_PRIVATE);
 
@@ -64,7 +65,7 @@ public class FaceLoginActivity extends FlutterActivity {
 
         multiEvent.faceEvent = new FaceEvent();
 
-        multiEvent.faceEvent.image = FileUtils.loadImageAndRotate(filePath,-90);
+        multiEvent.faceEvent.image = FileUtils.loadImageAndRotate(filePath, -90);
         Log.d(TAG, "byte array: " + multiEvent);
 
         if (storedFaceData.getString("face data", null) != null) {
@@ -73,18 +74,24 @@ public class FaceLoginActivity extends FlutterActivity {
             Log.d(TAG, "size of byte array3: " + savedFaceArray.length);
 
 
-            verifyResult = idEngine.verify(multiEvent,new VerifySettings(), savedFaceArray);
+            verifyResult = idEngine.verify(multiEvent, new VerifySettings(), savedFaceArray);
 
             if (verifyResult.getResultCode() == IDEngine.ResultCode.OK) {
-                Toasty.success(getApplicationContext(),"Verification score: " + Double.toString(verifyResult.getScore())).show();
-                finishPlatformChannelVerified(true);
+
+                if (verifyResult.getScore() >= 0.8) {
+
+                    Toasty.success(getApplicationContext(), "Face matched").show();
+                    finishPlatformChannelVerified(true);
+                } else {Toasty.error(getApplicationContext(), "Face does not match, Please try again").show();
+                    finishPlatformChannelVerified(false);
+                }
             } else {
-                Toasty.error(getApplicationContext(),"Face not found! Try again please").show();
+                Toasty.error(getApplicationContext(), "Face not found! Try again please").show();
                 finishPlatformChannelVerified(false);
             }
         }
 
-        }
+    }
 
     private void finishPlatformChannelVerified(boolean verified) {
 
@@ -93,6 +100,6 @@ public class FaceLoginActivity extends FlutterActivity {
 
     }
 
-    }
+}
 
 

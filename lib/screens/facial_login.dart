@@ -65,18 +65,26 @@ class _FacialLoginState extends State<FacialLogin> {
   }
 
   Widget continueButton() {
-    return MaterialButton(
-      onPressed: requestCameraPermission,
-      height: 40.0,
-      padding: EdgeInsets.all(15.0),
-      minWidth: 200.0,
-      color: Color(0XFF00AFDF),
-      textColor: Colors.white,
-      child: Text(
-        "Continue",
-        style: TextStyle(fontSize: 18.0, color: Colors.white),
+    return Container(
+      height: 50.0,
+      width: 250.0,
+      child: RaisedButton(
+        color: Color(0XFF00AFDF),
+
+        ///the function below takes camera permission and then opens the camera
+
+        onPressed: requestCameraPermission,
+        child: Text(
+          "Continue",
+          style: TextStyle(fontSize: 18.0, color: Colors.white),
+        ),
+        shape: StadiumBorder(
+          side: BorderSide(
+            width: 1.0,
+            color: Color(0XFF00AFDF),
+          ),
+        ),
       ),
-      shape: Border.all(width: 1.0),
     );
   }
 
@@ -89,7 +97,7 @@ class _FacialLoginState extends State<FacialLogin> {
     if (cameraPermission == PermissionStatus.authorized &&
         writePermission == PermissionStatus.authorized) {
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera(process: "verification",)));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera(process: "Facial Login",)));
 
       //_openCamera();
 

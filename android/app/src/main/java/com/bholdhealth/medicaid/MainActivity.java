@@ -73,7 +73,7 @@ public class MainActivity extends FlutterActivity {
                     startActivity(in);
 
                 } else if (methodCall.method.equals("verify face")) {
-
+                    pictureFilePath = methodCall.argument("file path");
                     Intent in = new Intent(MainActivity.this, FaceLoginActivity.class);
                     in.putExtra("file path", pictureFilePath);
                     startActivity(in);

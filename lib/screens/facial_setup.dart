@@ -50,7 +50,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     if (cameraPermission == PermissionStatus.authorized &&
         writePermission == PermissionStatus.authorized) {
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera(process: "registration",)));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera(process: "Facial Registration",)));
 
       //_openCamera();
 

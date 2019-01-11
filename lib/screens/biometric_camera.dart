@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
@@ -8,6 +7,7 @@ import 'package:medicaid/main.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:medicaid/screens/facial_login.dart';
 
 
 class BiometricCamera extends StatefulWidget{
@@ -60,7 +60,7 @@ class _CameraState extends State<BiometricCamera>{
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Facial Registration'),
+        title: Text(widget.process),
       ),
       body:
       Column(
@@ -173,8 +173,8 @@ class _CameraState extends State<BiometricCamera>{
 
         //loadingScreen();
 
-        widget.process=="registration"?
-        _registerFace(imagePath): verifyFace(imagePath);
+        widget.process=="Facial Registration"?
+        _registerFace(imagePath): _verifyFace(imagePath);
       }
     });
   }
@@ -366,7 +366,7 @@ class _CameraState extends State<BiometricCamera>{
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        VoiceRegistrationSetUp()));
+                                        FacialLogin()));
                           })
                     ],
                   ),
@@ -379,10 +379,10 @@ class _CameraState extends State<BiometricCamera>{
 //            .popUntil(ModalRoute.withName('/facialRecognitionSetup'));
       }
 
- Future<Null> verifyFace(String fileName) async {
+ Future<Null> _verifyFace(String fileName) async {
 
     response = await _faceRegistrationMethodChannel
-        .invokeMethod("register face", {"file path": fileName});
+        .invokeMethod("verify face", {"file path": fileName});
 
   }
     }

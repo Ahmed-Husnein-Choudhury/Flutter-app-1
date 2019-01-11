@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:medicaid/utils/utils.dart';
@@ -13,13 +15,13 @@ class YourPlanDetails extends StatefulWidget {
 class _State extends State<YourPlanDetails> {
   final String GREEN_COLOR = "#9ED151";
   final String FOR_CARE_ON = "For care on September 18, 2018";
-  final String startDate = "January 1, 2018";
-  final String endDate = "January 1, 2018";
+  final String startDate = "January 1, 2019";
+  final String endDate = "December 31st, 2019";
   final String firstName = "Ben";
   final String lastName = "Hoefs";
-  final double copay = 100.0;
-  final double deductible = 500.0;
-  final double outOfPocketMax = 1000.0;
+  final double copay = 100.00;
+  final double deductible = 500.00;
+  final double outOfPocketMax = 1000.00;
 
   double getCopayPercentage(double copay) {
     double tempValue = copay / 200;
@@ -57,7 +59,7 @@ class _State extends State<YourPlanDetails> {
       animationDuration: 2000,
       lineHeight: 30.0,
       percent: getDeductiblePercentage(deductible),
-      center: Text("\$${deductible.toString()} out of \$500.0",style: TextStyle(color: Colors.white),),
+      center: Text("\$${double.parse(deductible.toStringAsFixed(2))} out of \$500.00",style: TextStyle(color: Colors.white),),
       linearStrokeCap: LinearStrokeCap.roundAll,
       progressColor:  Color(0XFF1EE3B7),
       backgroundColor: Color(0XFFD4D4D4),
@@ -227,7 +229,7 @@ class _State extends State<YourPlanDetails> {
                                         child: new Text("Copay", style: TextStyle(color: Color(0XFF6A6A6A), fontSize: 14.0),)),
                                     new Align(
                                       alignment: Alignment.centerRight,
-                                      child: new Text("\$200.00 to go",style: TextStyle(color: Color(0XFF6A6A6A))),
+                                      child: new Text("\$100.00 to go",style: TextStyle(color: Color(0XFF6A6A6A))),
                                     )
                                   ],
                                 ),
@@ -243,7 +245,7 @@ class _State extends State<YourPlanDetails> {
                                         child: new Text("Deductible", style: TextStyle(color: Color(0XFF6A6A6A)))),
                                     new Align(
                                       alignment: Alignment.centerRight,
-                                      child: new Text("\$500.00 to go", style: TextStyle(color: Color(0XFF6A6A6A))),
+                                      child: new Text("\$0.00 to go", style: TextStyle(color: Color(0XFF6A6A6A))),
                                     )
                                   ],
                                 ),
@@ -258,7 +260,7 @@ class _State extends State<YourPlanDetails> {
                                         child: new Text("Out of Pocket Max",style: TextStyle(color: Color(0XFF6A6A6A)))),
                                     new Align(
                                       alignment: Alignment.centerRight,
-                                      child: new Text("\$1500.00 to go", style: TextStyle(color: Color(0XFF6A6A6A))),
+                                      child: new Text("\$500.00 to go", style: TextStyle(color: Color(0XFF6A6A6A))),
                                     )
                                   ],
                                 ),

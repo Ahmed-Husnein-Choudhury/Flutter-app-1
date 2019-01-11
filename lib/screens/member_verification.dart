@@ -26,6 +26,7 @@ class _MemberVerificationState extends State<MemberVerification> {
 
   final String baseUrl = "http://ec2-3-83-176-152.compute-1.amazonaws.com:8008";
 
+  Color buttonColor=Color(0XFF00AFDF);
   int groupValue;
   String obscureEmail, obscureMobile, selectedMethod, codeSent;
   bool isCodeSent = false, _validate = false;
@@ -182,7 +183,7 @@ class _MemberVerificationState extends State<MemberVerification> {
       height: 50.0,
       width: 300.0,
       child: RaisedButton(
-        color: Color(0XFF00AFDF),
+        color: buttonColor,
         onPressed: sendVerificationCode,
         child: Text(
           verifyCodeSentText,
@@ -458,6 +459,7 @@ class _MemberVerificationState extends State<MemberVerification> {
       setState(() {
         this.verifyCodeSentText = "Verification Code Sent";
         this.isCodeSent = true;
+        buttonColor=Color(0XFF1EE3B7) ;
       });
     } else {
       print(response.statusCode.toString());

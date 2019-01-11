@@ -45,7 +45,7 @@ class ScreenState extends State<Screen> {
   static final ADDRESS = "17 East 102nd street \nNew York, NY";
   static final HOSPITAL_NAME = "Mount Sinai Internal Medicine Associates";
   static final BASED_ON_YOUR_LOCATION =
-      "Based on your location \nyou are currently at";
+      "Based on your location you are currently at";
   static final NOT_CORRECT = "Not correct?";
 
   String lat = "23.862675";

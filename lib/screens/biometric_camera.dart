@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:medicaid/main.dart';
+import 'package:medicaid/screens/facial_login.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:path_provider/path_provider.dart';
@@ -361,6 +361,8 @@ class _CameraState extends State<BiometricCamera>{
                             //_openCamera();
                           }
                               : () {
+
+                           // cameras.clear();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

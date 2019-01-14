@@ -84,7 +84,9 @@ class _State extends State<VoiceRegistrationSetUp> {
     prefs.setBool("is registered", response);
 
     response
-        ? Navigator.of(context).pushNamed(FacialLogin.routeName)
+        ? 
+    Navigator.of(context).pushNamed(FacialLogin.routeName)
+    //Navigator.of(context).pushNamed(VoiceLogin.routeName)
         : "not working";
   }
 

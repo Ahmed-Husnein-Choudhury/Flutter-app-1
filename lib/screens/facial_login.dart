@@ -1,5 +1,7 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:medicaid/main.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/biometric_camera.dart';
@@ -11,11 +13,22 @@ class FacialLogin extends StatefulWidget {
   // defining the route here
   static final String routeName = "/facialLogin";
 
+
   @override
   _FacialLoginState createState() => _FacialLoginState();
 }
 
+
 class _FacialLoginState extends State<FacialLogin> {
+
+  Future<void> initiateCamera() async{
+
+    try {
+      cameras = await availableCameras();
+    } on CameraException catch (e) {
+    }
+
+  }
 
   // widget for showing logo
   Widget logo() {
@@ -115,6 +128,8 @@ class _FacialLoginState extends State<FacialLogin> {
         Permission.WriteExternalStorage);
     if (cameraPermission == PermissionStatus.authorized &&
         writePermission == PermissionStatus.authorized) {
+
+      initiateCamera();
 
       Navigator.push(context, MaterialPageRoute(builder: (context)=>BiometricCamera(process: "Facial Login",)));
 

@@ -6,6 +6,7 @@ import 'package:medicaid/screens/upcoming_appointments.dart';
 import 'package:medicaid/screens/referrals_and_authorizations.dart';
 import 'package:medicaid/screens/your_plan_details.dart';
 import 'package:medicaid/screens/check_in_here_with_us.dart';
+import 'package:medicaid/screens/healthplan_ID.dart';
 
 class HomePage extends StatefulWidget {
   // defining the route
@@ -72,30 +73,37 @@ class _HomePageState extends State<HomePage> {
                   Navigator.of(context).pushNamed(CheckInHere.routeName);
                 }
               ),
+              
+              menuOption(optionTitle: "View your <healthplan> ID card",
+                  isOdd: true,
+                  onTap: (){
+                Navigator.of(context).pushNamed(HealthPlanID.routeName);
+                  }
+              ),
               menuOption(
                   optionTitle: "Your Plan Details",
-                  isOdd: false,
+                  isOdd: true,
                   onTap: () {
                     Navigator.of(context).pushNamed(YourPlanDetails.routeName);
                   }
               ),
               menuOption(
                   optionTitle: "Claims and Past Appointments",
-                  isOdd: true,
+                  isOdd: false,
                   onTap: () {
                     Navigator.of(context).pushNamed(ClaimsAndAppointments.routeName);
                   }
               ),
               menuOption(
                   optionTitle: "Upcoming Appointments",
-                  isOdd: false,
+                  isOdd: true,
                   onTap: () {
                     Navigator.of(context).pushNamed(UpcomingAppointments.routeName);
                   }
               ),
               menuOption(
                   optionTitle: "Referrals and Authorization",
-                  isOdd: true,
+                  isOdd: false,
                   onTap: () {
                     Navigator.of(context).pushNamed(ReferralsAndAuthorizations.routeName);
                   }

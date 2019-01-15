@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:medicaid/utils/common_widgets.dart';
+import 'package:medicaid/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HealthPlanID extends StatelessWidget{
@@ -77,23 +78,28 @@ class HealthPlanID extends StatelessWidget{
   Widget build(BuildContext context) {
     // TODO: implement build
     return  Scaffold(
+      appBar: CustomAppBar(title: "Health Plan ID Card",),
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(20.0),
             child: Column(
               children: <Widget>[
-                CommonWidgets.spacer(gapHeight: 20.0),
                 logo(),
                 CommonWidgets.spacer(gapHeight: 20.0),
                 healthPlanID(context),
-                CommonWidgets.spacer(gapHeight: 30.0),
+                CommonWidgets.spacer(gapHeight: 20.0),
                 healthPlanLabel(),
-                CommonWidgets.spacer(gapHeight: 25.0),
+                CommonWidgets.spacer(gapHeight: 20.0),
                 bottomPrivacyTextLabel(),
               ],
             ),
           ),
-        ));
+        ),
+      bottomNavigationBar: BaseTheme(
+      context: context,
+      navigation: CustomBottomNavigation(context: context, index: 4),
+    )
+    );
   }
 
   Widget healthPlanID(BuildContext context) {

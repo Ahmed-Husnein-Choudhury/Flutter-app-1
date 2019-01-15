@@ -432,7 +432,10 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // widget for choosing date of birth
   Widget dobField(BuildContext context) {
-    return TextField(
+    return
+      Container(
+        width: MediaQuery.of(context).size.width/2.5,
+      child:TextField(
       keyboardType: TextInputType.datetime,
       controller: dobController,
       textInputAction: TextInputAction.none,
@@ -441,7 +444,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       decoration: InputDecoration(
         labelText: "Date of Birth*",
       ),
-    );
+    ));
   }
 
   // defining the instructional text widget
@@ -473,45 +476,59 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // first name widget
   Widget firstNameField() {
-    return TextFormField(
+    return Container(
+      width: MediaQuery.of(context).size.width/2.5,
+      child:TextFormField(
       validator: validateFirstName,
       onSaved: (String firstName) {
         this.firstName = firstName;
       },
       decoration: InputDecoration(labelText: "First name*"),
-    );
+    ));
   }
 
   // last name widget
   Widget lastNameField() {
-    return TextFormField(
+    return Container(
+        width: MediaQuery.of(context).size.width/2.5,
+        child:TextFormField(
       validator: validateLastName,
       onSaved: (String lastName) {
         this.lastName = lastName;
       },
       decoration: InputDecoration(labelText: "Last name*"),
-    );
+    ));
   }
 
   // name widget
   Widget nameFieldRow() {
     return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: firstNameField(),
-            flex: 3,
-          ),
-          Expanded(
-            child: SizedBox(),
-            flex: 1,
-          ),
-          Expanded(
-            child: lastNameField(),
-            flex: 3,
-          ),
-        ],
-      ),
+//      child: Row(
+//        children: <Widget>[
+//          Expanded(
+//            child: firstNameField(),
+//            flex: 3,
+//          ),
+//          Expanded(
+//            child: SizedBox(),
+//            flex: 1,
+//          ),
+//          Expanded(
+//            child: lastNameField(),
+//            flex: 3,
+//          ),
+//        ],
+//      ),
+    child: Stack(
+      children: <Widget>[
+        Align(alignment: Alignment.centerLeft,
+        child: firstNameField(),
+        ),
+        Align(alignment: Alignment.centerRight,
+        child: lastNameField(),
+        )
+      ],
+    ),
     );
   }
 
@@ -523,11 +540,8 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // gender widget
   Widget genderWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(top: 28.0),
+    return Container(
+      width: MediaQuery.of(context).size.width/2.5,
             child: DropdownButton(
           hint: Text("Gender",style: TextStyle(fontSize:18.0 ),),
           value: gender,
@@ -538,8 +552,8 @@ class _MemberRegistrationState extends State<MemberRegistration> {
             _setGender(gender);
           },
         ))
-      ],
-    );
+
+    ;
   }
 
   // email widget
@@ -621,8 +635,6 @@ class _MemberRegistrationState extends State<MemberRegistration> {
                 nameFieldRow(),
                 spacer(gapHeight: 20.0),
                 dobFieldGenderRow(context),
-//              spacer(gapHeight: 20.0),
-//              genderWidget(),
                 spacer(gapHeight: 20.0),
                 emailField(),
                 spacer(gapHeight: 20.0),
@@ -640,20 +652,33 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   Widget dobFieldGenderRow(BuildContext context) {
     return Container(
-      child: Row(
-       // crossAxisAlignment: CrossAxisAlignment.baseline,
-        children: <Widget>[
-          Expanded(
-            child: dobField(context),
-            flex: 3,
-          ),
-          Expanded(child: SizedBox(),flex: 1,),
-          Expanded(
-            child: genderWidget(),
-            flex: 3,
-          )
-        ],
-      ),
+
+//      child: Row(
+//       // crossAxisAlignment: CrossAxisAlignment.baseline,
+//        children: <Widget>[
+//          Expanded(
+//            child: dobField(context),
+//            flex: 3,
+//          ),
+//          Expanded(child: SizedBox(),flex: 1,),
+//          Expanded(
+//            child: genderWidget(),
+//            flex: 3,
+//          )
+//        ],
+//      ),
+    child: Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.centerLeft,
+          child:  dobField(context)
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: genderWidget(),
+        )
+      ],
+    ),
     );
   }
 }

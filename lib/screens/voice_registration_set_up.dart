@@ -10,6 +10,7 @@ import 'package:medicaid/screens/member_registration.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'voice_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:medicaid/screens/facial_login.dart';
 
 class VoiceRegistrationSetUp extends StatefulWidget {
   static final String routeName = "/voiceRegistrationSetup";
@@ -83,7 +84,9 @@ class _State extends State<VoiceRegistrationSetUp> {
     prefs.setBool("is registered", response);
 
     response
-        ? Navigator.of(context).pushNamed(VoiceLogin.routeName)
+        ? 
+    Navigator.of(context).pushNamed(FacialLogin.routeName)
+    //Navigator.of(context).pushNamed(VoiceLogin.routeName)
         : "not working";
   }
 

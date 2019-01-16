@@ -24,7 +24,7 @@ class _ReferralsAndAuthorizationsState extends State<ReferralsAndAuthorizations>
                 fontWeight: FontWeight.bold,
                 height: 1.0,
                 fontSize: 15.0,
-                color: Color(0XFF6A6A6A)
+                color: Color(0XFFA9A9A9)
               ),
             ),
             SizedBox(
@@ -33,9 +33,9 @@ class _ReferralsAndAuthorizationsState extends State<ReferralsAndAuthorizations>
             Text(
               subTitle,
               style: TextStyle(
-                  color: Colors.grey,
+                  color: Colors.black,
                   height: 1.0,
-                  fontSize: 13.0
+                  fontSize: 13.0,
               ),
             )
           ],

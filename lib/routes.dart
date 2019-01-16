@@ -6,7 +6,7 @@ import 'package:medicaid/screens/member_information.dart';
 import 'package:medicaid/screens/voice_login.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 import 'package:medicaid/screens/facial_setup.dart';
-import 'package:medicaid/screens/biometric_login.dart';
+import 'package:medicaid/screens/facial_login.dart';
 import 'package:medicaid/screens/messages.dart';
 import 'package:medicaid/screens/search.dart';
 import 'package:medicaid/screens/contact.dart';
@@ -20,6 +20,8 @@ import 'package:medicaid/screens/your_plan_details.dart';
 import 'package:medicaid/screens/check_in_here_with_us.dart';
 import 'package:medicaid/screens/all_information_confirmed.dart';
 import 'package:medicaid/screens/not_correct_location.dart';
+import 'package:medicaid/screens/biometric_camera.dart';
+import 'package:medicaid/screens/healthplan_ID.dart';
 
 class Routes {
 
@@ -32,7 +34,7 @@ class Routes {
     VoiceRegistrationSetUp.routeName: (context) => VoiceRegistrationSetUp(),
     VoiceLogin.routeName: (context) => VoiceLogin(),
     FacialRecognitionSetup.routeName: (context) => FacialRecognitionSetup(),
-    BiometricLogin.routeName: (context) => BiometricLogin(),
+    FacialLogin.routeName: (context) => FacialLogin(),
     Messages.routeName: (context) => Messages(),
     Search.routeName: (context) => Search(),
     Contact.routeName: (context) => Contact(),
@@ -45,6 +47,8 @@ class Routes {
     YourPlanDetails.routeName: (context) => YourPlanDetails(),
     CheckInHere.routeName: (context)=> CheckInHere(),
     InformationConfirmed.routeName: (context) => InformationConfirmed(),
-    NotCorrectLocation.routeName: (context) => NotCorrectLocation()
+    NotCorrectLocation.routeName: (context) => NotCorrectLocation(),
+    BiometricCamera.routeName: (context) => BiometricCamera(),
+    HealthPlanID.routeName: (context) => HealthPlanID()
   };
 }

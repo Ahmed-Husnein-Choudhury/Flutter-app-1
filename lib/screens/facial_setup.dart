@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
+import 'package:medicaid/screens/biometric_camera.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FacialRecognitionSetup extends StatefulWidget {
@@ -39,6 +40,196 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     this.isCaptured = false;
     this.isCameraOpened = false;
     super.initState();
+  }
+
+  // requesting permission to access camera
+  void requestCameraPermission() async {
+    final cameraPermission =
+        await SimplePermissions.requestPermission(Permission.Camera);
+    final writePermission = await SimplePermissions.requestPermission(
+        Permission.WriteExternalStorage);
+
+    final audioPermission =
+        await SimplePermissions.requestPermission(Permission.RecordAudio);
+    if (cameraPermission == PermissionStatus.authorized &&
+        writePermission == PermissionStatus.authorized &&
+        audioPermission == PermissionStatus.authorized) {
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BiometricCamera(
+                    process: "Facial Registration",
+                  )));
+
+      //_openCamera();
+
+    } else {
+      // do something
+    }
+  }
+
+  // widget for showing logo
+  Widget logo() {
+    return Center(
+      child: Image.asset(
+        "assets/logo.png",
+        height: 100.0,
+      ),
+    );
+  }
+
+  // defining the instructional text widget
+  Widget instructionalText() {
+    return Text(
+      "In order to help protect your privacy and provide you with the best experience, we will"
+          " need to set up an extra layer of security. This will include facial recognition and "
+          "speech recognition. This one-time setup should take less than 30 seconds to complete.",
+      style: TextStyle(
+        fontSize: 15.0,
+      ),
+    );
+  }
+
+  // defining the health plan details text widget
+  Widget healthPlanLabel() {
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(widget.healthPlanName),
+          CommonWidgets.spacer(gapHeight: 5.0),
+          RichText(text: TextSpan(style: TextStyle(fontSize: 14.0,height: 1.2),
+              children: [
+                TextSpan(text:"Customer Service ",style: TextStyle(color: Colors.black)),
+                TextSpan(
+                    text: '(800) 555-2222',
+                    style: new TextStyle(color: Colors.blue),
+                    recognizer: TapGestureRecognizer()..onTap = () async {
+                      String url = "tel:800555-2222";
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else{
+                        throw 'Could not launch $url';
+                      }
+                    }
+                ),
+              ]
+          )),
+        ],
+      ),
+    );
+  }
+
+  // defining the privacy text details text widget
+  Widget bottomPrivacyTextLabel() {
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+              "Your privacy is very important to use. We protect your personal health information as required by law."),
+        ],
+      ),
+    );
+  }
+
+  Widget getStartedButton() {
+    return Container(
+      height: 50.0,
+      width: 250.0,
+      child: RaisedButton(
+        color: Color(0XFF00AFDF),
+
+        ///the function below takes camera permission and then opens the camera
+
+        onPressed: requestCameraPermission,
+        child: Text(
+          "Let's get started",
+          style: TextStyle(fontSize: 18.0, color: Colors.white),
+        ),
+        shape: StadiumBorder(
+          side: BorderSide(
+            width: 1.0,
+            color: Color(0XFF00AFDF),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body:
+//        isCaptured
+//            ?
+//        Container(
+//                child: Center(
+//                  child: Image.file(
+//                    this.imageFile,
+//                    fit: BoxFit.fitHeight,
+//                    height: MediaQuery.of(context).size.height,
+//                    colorBlendMode: BlendMode.darken,
+//                  ),
+//                ),
+//              )
+//            :
+            SingleChildScrollView(
+                child: Container(
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        children: <Widget>[
+          CommonWidgets.spacer(gapHeight: 20.0),
+          logo(),
+          CommonWidgets.spacer(gapHeight: 30.0),
+          instructionalText(),
+          CommonWidgets.spacer(gapHeight: 50.0),
+
+          ///This button opens the camera when tapped
+
+          getStartedButton(),
+          CommonWidgets.spacer(gapHeight: 30.0),
+          healthPlanLabel(),
+          CommonWidgets.spacer(gapHeight: 30.0),
+          bottomPrivacyTextLabel(),
+          CommonWidgets.spacer(gapHeight: 20.0),
+        ],
+      ),
+    )));
+  }
+
+  Widget loadingScreen() {
+    return Container(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
+      child: Center(
+          child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image.asset(
+            "assets/bhold_static_loading.jpg",
+            height: 100.0,
+            width: 100.0,
+          ),
+//              CircularProgressIndicator(
+//                strokeWidth: 2.0,
+//              ),
+          Padding(
+            padding: EdgeInsets.only(top: 20.0),
+          ),
+          Text(
+            "Loading...",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+          )
+        ],
+      )),
+    );
   }
 
   void _openCameraDialogEnrolled(int pictureNumber) {
@@ -126,206 +317,8 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     }
   }
 
-  _openCamera() async {
-
-    frontCameraSelected(CameraDescription(lensDirection: CameraLensDirection.front));
-
-    image = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      if (image != null) {
-        this.imageFile = image;
-        this.isCaptured = true;
-        _registerFace(imageFile.path);
-
-        print("Path: " + imageFile.path);
-      } else {
-        SystemNavigator.pop();
-        //Navigator.of(context).popUntil(ModalRoute.withName('/facialRecognitioSetup'));
-      }
-    });
-  }
-
-  void frontCameraSelected(CameraDescription cameraDescription) async {
-    if (controller != null) {
-      await controller.dispose();
-    }
-    controller = CameraController(cameraDescription, ResolutionPreset.high);
-  }
-
-  // requesting permission to access camera
-  void requestCameraPermission() async {
-    final cameraPermission =
-        await SimplePermissions.requestPermission(Permission.Camera);
-    final writePermission = await SimplePermissions.requestPermission(
-        Permission.WriteExternalStorage);
-    if (cameraPermission == PermissionStatus.authorized &&
-        writePermission == PermissionStatus.authorized) {
-      setState(() {
-        this.isCameraOpened = true;
-      });
-      _openCamera();
-    } else {
-      // do something
-    }
-  }
-
-  // widget for showing logo
-  Widget logo() {
-    return Center(
-      child: Image.asset(
-        "assets/logo.png",
-        height: 100.0,
-      ),
-    );
-  }
-
-  // defining the instructional text widget
-  Widget instructionalText() {
-    return Text(
-      "In order to help protect your privacy and provide you with the best experience, we will"
-          " need to set up an extra layer of security. This will include facial recognition and "
-          "speech recognition. This one-time setup should take less than 30 seconds to complete.",
-      style: TextStyle(
-        fontSize: 15.0,
-      ),
-    );
-  }
-
-  // defining the health plan details text widget
-  Widget healthPlanLabel() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(widget.healthPlanName),
-          CommonWidgets.spacer(gapHeight: 5.0),
-         // Text("Customer Service (800) 555-2222"),
-          RichText(text: TextSpan(style: TextStyle(fontSize: 14.0,height: 1.2),
-              children: [
-                TextSpan(text:"Customer Service ",style: TextStyle(color: Colors.black)),
-                TextSpan(
-                    text: '(800) 555-2222',
-                    style: new TextStyle(color: Colors.blue),
-                    recognizer: TapGestureRecognizer()..onTap = () async {
-                      String url = "tel:800555-2222";
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else{
-                        throw 'Could not launch $url';
-                      }
-                    }
-                ),
-              ]
-          ))
-        ],
-      ),
-    );
-  }
-
-  // defining the privacy text details text widget
-  Widget bottomPrivacyTextLabel() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-              "Your privacy is very important to use. We protect your personal health information as required by law."),
-        ],
-      ),
-    );
-  }
-
-  Widget getStartedButton() {
-    return Container(
-      height: 50.0,
-      width: 250.0,
-      child: RaisedButton(
-        color: Color(0XFF00AFDF),
-        onPressed: requestCameraPermission,
-        child: Text(
-          "Let's get started",
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
-        ),
-        shape: StadiumBorder(
-          side: BorderSide(
-            width: 1.0,
-            color: Color(0XFF00AFDF),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: isCaptured
-            ? Container(
-                child: Center(
-                  child: Image.file(
-                    this.imageFile,
-                    fit: BoxFit.fitHeight,
-                    height: MediaQuery.of(context).size.height,
-                    colorBlendMode: BlendMode.darken,
-                  ),
-                ),
-              )
-            : SingleChildScrollView(
-                child: isCameraOpened == false
-                    ? Container(
-                        padding: EdgeInsets.all(20.0),
-                        child: Column(
-                          children: <Widget>[
-                            CommonWidgets.spacer(gapHeight: 20.0),
-                            logo(),
-                            CommonWidgets.spacer(gapHeight: 30.0),
-                            instructionalText(),
-                            CommonWidgets.spacer(gapHeight: 50.0),
-                            getStartedButton(),
-                            CommonWidgets.spacer(gapHeight: 30.0),
-                            healthPlanLabel(),
-                            CommonWidgets.spacer(gapHeight: 30.0),
-                            bottomPrivacyTextLabel(),
-                            CommonWidgets.spacer(gapHeight: 20.0),
-                          ],
-                        ),
-                      )
-                    : loadingScreen(),
-              ));
-  }
-
-  Widget loadingScreen() {
-    return Container(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
-      child: Center(
-          child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(
-            "assets/bhold_static_loading.jpg",
-            height: 100.0,
-            width: 100.0,
-          ),
-//              CircularProgressIndicator(
-//                strokeWidth: 2.0,
-//              ),
-          Padding(
-            padding: EdgeInsets.only(top: 20.0),
-          ),
-          Text(
-            "Loading...",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-          )
-        ],
-      )),
-    );
-  }
+  ///This function invokes the native part of the app using the ID:"register face" which matches with the one in the MainActivity.java of the
+  ///android part. To access the Android activities, please open the "android" folder in the project and proceed from there
 
   Future<Null> _registerFace(String fileName) async {
     response = await _faceRegistrationMethodChannel
@@ -382,4 +375,22 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         });
   }
 
+  _openCamera() async {
+    image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      if (image != null) {
+        this.imageFile = image;
+        this.isCaptured = true;
+
+        ///this function is the bridge between flutter and native android (java)
+
+        _registerFace(imageFile.path);
+
+        print("Path: " + imageFile.path);
+      } else {
+        SystemNavigator.pop();
+        //Navigator.of(context).popUntil(ModalRoute.withName('/facialRecognitioSetup'));
+      }
+    });
+  }
 }

@@ -6,10 +6,9 @@ import 'dart:convert';
 import 'package:medicaid/screens/member_verification.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 
-String fullName,phoneNumber;
+String fullName, phoneNumber;
 
 class MemberRegistration extends StatefulWidget {
-
   // defining the route here
   static final String routeName = "/memberRegistration";
 
@@ -18,20 +17,27 @@ class MemberRegistration extends StatefulWidget {
 }
 
 class _MemberRegistrationState extends State<MemberRegistration> {
-
   // global form key to validate input fields
   GlobalKey<FormState> formKey = new GlobalKey();
   bool _validate = false;
   List<String> _genderOptions = new List<String>();
 
   // form fields
-  String memberId, dateOfBirth, gender, email, confirmEmail, mobileNumber, processedGender, firstName, lastName;
+  String memberId,
+      dateOfBirth,
+      gender,
+      email,
+      confirmEmail,
+      mobileNumber,
+      processedGender,
+      firstName,
+      lastName;
 
   int _year;
   int _month;
   int _date;
   String _format = 'mm-dd-yyyy';
-  bool isDateButtonDisabled=false;
+  bool isDateButtonDisabled = false;
 
   // controller for dateOfBirth
   final dobController = new TextEditingController();
@@ -55,53 +61,44 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   // alert dialog if date is invalid
   void _showInvalidDateDialog() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0)
-          ),
-          title: Text(
-            "Invalid Date",
-            style: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            title: Text(
+              "Invalid Date",
+              style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0),
             ),
-          ),
-          content: Text(
-            "You can't choose a future date!!!",
-          ),
-          actions: <Widget>[
-            RaisedButton(
-                color: Color(0XFF00AFDF),
-                shape: StadiumBorder(
-                  side: BorderSide(
-                    width: 1.0,
-                    color: Color(0XFF00AFDF),
+            content: Text(
+              "You can't choose a future date!!!",
+            ),
+            actions: <Widget>[
+              RaisedButton(
+                  color: Color(0XFF00AFDF),
+                  shape: StadiumBorder(
+                    side: BorderSide(
+                      width: 1.0,
+                      color: Color(0XFF00AFDF),
+                    ),
                   ),
-                ),
-                child: Text(
-                    "Close",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15.0
-                    )
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                }
-            )
-            /*new FlatButton(
+                  child: Text("Close",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })
+              /*new FlatButton(
               child: new Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),*/
-          ],
-        );
-      }
-    );
+            ],
+          );
+        });
   }
 
   // alert dialog if email and confirm email do not match
@@ -110,16 +107,14 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20.0)
-            ),
+            shape:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
             title: Text(
               "Email Mismatch!",
               style: TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16.0
-              ),
+                  fontSize: 16.0),
             ),
             content: Text(
               "Your given email and confirm email do not match each other",
@@ -133,21 +128,14 @@ class _MemberRegistrationState extends State<MemberRegistration> {
                       color: Color(0XFF00AFDF),
                     ),
                   ),
-                  child: Text(
-                      "Close",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15.0
-                      )
-                  ),
+                  child: Text("Close",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0)),
                   onPressed: () {
                     Navigator.of(context).pop();
-                  }
-              )
+                  })
             ],
           );
-        }
-    );
+        });
   }
 
   // success alert upon compilation of member registration
@@ -157,64 +145,53 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0)
-          ),
-          title: Center(
-            child: Column(
-              children: <Widget>[
-                Text(
-                  'Verification Error',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold
+            shape:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            title: Center(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    'Verification Error',
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top:10.0),
-                ),
-                Divider(
-                  height: 2.0,
-                )
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                  ),
+                  Divider(
+                    height: 2.0,
+                  )
+                ],
+              ),
             ),
-          ),
-          content: Container(
-            height: 180.0,
-            child: Column(
-              children : <Widget>[
-                Text(
-                  "Please recheck the information entered and resubmit. If you continue to receive this message,"
-                      "please contact us at Customer Service (880) 555-2222",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15.0
+            content: Container(
+              height: 180.0,
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    "Please recheck the information entered and resubmit. If you continue to receive this message,"
+                        "please contact us at Customer Service (880) 555-2222",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 15.0),
                   ),
-                ),
-                spacer(gapHeight: 25.0),
-                RaisedButton(
-                    color: Color(0XFF00AFDF),
-                    shape: StadiumBorder(
-                      side: BorderSide(
-                        width: 1.0,
-                        color: Color(0XFF00AFDF),
+                  spacer(gapHeight: 25.0),
+                  RaisedButton(
+                      color: Color(0XFF00AFDF),
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          width: 1.0,
+                          color: Color(0XFF00AFDF),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                        "Ok",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15.0
-                        )
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    }
-                )
-              ],
-            ),
-          )
-        );
+                      child: Text("Ok",
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 15.0)),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      })
+                ],
+              ),
+            ));
       },
     );
   }
@@ -235,8 +212,8 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // send data to server
   Future _sendDataToServer() async {
-    fullName=firstName+lastName;
-    phoneNumber=mobileNumber;
+    fullName = firstName + lastName;
+    phoneNumber = mobileNumber;
     // url to hit
     final String url = "${baseUrl}/api/v1/verify_member_account/";
 
@@ -249,15 +226,13 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       "email_address": this.email,
       "primary_phone_number": this.mobileNumber,
     };
-    
-    var response = await post(
-        Uri.parse(url),
+
+    var response = await post(Uri.parse(url),
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
-        body: json.encode(body)
-    );
+        body: json.encode(body));
 
     print(response);
 
@@ -265,7 +240,10 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MemberVerification(memberId: this.memberId, email: this.email, mobile: this.mobileNumber),
+          builder: (context) => MemberVerification(
+              memberId: this.memberId,
+              email: this.email,
+              mobile: this.mobileNumber),
         ),
       );
     } else {
@@ -276,7 +254,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   /// Display date picker.
   void _showDatePicker() {
     setState(() {
-      isDateButtonDisabled=true;
+      isDateButtonDisabled = true;
     });
     print("logging from date picker");
     DatePicker.showDatePicker(
@@ -316,8 +294,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       },
     );
     setState(() {
-      isDateButtonDisabled=false;
-
+      isDateButtonDisabled = false;
     });
   }
 
@@ -423,12 +400,11 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         _sendDataToServer();
       } else {
         CommonWidgets.showErrorAlertDialog(
-          context: context,
-          title: "Email Mismatch",
-          content: "The confirmed email do not match with the given email",
-          confirmationText: "Ok",
-          height: 120.0
-        );
+            context: context,
+            title: "Email Mismatch",
+            content: "The confirmed email do not match with the given email",
+            confirmationText: "Ok",
+            height: 120.0);
       }
     } else {
       setState(() {
@@ -456,16 +432,19 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // widget for choosing date of birth
   Widget dobField(BuildContext context) {
-    return TextField(
+    return
+      Container(
+        width: MediaQuery.of(context).size.width/2.5,
+      child:TextField(
       keyboardType: TextInputType.datetime,
       controller: dobController,
       textInputAction: TextInputAction.none,
-      onTap: !isDateButtonDisabled?_showDatePicker:null,
+      onTap: !isDateButtonDisabled ? _showDatePicker : null,
       focusNode: FocusNode(),
       decoration: InputDecoration(
         labelText: "Date of Birth*",
       ),
-    );
+    ));
   }
 
   // defining the instructional text widget
@@ -479,7 +458,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   }
 
   // member id widget
-  Widget memberIdField () {
+  Widget memberIdField() {
     return Container(
       alignment: Alignment.topLeft,
       child: TextFormField(
@@ -497,50 +476,59 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   // first name widget
   Widget firstNameField() {
-    return TextFormField(
+    return Container(
+      width: MediaQuery.of(context).size.width/2.5,
+      child:TextFormField(
       validator: validateFirstName,
       onSaved: (String firstName) {
         this.firstName = firstName;
       },
-      decoration: InputDecoration(
-          labelText: "First name*"
-      ),
-    );
+      decoration: InputDecoration(labelText: "First name*"),
+    ));
   }
 
   // last name widget
   Widget lastNameField() {
-    return TextFormField(
+    return Container(
+        width: MediaQuery.of(context).size.width/2.5,
+        child:TextFormField(
       validator: validateLastName,
       onSaved: (String lastName) {
         this.lastName = lastName;
       },
-      decoration: InputDecoration(
-          labelText: "Last name*"
-      ),
-    );
+      decoration: InputDecoration(labelText: "Last name*"),
+    ));
   }
 
   // name widget
   Widget nameFieldRow() {
     return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: firstNameField(),
-            flex: 3,
-          ),
-          Expanded(
-            child: SizedBox(
-            ),
-            flex: 1,
-          ),
-          Expanded(
-            child: lastNameField(),
-            flex: 3,
-          ),
-        ],
-      ),
+//      child: Row(
+//        children: <Widget>[
+//          Expanded(
+//            child: firstNameField(),
+//            flex: 3,
+//          ),
+//          Expanded(
+//            child: SizedBox(),
+//            flex: 1,
+//          ),
+//          Expanded(
+//            child: lastNameField(),
+//            flex: 3,
+//          ),
+//        ],
+//      ),
+    child: Stack(
+      children: <Widget>[
+        Align(alignment: Alignment.centerLeft,
+        child: firstNameField(),
+        ),
+        Align(alignment: Alignment.centerRight,
+        child: lastNameField(),
+        )
+      ],
+    ),
     );
   }
 
@@ -551,27 +539,21 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   }
 
   // gender widget
-  Widget genderWidget () {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Container(
+  Widget genderWidget() {
+    return Container(
+      width: MediaQuery.of(context).size.width/2.5,
             child: DropdownButton(
-              hint: Text("Gender"),
-              value: gender,
-              items: _genderOptions.map((String gender) {
-                return DropdownMenuItem(
-                    value: gender,
-                    child: Text(""+gender)
-                );
-              }).toList(),
-              onChanged: (String gender) {
-                _setGender(gender);
-              },
-            )
-        )
-      ],
-    );
+          hint: Text("Gender",style: TextStyle(fontSize:18.0 ),),
+          value: gender,
+          items: _genderOptions.map((String gender) {
+            return DropdownMenuItem(value: gender, child: Text("" + gender));
+          }).toList(),
+          onChanged: (String gender) {
+            _setGender(gender);
+          },
+        ))
+
+    ;
   }
 
   // email widget
@@ -582,9 +564,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       onSaved: (String email) {
         this.email = email;
       },
-      decoration: InputDecoration(
-          labelText: "Email Address*"
-      ),
+      decoration: InputDecoration(labelText: "Email Address*"),
     );
   }
 
@@ -596,9 +576,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       onSaved: (String confirmedEmail) {
         this.confirmEmail = confirmedEmail;
       },
-      decoration: InputDecoration(
-          labelText: "Confirm Email Address*"
-      ),
+      decoration: InputDecoration(labelText: "Confirm Email Address*"),
     );
   }
 
@@ -608,13 +586,10 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       keyboardType: TextInputType.phone,
       maxLength: 10,
       validator: validatePhoneNumber,
-
       onSaved: (String phoneNumber) {
         this.mobileNumber = phoneNumber;
       },
-      decoration: InputDecoration(
-          labelText: "Mobile Number*"
-      ),
+      decoration: InputDecoration(labelText: "Mobile Number*"),
     );
   }
 
@@ -628,10 +603,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         onPressed: saveMemberInfo,
         child: Text(
           "Continue",
-          style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.white
-          ),
+          style: TextStyle(fontSize: 18.0, color: Colors.white),
         ),
         shape: StadiumBorder(
           side: BorderSide(
@@ -647,37 +619,66 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
-        child: Form(
-          key: formKey,
-          autovalidate: _validate,
-          child: Column(
-            children: <Widget>[
-              spacer(gapHeight: 20.0),
-              logo(),
-              spacer(gapHeight: 20.0),
-              instructionalText(),
-              spacer(gapHeight: 20.0),
-              memberIdField(),
-              spacer(gapHeight: 20.0),
-              dobField(context),
-              spacer(gapHeight: 20.0),
-              nameFieldRow(),
-              spacer(gapHeight: 20.0),
-              genderWidget(),
-              spacer(gapHeight: 20.0),
-              emailField(),
-              spacer(gapHeight: 20.0),
-              confirmEmailField(),
-              spacer(gapHeight: 20.0),
-              mobileNumberField(),
-              spacer(gapHeight: 20.0),
-              confirmationButton(),
-              spacer(gapHeight: 20.0),
-            ],
-          ),
+          padding: EdgeInsets.all(20.0),
+          child: Form(
+            key: formKey,
+            autovalidate: _validate,
+            child: Column(
+              children: <Widget>[
+                spacer(gapHeight: 20.0),
+                logo(),
+                spacer(gapHeight: 20.0),
+                instructionalText(),
+                spacer(gapHeight: 20.0),
+                memberIdField(),
+                spacer(gapHeight: 20.0),
+                nameFieldRow(),
+                spacer(gapHeight: 20.0),
+                dobFieldGenderRow(context),
+                spacer(gapHeight: 20.0),
+                emailField(),
+                spacer(gapHeight: 20.0),
+                confirmEmailField(),
+                spacer(gapHeight: 20.0),
+                mobileNumberField(),
+                spacer(gapHeight: 20.0),
+                confirmationButton(),
+                spacer(gapHeight: 20.0),
+              ],
+            ),
+          )),
+    );
+  }
+
+  Widget dobFieldGenderRow(BuildContext context) {
+    return Container(
+
+//      child: Row(
+//       // crossAxisAlignment: CrossAxisAlignment.baseline,
+//        children: <Widget>[
+//          Expanded(
+//            child: dobField(context),
+//            flex: 3,
+//          ),
+//          Expanded(child: SizedBox(),flex: 1,),
+//          Expanded(
+//            child: genderWidget(),
+//            flex: 3,
+//          )
+//        ],
+//      ),
+    child: Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.centerLeft,
+          child:  dobField(context)
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: genderWidget(),
         )
-      ),
+      ],
+    ),
     );
   }
 }

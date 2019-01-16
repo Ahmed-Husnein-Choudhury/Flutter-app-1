@@ -19,6 +19,7 @@ enum Status {
 class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetails> {
 
   final double PERCENTAGE = 200.0;
+  double owedAmount=4.20;
 
   Widget appointmentDetailsTileWithStatus({@required String title, @required String subTitle, Status status}) {
     if (status == Status.green) {
@@ -58,7 +59,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
               Text(
                 subTitle,
                 style: TextStyle(
-                    color: Color(0XFFD4D4D4),
+                    color: Color(0XFFA9A9A9),
                     height: 1.0,
                     fontSize: 14.0
                 ),
@@ -105,7 +106,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
             Text(
               subTitle,
               style: TextStyle(
-                  color: Color(0XFFD4D4D4),
+                  color: Color(0XFFA9A9A9),
                   height: 1.0,
                   fontSize: 14.0
               ),
@@ -152,7 +153,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
             Text(
               subTitle,
               style: TextStyle(
-                  color: Color(0XFFD4D4D4),
+                  color: Color(0XFFA9A9A9),
                   height: 1.0,
                   fontSize: 14.0
               ),
@@ -222,7 +223,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
           Text(
             title,
             style: TextStyle(
-                color: Color(0XFFD4D4D4),
+                color: Color(0XFFA9A9A9),
                 height: 1.0,
                 fontSize: 14.0
             ),
@@ -284,17 +285,17 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
                 children: <Widget>[
                   appointmentDetailsTileWithStatus(
                     title: "Amount Billed",
-                    subTitle: "\$$billedAmount",
+                    subTitle: "\$${billedAmount.toStringAsFixed(2)}",
                     status: Status.green
                   ),
                   appointmentDetailsTileWithStatus(
                     title: "Paid by Plan",
-                    subTitle: "\$$paidAmount",
+                    subTitle: "\$${paidAmount.toStringAsFixed(2)}",
                     status: Status.orange
                   ),
                   appointmentDetailsTileWithStatus(
                     title: "Plan Discount",
-                    subTitle: "\$$discount",
+                    subTitle: "\$${discount.toStringAsFixed(2)}",
                     status: Status.purple
                   )
                 ],
@@ -435,7 +436,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
               Divider(height: 1.0),
               claimDetails(
                 title: "You may owe",
-                subTitle: "\$"+4.20.toString()
+                subTitle: "\$${owedAmount.toStringAsFixed(2)}"
               ),
               Divider(height: 1.0),
               claimOptions(),

@@ -12,6 +12,9 @@ class ClaimsAndAppointments extends StatefulWidget {
 
 class _ClaimsAndAppointmentsState extends State<ClaimsAndAppointments> {
 
+  var names=["Ben Hoefs","Ahmed Husnein Choudhury"];
+
+
   Widget singleRow({@required String providerName, @required String visitingDate, @required String processedDate, @required String purpose, @required double oweAmount}) {
     return Container(
       child: GestureDetector(
@@ -89,7 +92,7 @@ class _ClaimsAndAppointmentsState extends State<ClaimsAndAppointments> {
                               ),
                             ),
                             Text(
-                              "\$$oweAmount",
+                              "\$${oweAmount.toStringAsFixed(2)}",
                               style: TextStyle(
                                   color: Color(0XFF1676B3)
                               ),
@@ -115,13 +118,13 @@ class _ClaimsAndAppointmentsState extends State<ClaimsAndAppointments> {
         color: Color(0XFFF3F3F3),
         padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: 2,
           itemBuilder: (context, index) {
             return singleRow(
-              providerName: "Jonathon Doe",
+              providerName: names[index],
               visitingDate: "9 Sep, 2018",
               processedDate: "9 Sep, 2018",
-              oweAmount: 4.20,
+              oweAmount: 4.200,
               purpose: "Medical Services"
             );
           }

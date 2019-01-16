@@ -281,10 +281,10 @@ class _MemberInformationState extends State<MemberInformation> {
             context,
             MaterialPageRoute(
               builder: (context) =>
-//                  FacialRecognitionSetup(
-//                healthPlanName: this.member.medicaidInfo.memberPlan.planName,
-//              )
-            VoiceRegistrationSetUp()
+                  FacialRecognitionSetup(
+                healthPlanName: this.member.medicaidInfo.memberPlan.planName,
+              )
+           // VoiceRegistrationSetUp()
             )
           );
         },

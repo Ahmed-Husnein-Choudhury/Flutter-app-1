@@ -42,14 +42,14 @@ class Screen extends StatefulWidget {
 
 class ScreenState extends State<Screen> {
   static final SWIPE = "Swipe to continue";
-  static final ADDRESS = "17 East 102nd street \nNew York, NY";
+  static final ADDRESS = "55th Broadway \nNew York, NY, 10006";
   static final HOSPITAL_NAME = "Mount Sinai Internal Medicine Associates";
   static final BASED_ON_YOUR_LOCATION =
       "Based on your location you are currently at";
   static final NOT_CORRECT = "Not correct?";
 
-  String lat = "23.862675";
-  String lng = "90.397026";
+  String lat = "40.706782";
+  String lng = "-74.012966";
   String zoom = "100";
 
 
@@ -77,6 +77,16 @@ class ScreenState extends State<Screen> {
 
   @override
   Widget build(BuildContext context) {
+
+//    Widget showMapPicture(){
+//      return Container(
+//        //height: MediaQuery.of(context).size.height/2,
+//        child: Image.asset("assets/map.PNG",
+//           // height: MediaQuery.of(context).size.height/2,
+//        ),
+//      );
+//    }
+
     var showMap = new Image.network(
       // staticMapUri.toString()
         "https://maps.googleapis.com/maps/api/staticmap?center=" +
@@ -152,7 +162,8 @@ class ScreenState extends State<Screen> {
                 padding: EdgeInsets.only(top: 15.0),
                 child: new InkWell(
                   child: new Center(
-                    child: showMap,
+                    child:
+                    showMap,
                   ),
                   onTap: () {},
                 ),

@@ -63,7 +63,6 @@ public class FileUtils {
 
     public static byte[] loadFile(String pathString) {
         File file = new File(pathString);
-
         byte[] data = new byte[(int) file.length()];
 
         FileInputStream fileInputStream = null;
@@ -83,19 +82,23 @@ public class FileUtils {
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0,bytes.length);
 
-        // 2) Set up rotation matrix with the given angle
+        if(bitmap.getHeight()<bitmap.getWidth()){
 
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
+            // 2) Set up rotation matrix with the given angle
 
-        // 3) Perform rotation
+            Matrix matrix = new Matrix();
+            matrix.postRotate(angle);
 
-        Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            // 3) Perform rotation
 
-        // 4) Retrieve JPEG image from bitmap
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
-        return stream.toByteArray();
+            // 4) Retrieve JPEG image from bitmap
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            return stream.toByteArray();
+        }
+
+  else return bytes;
     }
 }

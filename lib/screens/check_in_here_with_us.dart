@@ -78,15 +78,14 @@ class ScreenState extends State<Screen> {
   @override
   Widget build(BuildContext context) {
 
-
-    Widget showMapPicture(){
-      return Container(
-        //height: MediaQuery.of(context).size.height/2,
-        child: Image.asset("assets/map.PNG",
-           // height: MediaQuery.of(context).size.height/2,
-        ),
-      );
-    }
+//    Widget showMapPicture(){
+//      return Container(
+//        //height: MediaQuery.of(context).size.height/2,
+//        child: Image.asset("assets/map.PNG",
+//           // height: MediaQuery.of(context).size.height/2,
+//        ),
+//      );
+//    }
 
     var showMap = new Image.network(
       // staticMapUri.toString()
@@ -164,8 +163,7 @@ class ScreenState extends State<Screen> {
                 child: new InkWell(
                   child: new Center(
                     child:
-                    showMapPicture(),
-                    //showMap,
+                    showMap,
                   ),
                   onTap: () {},
                 ),

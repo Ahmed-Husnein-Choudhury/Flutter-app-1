@@ -86,7 +86,6 @@ class _State extends State<VoiceRegistrationSetUp> {
     response
         ? 
     Navigator.of(context).pushNamed(FacialLogin.routeName)
-    //Navigator.of(context).pushNamed(VoiceLogin.routeName)
         : "not working";
   }
 

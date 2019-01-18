@@ -82,6 +82,7 @@ class _State extends State<VoiceLogin> {
     bool response = await _voiceLoginMethodChannel.invokeMethod("login using voice");
     print("log response: $response");
     if (response) {
+
       Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, ModalRoute.withName(HomePage.routeName));
     }
   }

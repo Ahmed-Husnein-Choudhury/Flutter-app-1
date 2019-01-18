@@ -7,6 +7,7 @@ import 'package:medicaid/screens/referrals_and_authorizations.dart';
 import 'package:medicaid/screens/your_plan_details.dart';
 import 'package:medicaid/screens/check_in_here_with_us.dart';
 import 'package:medicaid/screens/healthplan_ID.dart';
+import 'package:medicaid/screens/member_information.dart';
 
 class HomePage extends StatefulWidget {
   // defining the route
@@ -75,11 +76,16 @@ class _HomePageState extends State<HomePage> {
               ),
               
               menuOption(optionTitle: "View your <healthplan> ID card",
-                  isOdd: true,
+                  isOdd: false,
                   onTap: (){
                 Navigator.of(context).pushNamed(HealthPlanID.routeName);
                   }
               ),
+              
+//              menuOption(optionTitle: "View Your Member Information", isOdd: true, onTap: (){
+//                Navigator.of(context).pushNamed(MemberInformation.routeName);
+//              }),
+              
               menuOption(
                   optionTitle: "Your Plan Details",
                   isOdd: true,

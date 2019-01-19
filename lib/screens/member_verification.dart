@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:medicaid/screens/member_information.dart';
+import 'package:medicaid/screens/registering_member_information.dart';
 
 class MemberVerification extends StatefulWidget {
 
@@ -489,8 +489,8 @@ class _MemberVerificationState extends State<MemberVerification> {
       String responseBody = response.body;
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-              builder: (context) => MemberInformation(responseData: responseBody)
-          ),ModalRoute.withName('/memberInformation')
+              builder: (context) => RegisteringMemberInformation(responseData: responseBody)
+          ),ModalRoute.withName('/registeringMemberInformation')
       );
     } else {
       _showErrorMessageOnVerificationFailed();

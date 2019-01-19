@@ -9,19 +9,20 @@ import 'package:medicaid/screens/voice_registration_set_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
-class MemberInformation extends StatefulWidget {
+class RegisteringMemberInformation extends StatefulWidget {
 
   // defining the route here
-  static final String routeName = "/memberInformation";
+  static final String routeName = "/registeringMemberInformation";
 
   String responseData;
-  MemberInformation({this.responseData});
+  RegisteringMemberInformation({this.responseData});
+
 
   @override
-  _MemberInformationState createState() => _MemberInformationState();
+  _RegisteringMemberInformationState createState() => _RegisteringMemberInformationState();
 }
 
-class _MemberInformationState extends State<MemberInformation> {
+class _RegisteringMemberInformationState extends State<RegisteringMemberInformation> {
 
   Member member;
   final formatter=new NumberFormat("###-###-####");

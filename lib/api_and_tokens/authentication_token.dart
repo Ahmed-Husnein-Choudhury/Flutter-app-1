@@ -8,7 +8,7 @@ class AuthenticationToken{
   }
 
   static String getToken(){
-    return _tokenType+""+_accessToken;
+    return _tokenType+" "+_accessToken;
   }
 
 }

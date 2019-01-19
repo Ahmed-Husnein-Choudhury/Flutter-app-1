@@ -9,10 +9,10 @@ import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/biometric_camera.dart';
 import 'package:medicaid/screens/voice_login.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:medicaid/api and tokens/api_info.dart';
+import 'package:medicaid/api_and_tokens/api_info.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:medicaid/api and tokens/authentication_token.dart';
+import 'package:medicaid/api_and_tokens/authentication_token.dart';
 
 class FacialLogin extends StatefulWidget {
   // defining the route here
@@ -55,13 +55,13 @@ class _FacialLoginState extends State<FacialLogin> {
     print("response code:${response.statusCode}");
 
     if(response.statusCode==200){
-      String tokenType=json.decode(response.body)["access_token"];
-      String accessToken=json.decode(response.body)["token_type"];
+      String accessToken=json.decode(response.body)["access_token"];
+      String tokenType=json.decode(response.body)["token_type"];
       AuthenticationToken.setToken(tokenType, accessToken);
     }
 
     else{
-
+        _openDialogConnectionFailed();
     }
   }
 
@@ -212,4 +212,44 @@ class _FacialLoginState extends State<FacialLogin> {
       ),
     ));
   }
+
+  void _openDialogConnectionFailed() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text("Connection to Server Failed",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Padding(padding: EdgeInsets.only(top: 10.0)),
+                  Divider(
+                    height: 2.0,
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      getAuthenticationToken();
+                      //  _openCamera();
+                    },
+                    color: Color(0XFF00AFDF),
+                    shape: StadiumBorder(
+                      side: BorderSide(
+                        width: 1.0,
+                        color: Color(0XFF00AFDF),
+                      ),
+                    ),
+                    child: Text("Please try again"),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+
 }

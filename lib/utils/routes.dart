@@ -23,12 +23,14 @@ import 'package:medicaid/screens/not_correct_location.dart';
 import 'package:medicaid/screens/biometric_camera.dart';
 import 'package:medicaid/screens/healthplan_ID.dart';
 import 'package:medicaid/screens/view_member_information.dart';
+import 'package:medicaid/screens/medical_emergency_screen.dart';
 
 class Routes {
 
   // defining all the routes through out the app
   static final routeList = <String, WidgetBuilder> {
     LandingPage.routeName: (context) => LandingPage(),
+    MedicalEmergency.routeName: (context) => MedicalEmergency(),
     MemberRegistration.routeName: (context) => MemberRegistration(),
     MemberVerification.routeName: (context) => MemberVerification(),
     RegisteringMemberInformation.routeName: (context) => RegisteringMemberInformation(),
@@ -51,6 +53,6 @@ class Routes {
     InformationConfirmed.routeName: (context) => InformationConfirmed(),
     NotCorrectLocation.routeName: (context) => NotCorrectLocation(),
     BiometricCamera.routeName: (context) => BiometricCamera(),
-    HealthPlanID.routeName: (context) => HealthPlanID()
+    HealthPlanID.routeName: (context) => HealthPlanID(),
   };
 }

@@ -23,13 +23,13 @@ class MedicalEmergency extends StatelessWidget{
       child:Padding(padding: EdgeInsets.only(top: 0.0,left: 10.0,right: 10.0,bottom: 0.0),
       child:Row(
       children: <Widget>[
-        Image.asset("assets/warning.png"),
+        Image.asset("assets/warning.png",height: 50,width: 50,),
         Padding( padding: EdgeInsets.only(left: 5.0),
         child:Align(
           alignment: Alignment.center,
         child:RichText(
           text: TextSpan(
-            style: TextStyle(fontSize: 18.0,height: 1.0,color: Colors.black),
+            style: TextStyle(fontSize: 16.0,height: 1.0,color: Colors.black),
             children: [
               TextSpan(text: "If this is a medical emergency \n situation, please call "),
               TextSpan(text: "9-1-1",
@@ -55,6 +55,10 @@ class MedicalEmergency extends StatelessWidget{
     )
     )
     );
+  }
+
+  Widget pleaseContinueText() {
+    return Text("Otherwise, please continue.",style: TextStyle(fontSize: 16.0),);
   }
 
   // defining the health plan details text widget
@@ -101,7 +105,7 @@ class MedicalEmergency extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              "Your privacy is very important to use. We protect your personal health information as required by law."),
+              "Your privacy is very important to us. We protect your personal health information as required by law."),
         ],
       ),
     );
@@ -129,10 +133,6 @@ class MedicalEmergency extends StatelessWidget{
         ),
       ),
     );
-  }
-
-  Widget pleaseContinueText() {
-    return Text("Otherwise, please continue.",style: TextStyle(fontSize: 20.0),);
   }
 
 

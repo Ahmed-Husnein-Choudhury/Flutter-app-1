@@ -135,7 +135,7 @@ class _FacialLoginState extends State<FacialLogin> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              "Your privacy is very important to use. We protect your personal health information as required by law."),
+              "Your privacy is very important to us. We protect your personal health information as required by law."),
         ],
       ),
     );

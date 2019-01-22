@@ -67,7 +67,7 @@ class HealthPlanID extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Your privacy is very important to use. We protect your personal health information as required by law."),
+          Text("Your privacy is very important to us. We protect your personal health information as required by law."),
         ],
       ),
     );

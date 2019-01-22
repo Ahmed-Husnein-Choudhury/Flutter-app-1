@@ -132,7 +132,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              "Your privacy is very important to use. We protect your personal health information as required by law."),
+              "Your privacy is very important to us. We protect your personal health information as required by law."),
         ],
       ),
     );
@@ -165,21 +165,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:
-//        isCaptured
-//            ?
-//        Container(
-//                child: Center(
-//                  child: Image.file(
-//                    this.imageFile,
-//                    fit: BoxFit.fitHeight,
-//                    height: MediaQuery.of(context).size.height,
-//                    colorBlendMode: BlendMode.darken,
-//                  ),
-//                ),
-//              )
-//            :
-            SingleChildScrollView(
+        body: SingleChildScrollView(
                 child: Container(
       padding: EdgeInsets.all(20.0),
       child: Column(

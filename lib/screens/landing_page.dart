@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicaid/screens/medical_emergency_screen.dart';
 
 import 'package:medicaid/screens/voice_login.dart';
 import 'package:medicaid/screens/member_registration.dart';
@@ -27,7 +28,7 @@ class _LandingPageState extends State<LandingPage> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () => isRegistered ? Navigator.of(context).pushNamed(FacialLogin.routeName):showErrorDialog("You have not registered yet.","Please register before logging in."),
+        onPressed: () => isRegistered ? Navigator.of(context).pushNamed(MedicalEmergency.routeName):showErrorDialog("You have not registered yet.","Please register before logging in."),
         child: Text(
           "Log In",
           style: TextStyle(fontSize: 18.0, color: Colors.white),

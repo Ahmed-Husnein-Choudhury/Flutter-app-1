@@ -78,15 +78,6 @@ class ScreenState extends State<Screen> {
   @override
   Widget build(BuildContext context) {
 
-//    Widget showMapPicture(){
-//      return Container(
-//        //height: MediaQuery.of(context).size.height/2,
-//        child: Image.asset("assets/map.PNG",
-//           // height: MediaQuery.of(context).size.height/2,
-//        ),
-//      );
-//    }
-
     var showMap = new Image.network(
       // staticMapUri.toString()
         "https://maps.googleapis.com/maps/api/staticmap?center=" +

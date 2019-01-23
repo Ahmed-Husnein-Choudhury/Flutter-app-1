@@ -3,24 +3,26 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:medicaid/member.dart';
+import 'package:medicaid/models/member.dart';
 import 'package:medicaid/screens/facial_setup.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
-class MemberInformation extends StatefulWidget {
+class RegisteringMemberInformation extends StatefulWidget {
 
   // defining the route here
-  static final String routeName = "/memberInformation";
+  static final String routeName = "/registeringMemberInformation";
 
   String responseData;
-  MemberInformation({this.responseData});
+  RegisteringMemberInformation({this.responseData});
+
 
   @override
-  _MemberInformationState createState() => _MemberInformationState();
+  _RegisteringMemberInformationState createState() => _RegisteringMemberInformationState();
 }
 
-class _MemberInformationState extends State<MemberInformation> {
+class _RegisteringMemberInformationState extends State<RegisteringMemberInformation> {
 
   Member member;
   final formatter=new NumberFormat("###-###-####");
@@ -35,12 +37,17 @@ class _MemberInformationState extends State<MemberInformation> {
     super.initState();
     this.member = Member.fromJson(json.decode(widget.responseData));
     phoneNumber=this.member.contactInfo.primaryPhoneNumber;
-
-
+    saveMemberNumber();
 //    while(numberFormatCounter<=2){
 //     subString.add(splitString(phoneNumber,0,2));
 //
 //    }
+  }
+
+  Future<Null> saveMemberNumber() async{
+    SharedPreferences memberIdPref=await SharedPreferences.getInstance();
+    memberIdPref.setString("member number", this.member.memberNumber);
+    print("member number saved:${this.member.memberNumber}");
   }
 
  String splitString(String inputString,int startIndex,int endIndex){
@@ -302,7 +309,6 @@ class _MemberInformationState extends State<MemberInformation> {
 
   @override
   Widget build(BuildContext context) {
-
 
     return Scaffold(
       body: SingleChildScrollView(

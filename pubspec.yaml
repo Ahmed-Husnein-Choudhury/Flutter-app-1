@@ -51,6 +51,8 @@ flutter:
     - assets/bhold_static_loading.jpg
     - assets/sample_healthplan_id.png
     - assets/map.PNG
+    - assets/loading_animation_03.gif
+    - assets/warning.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

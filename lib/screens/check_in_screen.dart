@@ -4,9 +4,9 @@ import 'package:medicaid/utils/common_widgets.dart';
 import 'package:medicaid/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HealthPlanID extends StatelessWidget{
+class CheckInScreen extends StatelessWidget{
 
-  static const String routeName="/healthplanID";
+  static const String routeName="/checkInScreen";
 
   Widget logo() {
     return Center(
@@ -73,12 +73,35 @@ class HealthPlanID extends StatelessWidget{
     );
   }
 
+  Widget checkInButton() {
+    return Container(
+      height: 50.0,
+      width: 250.0,
+      child: RaisedButton(
+        color: Color(0XFF00AFDF),
+
+        ///the function below takes camera permission and then opens the camera
+
+        onPressed: null,
+        child: Text(
+          "Continue",
+          style: TextStyle(fontSize: 18.0, color: Colors.white),
+        ),
+        shape: StadiumBorder(
+          side: BorderSide(
+            width: 1.0,
+            color: Color(0XFF00AFDF),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return  Scaffold(
-      appBar: CustomAppBar(title: "Health Plan ID Card",),
+        appBar: CustomAppBar(title: "Health Plan ID Card",),
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(20.0),
@@ -86,7 +109,9 @@ class HealthPlanID extends StatelessWidget{
               children: <Widget>[
                 logo(),
                 CommonWidgets.spacer(gapHeight: 20.0),
-                healthPlanID(context),
+                instructionalText(),
+                CommonWidgets.spacer(gapHeight: 20.0),
+                checkInButton(),
                 CommonWidgets.spacer(gapHeight: 20.0),
                 healthPlanLabel(),
                 CommonWidgets.spacer(gapHeight: 20.0),
@@ -95,17 +120,12 @@ class HealthPlanID extends StatelessWidget{
             ),
           ),
         ),
-      bottomNavigationBar: BaseTheme(
-      context: context,
-      navigation: CustomBottomNavigation(context: context, index: 4),
-    )
+        bottomNavigationBar: BaseTheme(
+          context: context,
+          navigation: CustomBottomNavigation(context: context, index: 4),
+        )
     );
   }
 
-  Widget healthPlanID(BuildContext context) {
-    return Center(
-      child: Image.asset("assets/sample_healthplan_id.png",height: MediaQuery.of(context).size.height/1.75,),
-    );
 
-  }
 }

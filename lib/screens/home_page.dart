@@ -15,6 +15,7 @@ import 'package:medicaid/api_and_tokens/api_info.dart';
 import 'package:medicaid/api_and_tokens/authentication_token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart';
+import 'package:medicaid/screens/check_in_screen.dart';
 
 class HomePage extends StatefulWidget {
   // defining the route
@@ -93,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                   "At your doctor's office?\nCheck in here with us first",
                   isOdd: true,
                   onTap: () {
-                    Navigator.of(context).pushNamed(CheckInHere.routeName);
+                    Navigator.of(context).pushNamed(CheckInScreen.routeName);
                   }),
               menuOption(
                   optionTitle: "View your <healthplan> ID card",

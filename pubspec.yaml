@@ -28,6 +28,7 @@ dependencies:
   simple_permissions: ^0.1.9
   percent_indicator: ^1.0.11
   url_launcher: ^4.0.3
+  qr_flutter: ^1.1.6
 
 dev_dependencies:
   flutter_test:

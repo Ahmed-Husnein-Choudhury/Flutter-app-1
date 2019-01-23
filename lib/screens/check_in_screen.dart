@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:medicaid/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:medicaid/screens/check_in_verification_code.dart';
 
-class CheckInScreen extends StatelessWidget{
-
-  static const String routeName="/checkInScreen";
+class CheckInScreen extends StatelessWidget {
+  static const String routeName = "/checkInScreen";
 
   Widget logo() {
     return Center(
@@ -20,7 +20,7 @@ class CheckInScreen extends StatelessWidget{
   // defining the instructional text widget
   Widget instructionalText() {
     return Text(
-      "Great! Let's get started by verifying your identity using the biometrics you set up when you registered your account.",
+      "Great! Please click below to continue with check in process.",
       style: TextStyle(
         fontSize: 15.0,
       ),
@@ -37,23 +37,26 @@ class CheckInScreen extends StatelessWidget{
         children: <Widget>[
           Text("Health Plan 1"),
           CommonWidgets.spacer(gapHeight: 5.0),
-          RichText(text: TextSpan(style: TextStyle(fontSize: 14.0,height: 1.2),
-              children: [
-                TextSpan(text:"Customer Service ",style: TextStyle(color: Colors.black)),
+          RichText(
+              text: TextSpan(
+                  style: TextStyle(fontSize: 14.0, height: 1.2),
+                  children: [
+                TextSpan(
+                    text: "Customer Service ",
+                    style: TextStyle(color: Colors.black)),
                 TextSpan(
                     text: '(800) 555-2222',
                     style: new TextStyle(color: Colors.blue),
-                    recognizer: TapGestureRecognizer()..onTap = () async {
-                      String url = "tel:800555-2222";
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else{
-                        throw 'Could not launch $url';
-                      }
-                    }
-                ),
-              ]
-          ))
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        String url = "tel:800555-2222";
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      }),
+              ]))
         ],
       ),
     );
@@ -67,24 +70,24 @@ class CheckInScreen extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Your privacy is very important to us. We protect your personal health information as required by law."),
+          Text(
+              "Your privacy is very important to us. We protect your personal health information as required by law."),
         ],
       ),
     );
   }
 
-  Widget checkInButton() {
+  Widget checkInButton(BuildContext context) {
     return Container(
       height: 50.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-
-        ///the function below takes camera permission and then opens the camera
-
-        onPressed: null,
+        onPressed: () {
+          Navigator.of(context).pushNamed(CheckInVerificationCode.routeName);
+        },
         child: Text(
-          "Continue",
+          "Check In Now",
           style: TextStyle(fontSize: 18.0, color: Colors.white),
         ),
         shape: StadiumBorder(
@@ -100,8 +103,10 @@ class CheckInScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return  Scaffold(
-        appBar: CustomAppBar(title: "Health Plan ID Card",),
+    return Scaffold(
+        appBar: CustomAppBar(
+          title: "Check In",
+        ),
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(20.0),
@@ -111,7 +116,7 @@ class CheckInScreen extends StatelessWidget{
                 CommonWidgets.spacer(gapHeight: 20.0),
                 instructionalText(),
                 CommonWidgets.spacer(gapHeight: 20.0),
-                checkInButton(),
+                checkInButton(context),
                 CommonWidgets.spacer(gapHeight: 20.0),
                 healthPlanLabel(),
                 CommonWidgets.spacer(gapHeight: 20.0),
@@ -123,9 +128,6 @@ class CheckInScreen extends StatelessWidget{
         bottomNavigationBar: BaseTheme(
           context: context,
           navigation: CustomBottomNavigation(context: context, index: 4),
-        )
-    );
+        ));
   }
-
-
 }

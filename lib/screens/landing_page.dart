@@ -71,47 +71,78 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
+  Widget titleText() {
+   return Column(
+     children: <Widget>[
+       Text(
+          "Welcome!",
+          style: TextStyle(
+            color: Color(0XFF00AFDF),
+            fontSize: 34.0,
+          ),
+        ),
+//       CommonWidgets.spacer(gapHeight: 10.0),
+//       Text("Please verify your identity to continue.",
+//       style:TextStyle(fontSize: 18.0) ,
+//       )
+     ],
+   );
+  }
+
+  Widget logo() {
+    return Center(
+      child: Image.asset(
+        "assets/logo.png",
+        height: 100.0,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        body:SingleChildScrollView(
+        child:Column(
           children: <Widget>[
-            //logo(),
-            CommonWidgets.spacer(gapHeight: 20.0),
-            Text(
-              "Welcome!",
-              style: TextStyle(
-                color: Color(0XFF00AFDF),
-                fontSize: 34.0,
+            Padding(padding: EdgeInsets.only(top: 40.0),),
+            logo(),
+            CommonWidgets.spacer(gapHeight: MediaQuery.of(context).size.height/7),
+        Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children:<Widget>[
+        Container(
+              child: Column(
+                children: <Widget>[
+                 titleText(),
+                  CommonWidgets.spacer(gapHeight: 30.0),
+                  loginButton(),
+                  CommonWidgets.spacer(gapHeight: 15.0),
+                  Text(
+                    "Log in to continue.",
+                    style: TextStyle(fontSize: 15.0, color: Colors.grey),
+                  ),
+                  CommonWidgets.spacer(gapHeight: 25.0),
+                  registerButton(),
+                  CommonWidgets.spacer(gapHeight: 15.0),
+                  Text(
+                    "Don't have an account?",
+                    style: TextStyle(fontSize: 15.0, color: Colors.grey),
+                  ),
+                  Text(
+                    "Register now for access",
+                    style: TextStyle(fontSize: 15.0, color: Colors.grey),
+                  ),
+                  CommonWidgets.spacer(gapHeight: 20.0),
+                ],
               ),
-            ),
-            CommonWidgets.spacer(gapHeight: 80.0),
-            loginButton(),
-            CommonWidgets.spacer(gapHeight: 15.0),
-            Text(
-              "Log in to continue.",
-              style: TextStyle(fontSize: 15.0, color: Colors.grey),
-            ),
-            CommonWidgets.spacer(gapHeight: 25.0),
-            registerButton(),
-            CommonWidgets.spacer(gapHeight: 15.0),
-            Text(
-              "Don't have an account?",
-              style: TextStyle(fontSize: 15.0, color: Colors.grey),
-            ),
-            Text(
-              "Register now for access",
-              style: TextStyle(fontSize: 15.0, color: Colors.grey),
-            ),
-            CommonWidgets.spacer(gapHeight: 20.0),
-          ],
-        ),
+
+                ),
+      ]
       ),
-    ));
+
+          ],
+        ))
+    );
   }
 
   void checkIfUserRegistered() async {

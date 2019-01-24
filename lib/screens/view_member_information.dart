@@ -296,7 +296,7 @@ class _ViewMemberInformationState extends State<ViewMemberInformation> {
     return Scaffold(
       appBar: CustomAppBar(title: "Member Information"),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
         child: Column(
           children: <Widget>[
             logo(),

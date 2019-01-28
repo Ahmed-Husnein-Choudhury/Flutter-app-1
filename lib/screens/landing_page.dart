@@ -7,6 +7,9 @@ import 'package:medicaid/utils/common_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 import 'package:medicaid/screens/facial_login.dart';
+import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 
 class LandingPage extends StatefulWidget {
   // defining the route here
@@ -19,9 +22,59 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   // defining the login button widget
   bool isRegistered=false;
+  String fcmTopic;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  void fcmSubscribe() {
+    print("subscription topic:$fcmTopic");
+    _firebaseMessaging.subscribeToTopic(fcmTopic);
+  }
+
+  void fcmUnSubscribe() {
+    _firebaseMessaging.subscribeToTopic(fcmTopic);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkIfRegisteredAndAddFcmTopic();
+  }
+
+
+  void firebaseCloudMessaging_Listeners() {
+    if (Platform.isIOS) iOS_Permission();
+
+    _firebaseMessaging.getToken().then((token){
+      print(token);
+    });
+
+    fcmSubscribe();
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');//called when app is active
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
+  }
 
   Widget loginButton() {
-    checkIfUserRegistered();
 
     return Container(
       height: 50.0,
@@ -45,8 +98,6 @@ class _LandingPageState extends State<LandingPage> {
 
   // defining the register button widget
   Widget registerButton() {
-
-    checkIfUserRegistered();
 
     return Container(
       height: 50.0,
@@ -145,11 +196,18 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  void checkIfUserRegistered() async {
+  void checkIfRegisteredAndAddFcmTopic() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(    prefs.getBool("is registered") != null &&   prefs.getBool("is registered") !=false){
+    if(    prefs.getBool("is registered") != null && prefs.getBool("is registered") !=false){
       isRegistered=true;
     }
+
+    if(prefs.getString("member number")!=null) {
+      fcmTopic=prefs.getString("member number");
+      firebaseCloudMessaging_Listeners();
+    }
+    
+    print("stored member number:${prefs.getString("member number")}");
   }
 
   void showErrorDialog(String title,String body) {
@@ -181,9 +239,8 @@ class _LandingPageState extends State<LandingPage> {
                   children: <Widget>[
                     Text(
                       body,
-
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15.0),
+                      style: TextStyle(fontSize: 16.0),
                     ),
                     CommonWidgets.spacer(gapHeight: 25.0),
                     RaisedButton(

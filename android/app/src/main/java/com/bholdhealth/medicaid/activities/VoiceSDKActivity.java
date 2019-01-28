@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -55,6 +53,8 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 //timport es.dmoral.toasty.Toasty;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import es.dmoral.toasty.Toasty;
 import io.flutter.app.FlutterActivity;
 import me.srodrigo.androidhintspinner.HintAdapter;

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,6 +13,7 @@ import com.bholdhealth.medicaid.activities.FaceSDKActivity;
 import com.bholdhealth.medicaid.activities.VoiceLoginActivity;
 import com.bholdhealth.medicaid.activities.VoiceSDKActivity;
 
+import androidx.annotation.RequiresApi;
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;

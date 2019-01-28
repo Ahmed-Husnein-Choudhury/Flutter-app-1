@@ -28,18 +28,19 @@ public class VoiceLoginActivity extends FlutterActivity {
     Prefs prefs;
     //String userName="jordiwaters";
     String userName;
-    String phrase="Golden State Warriors";
-   // String TAG=getApplicationContext().getClass().getSimpleName();
+    String phrase = "Golden State Warriors";
+
+    // String TAG=getApplicationContext().getClass().getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_login);
-        getActionBar().hide();
-        usersDao=new com.bholdhealth.medicaid.database.UsersDao(getApplicationContext());
+        if (getActionBar() != null) getActionBar().hide();
+        usersDao = new com.bholdhealth.medicaid.database.UsersDao(getApplicationContext());
 
-        userName=usersDao.all().get(0).getName();
-        phrase=usersDao.all().get(0).getPhrase();
-        folder=new com.bholdhealth.medicaid.Utils.Folders(VoiceLoginActivity.this);
+        userName = usersDao.all().get(0).getName();
+        phrase = usersDao.all().get(0).getPhrase();
+        folder = new com.bholdhealth.medicaid.Utils.Folders(VoiceLoginActivity.this);
         initViews();
 
         initEngine();
@@ -54,8 +55,8 @@ public class VoiceLoginActivity extends FlutterActivity {
     }
 
     private void initViews() {
-        loaderView=findViewById(R.id.loader);
-        logo=findViewById(R.id.logo);
+        loaderView = findViewById(R.id.loader);
+        logo = findViewById(R.id.logo);
         Glide.with(this).load(R.drawable.logo).into(logo);
     }
 
@@ -64,52 +65,51 @@ public class VoiceLoginActivity extends FlutterActivity {
 //            @Override
 //            public void onClick(View view) {
 
-                com.bholdhealth.medicaid.Models.Users user=usersDao.findByName(userName);
-                com.bholdhealth.medicaid.dialogs.RecordDialog dialog= com.bholdhealth.medicaid.dialogs.RecordDialog.newInstance(phrase,userName);
-                dialog.setOnStopListener(new com.bholdhealth.medicaid.Utils.OnStopRecording() {
+        com.bholdhealth.medicaid.Models.Users user = usersDao.findByName(userName);
+        com.bholdhealth.medicaid.dialogs.RecordDialog dialog = com.bholdhealth.medicaid.dialogs.RecordDialog.newInstance(phrase, userName);
+        dialog.setOnStopListener(new com.bholdhealth.medicaid.Utils.OnStopRecording() {
 
+            @Override
+            public void onStop(final AudioRecord recordObject) {
+
+                loaderView.setVisibility(View.VISIBLE);
+
+
+                AsyncTask.execute(new Runnable() {
                     @Override
-                    public void onStop(final AudioRecord recordObject) {
+                    public void run() {
+                        com.bholdhealth.medicaid.Utils.EngineManager engineManager = com.bholdhealth.medicaid.Utils.EngineManager.getInstance();
+                        final Bundle bundle = new Bundle();
+                        com.bholdhealth.medicaid.Utils.Prefs prefs = com.bholdhealth.medicaid.Utils.Prefs.getInstance();
 
-                        loaderView.setVisibility(View.VISIBLE);
+                        VoiceTemplate record = engineManager.verifyEngine.createVoiceTemplate(recordObject.data, recordObject.sampleRate);
+                        VoiceTemplate template = VoiceTemplate.loadFromFile(folder.getTemplate(userName));
+                        //  Log.d(TAG,"name: "+userName);
+                        VerifyResult verificationResult = engineManager.verifyEngine.verify(record, template);
+                        bundle.putFloat("VERIFICATION_SCORE", verificationResult.probability);
 
-
-                        AsyncTask.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                com.bholdhealth.medicaid.Utils.EngineManager engineManager = com.bholdhealth.medicaid.Utils.EngineManager.getInstance();
-                                final Bundle bundle = new Bundle();
-                                com.bholdhealth.medicaid.Utils.Prefs prefs = com.bholdhealth.medicaid.Utils.Prefs.getInstance();
-
-                                VoiceTemplate record = engineManager.verifyEngine.createVoiceTemplate(recordObject.data, recordObject.sampleRate);
-                                VoiceTemplate template = VoiceTemplate.loadFromFile(folder.getTemplate(userName));
-                              //  Log.d(TAG,"name: "+userName);
-                                VerifyResult verificationResult = engineManager.verifyEngine.verify(record, template);
-                                bundle.putFloat("VERIFICATION_SCORE", verificationResult.probability);
-
-                                if (prefs.getAntispoofingEnabledFlag()) {
-                                    AntispoofResult antispoofingResult = engineManager.antispoofEngine.isSpoof(recordObject.data, recordObject.sampleRate);
-                                    bundle.putFloat("ANTISPOOFING_SCORE", antispoofingResult.score);
-                                }
+                        if (prefs.getAntispoofingEnabledFlag()) {
+                            AntispoofResult antispoofingResult = engineManager.antispoofEngine.isSpoof(recordObject.data, recordObject.sampleRate);
+                            bundle.putFloat("ANTISPOOFING_SCORE", antispoofingResult.score);
+                        }
 
 
-                                if (verificationResult.probability > 0.8) {
-                                    MainActivity.stopNative();
-                                    VoiceLoginActivity.this.finish();
-                                }
-                                 else {
-                                    com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle,loaderView);
-                                    dialog.show(getFragmentManager(), "STATISTICS");
+                        if (verificationResult.probability > 0.8) {
+                            MainActivity.stopNative();
+                            VoiceLoginActivity.this.finish();
+                        } else {
+                            com.bholdhealth.medicaid.dialogs.StatisticsDialog dialog = com.bholdhealth.medicaid.dialogs.StatisticsDialog.newInstance(bundle, loaderView);
+                            dialog.show(getFragmentManager(), "STATISTICS");
 
-                                }
-                            }
-
-                        });
+                        }
                     }
-                });
 
-                dialog.show(getFragmentManager(), "DIALOG");
+                });
             }
+        });
+
+        dialog.show(getFragmentManager(), "DIALOG");
+    }
 //        });
 
 

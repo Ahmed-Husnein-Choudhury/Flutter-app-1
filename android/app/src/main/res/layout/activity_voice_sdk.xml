@@ -40,7 +40,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/registration_complete_tv1" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/continue_card"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -61,9 +61,9 @@
             android:textColor="#ffffff"
             android:textSize="12dp" />
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout_voice_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
             app:layout_constraintTop_toBottomOf="@id/spinner_linear_layout" />
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/start_record_card"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
@@ -185,10 +185,10 @@
                 android:textColor="#ffffff"
                 android:textSize="12dp" />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/reset_card"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -210,10 +210,10 @@
                 android:textColor="#ffffff"
                 android:textSize="12dp" />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/voice_registration_loader"

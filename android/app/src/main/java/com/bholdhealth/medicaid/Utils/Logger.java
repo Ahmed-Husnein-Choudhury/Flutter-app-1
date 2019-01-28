@@ -3,7 +3,6 @@ package com.bholdhealth.medicaid.Utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
 
 import com.bholdhealth.medicaid.Models.AudioRecord;
 import com.opencsv.CSVWriter;
@@ -19,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import androidx.core.content.FileProvider;
 
 
 public class Logger {

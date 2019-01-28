@@ -7,7 +7,7 @@
     android:background="@color/whiteBackground">
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_centerVertical="true"
         android:layout_marginTop="100dp"
@@ -44,5 +44,5 @@
             />
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

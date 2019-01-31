@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <!--
      io.flutter.app.FlutterApplication is an android.app.Application that
@@ -26,6 +28,10 @@
         android:icon="@mipmap/ic_launcer"
         android:label="medicaid"
         tools:replace="android:label">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBwYTyytT2A3Bez8pD9Kp_cJFNXkjzoZpQ"/>
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
@@ -43,9 +49,6 @@
             <meta-data
                 android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
                 android:value="true" />
-
-            <meta-data android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyA1G8L4q33FsJVtiKlHOq_vZefqtesCsmY"/>
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,6 +78,7 @@
         <activity android:name=".activities.VoiceLoginActivity" />
         <activity android:name=".activities.FaceSDKActivity" />
         <activity android:name=".activities.FaceLoginActivity"/>
+
     </application>
 
 </manifest>

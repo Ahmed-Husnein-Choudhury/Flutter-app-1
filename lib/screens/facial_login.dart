@@ -29,39 +29,35 @@ class _FacialLoginState extends State<FacialLogin> {
     getAuthenticationToken();
   }
 
-  Future<Null> getAuthenticationToken() async{
-
-    SharedPreferences memberIdPref= await SharedPreferences.getInstance();
+  Future<Null> getAuthenticationToken() async {
+    SharedPreferences memberIdPref = await SharedPreferences.getInstance();
     print("stored member number:${memberIdPref.getString("member number")}");
 
-    String url=ApiInfo.getBaseUrl()+"/oauth/token";
-   var body={
-     "username":memberIdPref.getString("member number"),
-     "password":"secret",
-     "grant_type":"password",
-     "client_id":2,
-     "client_secret":"95Vf5mPrToXQllg8XbjI5g702D5sGTPjckgU7boM",
-     "provider":"members"
-   };
+    String url = ApiInfo.getBaseUrl() + "/oauth/token";
+    var body = {
+      "username": memberIdPref.getString("member number"),
+      "password": "secret",
+      "grant_type": "password",
+      "client_id": 2,
+      "client_secret": "95Vf5mPrToXQllg8XbjI5g702D5sGTPjckgU7boM",
+      "provider": "members"
+    };
 
-    final response= await post(url,
-        headers:{
+    final response = await post(url,
+        headers: {
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
-      body:json.encode(body)
-    );
+        body: json.encode(body));
 
     print("response code:${response.statusCode}");
 
-    if(response.statusCode==200){
-      String accessToken=json.decode(response.body)["access_token"];
-      String tokenType=json.decode(response.body)["token_type"];
+    if (response.statusCode == 200) {
+      String accessToken = json.decode(response.body)["access_token"];
+      String tokenType = json.decode(response.body)["token_type"];
       AuthenticationToken.setToken(tokenType, accessToken);
-    }
-
-    else{
-        _openDialogConnectionFailed();
+    } else {
+      _openDialogConnectionFailed();
     }
   }
 
@@ -129,7 +125,7 @@ class _FacialLoginState extends State<FacialLogin> {
   // defining the privacy text details text widget
   Widget bottomPrivacyTextLabel() {
     return Container(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.bottomLeft,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,31 +184,6 @@ class _FacialLoginState extends State<FacialLogin> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: <Widget>[
-            CommonWidgets.spacer(gapHeight: 20.0),
-            logo(),
-            CommonWidgets.spacer(gapHeight: 30.0),
-            instructionalText(),
-            CommonWidgets.spacer(gapHeight: 50.0),
-            continueButton(),
-            CommonWidgets.spacer(gapHeight: 30.0),
-            healthPlanLabel(),
-            CommonWidgets.spacer(gapHeight: 50.0),
-            bottomPrivacyTextLabel(),
-            CommonWidgets.spacer(gapHeight: 20.0),
-          ],
-        ),
-      ),
-    ));
-  }
-
   void _openDialogConnectionFailed() {
     showDialog(
         context: context,
@@ -251,5 +222,38 @@ class _FacialLoginState extends State<FacialLogin> {
         });
   }
 
-
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Container(
+      child: Stack(children: <Widget>[
+        Positioned(
+            child: Container(
+                padding: EdgeInsets.all(20.0),
+                child: Column(
+                  children: <Widget>[
+                    CommonWidgets.spacer(gapHeight: 20.0),
+                    logo(),
+                    CommonWidgets.spacer(gapHeight: 30.0),
+                    instructionalText(),
+                    CommonWidgets.spacer(gapHeight: 30.0),
+                    continueButton(),
+                  ],
+                ))),
+        Positioned(
+            child: Align(
+                alignment: FractionalOffset.bottomLeft,
+                child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        healthPlanLabel(),
+                        CommonWidgets.spacer(gapHeight: 20.0),
+                        bottomPrivacyTextLabel(),
+                      ],
+                    ))))
+      ]),
+    ));
+  }
 }

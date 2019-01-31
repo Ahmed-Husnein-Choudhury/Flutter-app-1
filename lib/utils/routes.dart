@@ -26,6 +26,7 @@ import 'package:medicaid/screens/view_member_information.dart';
 import 'package:medicaid/screens/medical_emergency_screen.dart';
 import 'package:medicaid/screens/check_in_screen.dart';
 import 'package:medicaid/screens/check_in_verification_code.dart';
+import 'package:medicaid/screens/geo_locate_provider.dart';
 
 class Routes {
 
@@ -58,5 +59,6 @@ class Routes {
     HealthPlanID.routeName: (context) => HealthPlanID(),
     CheckInScreen.routeName: (context) => CheckInScreen(),
     CheckInVerificationCode.routeName: (context) => CheckInVerificationCode(),
+    GeoLocateProvider.routeName: (context) => GeoLocateProvider(),
   };
 }

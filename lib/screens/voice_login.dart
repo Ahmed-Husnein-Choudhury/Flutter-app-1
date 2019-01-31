@@ -86,14 +86,64 @@ class _State extends State<VoiceLogin> {
     }
   }
 
+  Widget healthPlanLabel() {
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Health Plan 1"),
+          CommonWidgets.spacer(gapHeight: 5.0),
+          RichText(
+              text: TextSpan(
+                  style: TextStyle(fontSize: 15.0, height: 1.2),
+                  children: [
+                    TextSpan(
+                        text: "Customer Service ",
+                        style: TextStyle(color: Colors.black)),
+                    TextSpan(
+                        text: '(800) 555-2222',
+                        style: new TextStyle(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            String url = "tel:800555-2222";
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          }),
+                  ]))
+        ],
+      ),
+    );
+  }
+
+  Widget bottomPrivacyTextLabel() {
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+              "Your privacy is very important to us. We protect your personal health information as required by law."),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(20.0),
-          child: Container(
-            child:Column(
+        body: Container(
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                child:Container(
+                   padding: EdgeInsets.all(20.0),
+                child:Column(
               children: <Widget>[
                 CommonWidgets.spacer(gapHeight: 20.0),
                 CommonWidgets.logo(),
@@ -102,14 +152,28 @@ class _State extends State<VoiceLogin> {
                     "Please click continue to move to the next verification step."),
                 CommonWidgets.spacer(gapHeight: 30.0),
                 continueButton(),
-                CommonWidgets.spacer(gapHeight: 20.0),
-                instructionalText("Health Plan Service 1"),
-                instructionalRichText(),
-                CommonWidgets.spacer(gapHeight: 50.0),
-                instructionalText("Your privacy is very important to use. "
-                    "We protect your personal health information as required by law"),
+
+
               ],
             ),
+    )
+              ),
+
+              Positioned(
+                  child: Align(
+                      alignment: FractionalOffset.bottomLeft,
+                      child: Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              healthPlanLabel(),
+                              CommonWidgets.spacer(gapHeight: 20.0),
+                              bottomPrivacyTextLabel(),
+                            ],
+                          ))))
+      ]
+
           ),
         ));
 
@@ -138,7 +202,8 @@ class _State extends State<VoiceLogin> {
               }
           ),
         ]
-    ));
+    ))
+    ;
 
   }
 }

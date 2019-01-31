@@ -53,7 +53,6 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     if (cameraPermission == PermissionStatus.authorized &&
         writePermission == PermissionStatus.authorized &&
         audioPermission == PermissionStatus.authorized) {
-
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -100,23 +99,26 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         children: <Widget>[
           Text(widget.healthPlanName),
           CommonWidgets.spacer(gapHeight: 5.0),
-          RichText(text: TextSpan(style: TextStyle(fontSize: 14.0,height: 1.2),
-              children: [
-                TextSpan(text:"Customer Service ",style: TextStyle(color: Colors.black)),
+          RichText(
+              text: TextSpan(
+                  style: TextStyle(fontSize: 14.0, height: 1.2),
+                  children: [
+                TextSpan(
+                    text: "Customer Service ",
+                    style: TextStyle(color: Colors.black)),
                 TextSpan(
                     text: '(800) 555-2222',
                     style: new TextStyle(color: Colors.blue),
-                    recognizer: TapGestureRecognizer()..onTap = () async {
-                      String url = "tel:800555-2222";
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else{
-                        throw 'Could not launch $url';
-                      }
-                    }
-                ),
-              ]
-          )),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        String url = "tel:800555-2222";
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      }),
+              ])),
         ],
       ),
     );
@@ -161,33 +163,6 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-                child: Container(
-      padding: EdgeInsets.all(20.0),
-      child: Column(
-        children: <Widget>[
-          CommonWidgets.spacer(gapHeight: 20.0),
-          logo(),
-          CommonWidgets.spacer(gapHeight: 30.0),
-          instructionalText(),
-          CommonWidgets.spacer(gapHeight: 50.0),
-
-          ///This button opens the camera when tapped
-
-          getStartedButton(),
-          CommonWidgets.spacer(gapHeight: 30.0),
-          healthPlanLabel(),
-          CommonWidgets.spacer(gapHeight: 30.0),
-          bottomPrivacyTextLabel(),
-          CommonWidgets.spacer(gapHeight: 20.0),
-        ],
-      ),
-    )));
-  }
-
   Widget loadingScreen() {
     return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
@@ -217,5 +192,38 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
     );
   }
 
-
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Container(
+            child: Stack(children: <Widget>[
+      Positioned(
+          child: Container(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: <Widget>[
+            CommonWidgets.spacer(gapHeight: 20.0),
+            logo(),
+            CommonWidgets.spacer(gapHeight: 30.0),
+            instructionalText(),
+            CommonWidgets.spacer(gapHeight: 30.0),
+            getStartedButton(),
+          ],
+        ),
+      )),
+      Positioned(
+          child: Align(
+              alignment: FractionalOffset.bottomLeft,
+              child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      healthPlanLabel(),
+                      CommonWidgets.spacer(gapHeight: 20.0),
+                      bottomPrivacyTextLabel(),
+                    ],
+                  )))),
+    ])));
+  }
 }

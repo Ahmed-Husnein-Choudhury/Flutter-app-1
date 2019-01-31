@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medicaid/screens/geo_locate_provider.dart';
 import 'package:medicaid/screens/medical_emergency_screen.dart';
-
+import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/voice_login.dart';
 import 'package:medicaid/screens/member_registration.dart';
 import 'package:medicaid/utils/common_widgets.dart';
@@ -53,12 +54,15 @@ class _LandingPageState extends State<LandingPage> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('on message $message');//called when app is active
+        Navigator.pushNamed(context, GeoLocateProvider.routeName);
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
+        Navigator.pushNamed(context, GeoLocateProvider.routeName);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');
+        Navigator.pushNamed(context, GeoLocateProvider.routeName);
       },
     );
   }
@@ -81,7 +85,9 @@ class _LandingPageState extends State<LandingPage> {
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: () => isRegistered ? Navigator.of(context).pushNamed(MedicalEmergency.routeName):showErrorDialog("You have not registered yet.","Please register before logging in."),
+        onPressed: () =>
+        isRegistered ? Navigator.of(context).pushNamed(MedicalEmergency.routeName):showErrorDialog("You have not registered yet.","Please register before logging in."),
+       // startMap(),
         child: Text(
           "Log In",
           style: TextStyle(fontSize: 18.0, color: Colors.white),

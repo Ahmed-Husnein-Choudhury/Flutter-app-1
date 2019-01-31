@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:medicaid/screens/geo_locate_provider.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:medicaid/utils/utils.dart';
+import 'package:simple_permissions/simple_permissions.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,6 +36,13 @@ class CheckInVerificationCode extends StatelessWidget {
         CheckInVerificationCodeModel.fromJson(json.decode(response.body));
     return receivedVerificationCode;
   }
+
+//  Future<dynamic> startTimer(BuildContext context){
+//  return new Future.delayed(
+//  const Duration(seconds: 3),
+//  startMap(context));
+//
+//  }
 
   Widget logo() {
     return Center(
@@ -106,13 +115,14 @@ class CheckInVerificationCode extends StatelessWidget {
     );
   }
 
-  Widget skipButton() {
+  Widget skipButton(BuildContext context) {
     return Container(
       height: 50.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: null,
+        onPressed:
+        (){startMap(context);},
         child: Text(
           "Skip this step",
           style: TextStyle(fontSize: 18.0, color: Colors.white),
@@ -189,7 +199,7 @@ class CheckInVerificationCode extends StatelessWidget {
                 CommonWidgets.spacer(gapHeight: 30.0),
                 unableToAcceptCode(),
                 CommonWidgets.spacer(gapHeight: 20.0),
-                skipButton(),
+                skipButton(context),
                 CommonWidgets.spacer(gapHeight: 20.0),
                 healthPlanLabel(),
                 CommonWidgets.spacer(gapHeight: 20.0),
@@ -204,8 +214,18 @@ class CheckInVerificationCode extends StatelessWidget {
         ));
   }
 
+  Future <Null> startMap(BuildContext context) async {
+    final courseLocationPermission=await SimplePermissions.requestPermission(Permission.AccessCoarseLocation);
+    final fineLocationPermission=await SimplePermissions.requestPermission(Permission.AccessFineLocation);
+
+    if(courseLocationPermission==PermissionStatus.authorized && fineLocationPermission== PermissionStatus.authorized) {
+      Navigator.of(context).pushNamed(GeoLocateProvider.routeName);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+
     // TODO: implement build
     return FutureBuilder(
       future: getVerificationCode(),
@@ -219,4 +239,6 @@ class CheckInVerificationCode extends StatelessWidget {
       },
     );
   }
+
+
 }

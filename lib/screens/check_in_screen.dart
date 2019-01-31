@@ -107,23 +107,35 @@ class CheckInScreen extends StatelessWidget {
         appBar: CustomAppBar(
           title: "Check In",
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              children: <Widget>[
-                logo(),
-                CommonWidgets.spacer(gapHeight: 20.0),
-                instructionalText(),
-                CommonWidgets.spacer(gapHeight: 20.0),
-                checkInButton(context),
-                CommonWidgets.spacer(gapHeight: 20.0),
-                healthPlanLabel(),
-                CommonWidgets.spacer(gapHeight: 20.0),
-                bottomPrivacyTextLabel(),
-              ],
-            ),
-          ),
+        body: Container(
+          child: Stack(children: <Widget>[
+            Positioned(
+                child: Container(
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                children: <Widget>[
+                  logo(),
+                  CommonWidgets.spacer(gapHeight: 20.0),
+                  instructionalText(),
+                  CommonWidgets.spacer(gapHeight: 20.0),
+                  checkInButton(context),
+                ],
+              ),
+            )),
+            Positioned(
+                child: Align(
+                    alignment: FractionalOffset.bottomLeft,
+                    child: Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            healthPlanLabel(),
+                            CommonWidgets.spacer(gapHeight: 20.0),
+                            bottomPrivacyTextLabel(),
+                          ],
+                        ))))
+          ]),
         ),
         bottomNavigationBar: BaseTheme(
           context: context,

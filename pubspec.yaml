@@ -27,7 +27,7 @@ dependencies:
   percent_indicator: ^1.0.11
   url_launcher: ^4.0.3
   qr_flutter: ^1.1.6
-  firebase_messaging: ^2.1.0
+  firebase_messaging: ^2.2.0
   google_maps_flutter: ^0.2.0
   simple_permissions: ^0.1.9
 

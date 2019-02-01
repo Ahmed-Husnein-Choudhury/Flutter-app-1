@@ -71,6 +71,12 @@ flutter {
     source '../..'
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-v4:27.1.0'
+    }
+}
+
 dependencies {
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

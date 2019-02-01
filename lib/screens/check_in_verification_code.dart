@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -14,9 +16,80 @@ import 'package:medicaid/api_and_tokens/api_info.dart';
 import 'package:medicaid/api_and_tokens/authentication_token.dart';
 import 'package:medicaid/models/check_in_verification_code_model.dart';
 
-class CheckInVerificationCode extends StatelessWidget {
+class CheckInVerificationCode extends StatefulWidget {
   static const String routeName = "/checkInVerificationCode";
+
+  @override
+  _State createState() => new _State();
+}
+
+class _State extends State<CheckInVerificationCode>{
+
+  String fcmTopic;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   CheckInVerificationCodeModel receivedVerificationCode;
+
+
+  @override
+  void initState() {
+addFcmTopic();
+  }
+
+  void addFcmTopic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString("member number")!=null) {
+      fcmTopic=prefs.getString("member number");
+      firebaseCloudMessaging_Listeners();
+    }
+
+    print("stored member number:${prefs.getString("member number")}");
+  }
+
+  void firebaseCloudMessaging_Listeners() {
+    if (Platform.isIOS) iOS_Permission();
+
+    _firebaseMessaging.getToken().then((token){
+      print(token);
+    });
+
+    fcmSubscribe();
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');//called when app is active
+        Navigator.pushNamed(context, GeoLocateProvider.routeName);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+        Navigator.pushNamed(context, GeoLocateProvider.routeName);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+        Navigator.pushNamed(context, GeoLocateProvider.routeName);
+      },
+    );
+  }
+
+  void fcmSubscribe() {
+    print("subscription topic:$fcmTopic");
+    _firebaseMessaging.subscribeToTopic(fcmTopic);
+  }
+
+  void fcmUnSubscribe() {
+    _firebaseMessaging.subscribeToTopic(fcmTopic);
+  }
+
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
+  }
 
   Future<CheckInVerificationCodeModel> getVerificationCode() async {
     String url = ApiInfo.getBaseUrl();

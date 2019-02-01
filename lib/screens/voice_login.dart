@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medicaid/utils/common_widgets.dart';
-import 'package:simple_permissions/simple_permissions.dart';
+//import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/home_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -67,15 +67,9 @@ class _State extends State<VoiceLogin> {
   }
 
   requestPermission() async {
-    final res = await SimplePermissions.requestPermission(Permission.RecordAudio);
-    if (res==PermissionStatus.authorized) {
-      print("audio permission granted:$res");
-      final req = await SimplePermissions.requestPermission(
-          Permission.WriteExternalStorage);
-      if (req==PermissionStatus.authorized) {
+
         _loginWithVoice();
-      }
-    }
+
   }
 
   Future<Null> _loginWithVoice() async {

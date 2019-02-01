@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +7,9 @@ import 'package:http/http.dart';
 import 'package:medicaid/screens/geo_locate_provider.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:medicaid/utils/utils.dart';
-import 'package:simple_permissions/simple_permissions.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:permission/permission.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:medicaid/api_and_tokens/api_info.dart';
 import 'package:medicaid/api_and_tokens/authentication_token.dart';
@@ -26,9 +25,9 @@ class CheckInVerificationCode extends StatefulWidget {
 class _State extends State<CheckInVerificationCode>{
 
   String fcmTopic;
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   CheckInVerificationCodeModel receivedVerificationCode;
 
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
@@ -288,12 +287,9 @@ addFcmTopic();
   }
 
   Future <Null> startMap(BuildContext context) async {
-    final courseLocationPermission=await SimplePermissions.requestPermission(Permission.AccessCoarseLocation);
-    final fineLocationPermission=await SimplePermissions.requestPermission(Permission.AccessFineLocation);
-
-    if(courseLocationPermission==PermissionStatus.authorized && fineLocationPermission== PermissionStatus.authorized) {
-      Navigator.of(context).pushNamed(GeoLocateProvider.routeName);
-    }
+    String message="PermissionStatus.allow";
+  var locationPermission= await Permission.requestPermissions([PermissionName.Location]);
+  if(message=="${locationPermission[0].permissionStatus}")  Navigator.of(context).pushNamed(GeoLocateProvider.routeName);
   }
 
   @override

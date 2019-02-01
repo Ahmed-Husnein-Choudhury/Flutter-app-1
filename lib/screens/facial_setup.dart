@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'dart:io';
+import 'package:platform/platform.dart';
 import 'package:camera/camera.dart';
-import 'package:simple_permissions/simple_permissions.dart';
+import 'package:permission/permission.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 import 'package:medicaid/screens/biometric_camera.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -43,27 +44,22 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 
   // requesting permission to access camera
   void requestCameraPermission() async {
-    final cameraPermission =
-        await SimplePermissions.requestPermission(Permission.Camera);
-    final writePermission = await SimplePermissions.requestPermission(
-        Permission.WriteExternalStorage);
+    PermissionName cameraPermission=PermissionName.Camera;
+    PermissionName storagePermission=PermissionName.Storage;
+    PermissionName audioPermission=PermissionName.Microphone;
+    String message="PermissionStatus.allow";
+    var permission =
+        await Permission.requestPermissions([cameraPermission,storagePermission,audioPermission]);
 
-    final audioPermission =
-        await SimplePermissions.requestPermission(Permission.RecordAudio);
-    if (cameraPermission == PermissionStatus.authorized &&
-        writePermission == PermissionStatus.authorized &&
-        audioPermission == PermissionStatus.authorized) {
+    print("permission:${permission[0].permissionStatus}");
+    if(message=="${permission[0].permissionStatus}") {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => BiometricCamera(
+              builder: (context) =>
+                  BiometricCamera(
                     process: "Facial Registration",
                   )));
-
-      //_openCamera();
-
-    } else {
-      // do something
     }
   }
 

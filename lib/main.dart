@@ -6,6 +6,7 @@ import 'package:medicaid/screens/facial_setup.dart';
 import 'package:medicaid/screens/home_page.dart';
 import 'package:medicaid/screens/landing_page.dart';
 import 'package:medicaid/screens/facial_login.dart';
+import 'package:medicaid/screens/facial_setup.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 
 List<CameraDescription> cameras;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medicaid/screens/geo_locate_provider.dart';
 import 'package:medicaid/screens/medical_emergency_screen.dart';
-import 'package:simple_permissions/simple_permissions.dart';
+//import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/voice_login.dart';
 import 'package:medicaid/screens/member_registration.dart';
 import 'package:medicaid/utils/common_widgets.dart';
@@ -23,6 +23,7 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   // defining the login button widget
   bool isRegistered=false;
+
   String fcmTopic;
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -76,6 +77,20 @@ class _LandingPageState extends State<LandingPage> {
     {
       print("Settings registered: $settings");
     });
+  }
+
+  void checkIfRegisteredAndAddFcmTopic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(    prefs.getBool("is registered") != null && prefs.getBool("is registered") !=false){
+      isRegistered=true;
+    }
+
+    if(prefs.getString("member number")!=null) {
+      fcmTopic=prefs.getString("member number");
+      firebaseCloudMessaging_Listeners();
+    }
+
+    print("stored member number:${prefs.getString("member number")}");
   }
 
   Widget loginButton() {
@@ -200,20 +215,6 @@ class _LandingPageState extends State<LandingPage> {
           ],
         ))
     );
-  }
-
-  void checkIfRegisteredAndAddFcmTopic() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(    prefs.getBool("is registered") != null && prefs.getBool("is registered") !=false){
-      isRegistered=true;
-    }
-
-    if(prefs.getString("member number")!=null) {
-      fcmTopic=prefs.getString("member number");
-      firebaseCloudMessaging_Listeners();
-    }
-    
-    print("stored member number:${prefs.getString("member number")}");
   }
 
   void showErrorDialog(String title,String body) {

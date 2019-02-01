@@ -1,11 +1,10 @@
 import 'dart:convert';
-
+import 'package:permission/permission.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:medicaid/main.dart';
 import 'package:medicaid/utils/common_widgets.dart';
-import 'package:simple_permissions/simple_permissions.dart';
 import 'package:medicaid/screens/biometric_camera.dart';
 import 'package:medicaid/screens/voice_login.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -163,11 +162,10 @@ class _FacialLoginState extends State<FacialLogin> {
 
   void requestCameraPermission() async {
     final cameraPermission =
-        await SimplePermissions.requestPermission(Permission.Camera);
-    final writePermission = await SimplePermissions.requestPermission(
-        Permission.WriteExternalStorage);
-    if (cameraPermission == PermissionStatus.authorized &&
-        writePermission == PermissionStatus.authorized) {
+        await Permission.requestSinglePermission(PermissionName.Camera);
+    final writePermission = await Permission.requestSinglePermission(PermissionName.Storage);
+    if (cameraPermission ==PermissionStatus.allow &&
+        writePermission == PermissionStatus.allow) {
       initiateCamera();
 
       Navigator.push(

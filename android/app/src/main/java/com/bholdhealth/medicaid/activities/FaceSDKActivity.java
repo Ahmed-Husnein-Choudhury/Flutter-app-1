@@ -156,7 +156,7 @@ public class FaceSDKActivity extends FlutterActivity {
 
     private void reEnrollFace() {
 
-        multiEvent.faceEvent.image=FileUtils.loadFile(filePath);
+        multiEvent.faceEvent.image= FileUtils.loadFile(filePath);
 
         Log.d(TAG, "byte array: " + multiEvent);
 

@@ -28,8 +28,8 @@ dependencies:
   url_launcher: ^4.0.3
   qr_flutter: ^1.1.6
   google_maps_flutter: ^0.2.0
-  permission: ^0.1.1
   firebase_messaging: ^3.0.0
+  permission: ^0.1.1
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:permission/permission.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -161,11 +160,7 @@ class _FacialLoginState extends State<FacialLogin> {
   }
 
   void requestCameraPermission() async {
-    final cameraPermission =
-        await Permission.requestSinglePermission(PermissionName.Camera);
-    final writePermission = await Permission.requestSinglePermission(PermissionName.Storage);
-    if (cameraPermission ==PermissionStatus.allow &&
-        writePermission == PermissionStatus.allow) {
+
       initiateCamera();
 
       Navigator.push(
@@ -177,9 +172,6 @@ class _FacialLoginState extends State<FacialLogin> {
 
       //_openCamera();
 
-    } else {
-      // do something
-    }
   }
 
   void _openDialogConnectionFailed() {

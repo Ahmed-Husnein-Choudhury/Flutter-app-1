@@ -5,11 +5,14 @@ import 'package:medicaid/utils/routes.dart';
 import 'package:medicaid/screens/facial_setup.dart';
 import 'package:medicaid/screens/home_page.dart';
 import 'package:medicaid/screens/landing_page.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:medicaid/screens/facial_login.dart';
 import 'package:medicaid/screens/facial_setup.dart';
 import 'package:medicaid/screens/voice_registration_set_up.dart';
 
 List<CameraDescription> cameras;
+FirebaseAnalytics analytics=new FirebaseAnalytics();
  // Fetch the available cameras before initializing the app.
 Future<void> main() async {
 
@@ -21,6 +24,9 @@ Future<void> main() async {
       title: "B.Hold",
       debugShowCheckedModeBanner: false,
       routes: Routes.routeList,
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
       //home:FacialRecognitionSetup(healthPlanName: "Square",)
       home:LandingPage()
   ));

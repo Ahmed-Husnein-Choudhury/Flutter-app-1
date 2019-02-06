@@ -27,8 +27,8 @@ Future<void> main() async {
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),
       ],
-      //home:FacialRecognitionSetup(healthPlanName: "Square",)
-      home:LandingPage()
+      home:FacialRecognitionSetup(healthPlanName: "Square",)
+      //home:LandingPage()
   ));
 }
 //g

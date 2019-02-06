@@ -8,19 +8,16 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GeoLocateProvider extends StatefulWidget {
-
-
   static const String routeName = "/geoLocateProvider";
+
 //  CheckInVerificationCodeModel receivedVerificationCode;
   @override
-  _State createState() => new _State();}
+  _State createState() => new _State();
+}
 
-  class _State extends State<GeoLocateProvider>{
-
-    @override
-    void initState() {
-
-    }
+class _State extends State<GeoLocateProvider> {
+  @override
+  void initState() {}
 
   Widget logo() {
     return Center(
@@ -57,28 +54,27 @@ class GeoLocateProvider extends StatefulWidget {
               text: TextSpan(
                   style: TextStyle(fontSize: 14.0, height: 1.2),
                   children: [
-                    TextSpan(
-                        text: "Customer Service ",
-                        style: TextStyle(color: Colors.black)),
-                    TextSpan(
-                        text: '(800) 555-2222',
-                        style: new TextStyle(color: Colors.blue),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () async {
-                            String url = "tel:800555-2222";
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          }),
-                  ]))
+                TextSpan(
+                    text: "Customer Service ",
+                    style: TextStyle(color: Colors.black)),
+                TextSpan(
+                    text: '(800) 555-2222',
+                    style: new TextStyle(color: Colors.blue),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        String url = "tel:800555-2222";
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      }),
+              ]))
         ],
       ),
     );
   }
 
-  // defining the privacy text details text widget
   Widget bottomPrivacyTextLabel() {
     return Container(
       alignment: Alignment.centerLeft,
@@ -124,43 +120,37 @@ class GeoLocateProvider extends StatefulWidget {
     );
   }
 
-  Widget notCorrectLocation(BuildContext context){
-    return
-
-      new InkWell(
+  Widget notCorrectLocation(BuildContext context) {
+    return new InkWell(
       child: new Text(
         "Not Correct?",
         style: TextStyle(
-          color:  Color(0XFF00AFDF),
+          color: Color(0XFF00AFDF),
           fontSize: 15.00,
         ),
       ),
       onTap: () {
-        Navigator.push(
-            context, SlideRightRoute("Not Correct Location")
+        Navigator.push(context, SlideRightRoute("Not Correct Location")
 //
-        );
+            );
       },
-    )
-    ;
+    );
   }
 
-  Widget showMap(BuildContext context){
-    return  Center(
-      child:
-      Container(
-        height: MediaQuery.of(context).size.height/3,
-        width: MediaQuery.of(context).size.width/1.1,
+  Widget showMap(BuildContext context) {
+    return Center(
+      child: Container(
+        height: MediaQuery.of(context).size.height / 2.5,
+        width: MediaQuery.of(context).size.width / 1.1,
         child: GoogleMap(
-          initialCameraPosition:CameraPosition(target: LatLng(23.7811619,90.4138226),zoom: 18.0),
+          initialCameraPosition: CameraPosition(
+              target: LatLng(23.7811619, 90.4138226), zoom: 18.0),
           onMapCreated: (GoogleMapController controller) {
-            controller.addMarker(MarkerOptions(
-              position: LatLng(23.7811619,90.4138226)
-            ));
+            controller.addMarker(
+                MarkerOptions(position: LatLng(23.7811619, 90.4138226)));
           },
         ),
       ),
-
     );
   }
 
@@ -171,35 +161,52 @@ class GeoLocateProvider extends StatefulWidget {
 //        appBar: CustomAppBar(
 //          title: "Check In",
 //        ),
-        body:
-        SingleChildScrollView(
-          child:
-          Container(
-            padding: EdgeInsets.fromLTRB(20.0,25.0,20.0,20.0),
-            child: Column(
-              children: <Widget>[
-                logo(),
-                CommonWidgets.spacer(gapHeight: 20.0),
-                instructionalText(),
-                CommonWidgets.spacer(gapHeight: 20.0),
-                showMap(context),
-                CommonWidgets.spacer(gapHeight: 20.0),
-                confirmButton(),
-                CommonWidgets.spacer(gapHeight: 15.0),
-                notCorrectLocation(context),
+        body: Container(
+          padding: EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 20.0),
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+          child:Column(
+                children: <Widget>[
+                  logo(),
+                  CommonWidgets.spacer(gapHeight: 15.0),
+                  instructionalText(),
+                ],
+              )
+
+              ),
+
+              Positioned(
+                child:Align(
+                  alignment: FractionalOffset.center,
+              child:showMap(context),
+              ),
+              ),
+
+              Positioned(
+                  child: Align(
+                      alignment: FractionalOffset.bottomCenter,
+                      child:
+                         Column(
+                           mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          confirmButton(),
+                          CommonWidgets.spacer(gapHeight: 10.0),
+                          notCorrectLocation(context),
+                        ],
+                      )
+                  )),
+
 //                CommonWidgets.spacer(gapHeight: 10.0),
 //                healthPlanLabel(),
 //                CommonWidgets.spacer(gapHeight: 10.0),
 //                bottomPrivacyTextLabel(),
-              ],
-            ),
+            ],
           ),
         ),
         bottomNavigationBar: BaseTheme(
           context: context,
           navigation: CustomBottomNavigation(context: context, index: 4),
-        )
-    );
+        ));
   }
-
 }

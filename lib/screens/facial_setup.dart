@@ -61,6 +61,14 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
                     process: "Facial Registration",
                   )));
     }
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                BiometricCamera(
+                  process: "Facial Registration",
+                )));
   }
 
   // widget for showing logo

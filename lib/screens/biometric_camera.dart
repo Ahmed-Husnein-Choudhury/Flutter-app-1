@@ -163,6 +163,7 @@ class _CameraState extends State<BiometricCamera>{
   }
 
   void onTakePictureButtonPressed() {
+    //loadingScreen();
     takePicture().then((String filePath) {
       if (mounted) {
         setState(() {
@@ -228,31 +229,37 @@ class _CameraState extends State<BiometricCamera>{
   }
 
     Widget loadingScreen() {
-      return Container(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
-        child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  "assets/bhold_static_loading.jpg",
-                  height: 100.0,
-                  width: 100.0,
-                ),
-//              CircularProgressIndicator(
-//                strokeWidth: 2.0,
-//              ),
-                Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                ),
-                Text(
-                  "Loading...",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-                )
-              ],
-            )),
+      return
+//        Container(
+//        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
+//        child: Center(
+//            child: Column(
+//              mainAxisSize: MainAxisSize.min,
+//              crossAxisAlignment: CrossAxisAlignment.center,
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              children: <Widget>[
+//                Image.asset(
+//                  "assets/bhold_static_loading.jpg",
+//                  height: 100.0,
+//                  width: 100.0,
+//                ),
+////              CircularProgressIndicator(
+////                strokeWidth: 2.0,
+////              ),
+//                Padding(
+//                  padding: EdgeInsets.only(top: 20.0),
+//                ),
+//                Text(
+//                  "Loading...",
+//                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+//                )
+//              ],
+//            )),
+//      );
+      Center(
+    child:CircularProgressIndicator(
+      strokeWidth: 2.0,
+    )
       );
     }
 

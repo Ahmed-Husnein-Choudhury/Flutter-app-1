@@ -170,7 +170,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
                 children: <Widget>[
                   Text(
                     "Please recheck the information entered and resubmit. If you continue to receive this message,"
-                        "please contact us at Customer Service (880) 555-2222",
+                        " please contact us at (880) 555-2222",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 15.0),
                   ),
@@ -247,6 +247,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         ),
       );
     } else {
+      print("status code:${response.statusCode}");
       _showVerificationErrorDialog();
     }
   }

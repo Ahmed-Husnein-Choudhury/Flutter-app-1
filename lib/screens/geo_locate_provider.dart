@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:location/location.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:medicaid/utils/screen_transition_animation.dart';
 import 'package:medicaid/utils/utils.dart';
@@ -16,8 +17,28 @@ class GeoLocateProvider extends StatefulWidget {
 }
 
 class _State extends State<GeoLocateProvider> {
+
+//  Map<String,double> currentLocation;
+//  var location;
+
   @override
-  void initState() {}
+  void initState() {
+//    getCurrentLocation();
+  }
+
+//  Future<Map<String,double>> getCurrentLocation() async {
+//
+//   // currentLocation = <String, double>{};
+//    location = new Location();
+//    try {
+//      currentLocation = await location.getLocation();
+//    }
+//    catch(e) {
+//      currentLocation = null;
+//    }
+//    print("location:${currentLocation["latitude"]},${currentLocation["longitude"]}");
+//    }
+
 
   Widget logo() {
     return Center(
@@ -54,22 +75,22 @@ class _State extends State<GeoLocateProvider> {
               text: TextSpan(
                   style: TextStyle(fontSize: 14.0, height: 1.2),
                   children: [
-                TextSpan(
-                    text: "Customer Service ",
-                    style: TextStyle(color: Colors.black)),
-                TextSpan(
-                    text: '(800) 555-2222',
-                    style: new TextStyle(color: Colors.blue),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () async {
-                        String url = "tel:800555-2222";
-                        if (await canLaunch(url)) {
-                          await launch(url);
-                        } else {
-                          throw 'Could not launch $url';
-                        }
-                      }),
-              ]))
+                    TextSpan(
+                        text: "Customer Service ",
+                        style: TextStyle(color: Colors.black)),
+                    TextSpan(
+                        text: '(800) 555-2222',
+                        style: new TextStyle(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            String url = "tel:800555-2222";
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          }),
+                  ]))
         ],
       ),
     );
@@ -132,7 +153,7 @@ class _State extends State<GeoLocateProvider> {
       onTap: () {
         Navigator.push(context, SlideRightRoute("Not Correct Location")
 //
-            );
+        );
       },
     );
   }
@@ -140,14 +161,24 @@ class _State extends State<GeoLocateProvider> {
   Widget showMap(BuildContext context) {
     return Center(
       child: Container(
-        height: MediaQuery.of(context).size.height / 2.5,
-        width: MediaQuery.of(context).size.width / 1.1,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height / 2.5,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width / 1.1,
         child: GoogleMap(
           initialCameraPosition: CameraPosition(
-              target: LatLng(23.7811619, 90.4138226), zoom: 18.0),
+              target:
+              LatLng(23.7811619, 90.4138226), zoom: 18.0),
+             // LatLng(currentLocation["latitude"], currentLocation["longitude"]), zoom: 18.0),
           onMapCreated: (GoogleMapController controller) {
             controller.addMarker(
-                MarkerOptions(position: LatLng(23.7811619, 90.4138226)));
+                MarkerOptions(position:
+                LatLng(23.7811619, 90.4138226)));
+               // LatLng(currentLocation["latitude"], currentLocation["longitude"])));
           },
         ),
       ),
@@ -156,6 +187,8 @@ class _State extends State<GeoLocateProvider> {
 
   @override
   Widget build(BuildContext context) {
+
+  //  getCurrentLocation();
     // TODO: implement build
     return Scaffold(
 //        appBar: CustomAppBar(
@@ -166,29 +199,29 @@ class _State extends State<GeoLocateProvider> {
           child: Stack(
             children: <Widget>[
               Positioned(
-          child:Column(
-                children: <Widget>[
-                  logo(),
-                  CommonWidgets.spacer(gapHeight: 15.0),
-                  instructionalText(),
-                ],
-              )
+                  child: Column(
+                    children: <Widget>[
+                      logo(),
+                      CommonWidgets.spacer(gapHeight: 15.0),
+                      instructionalText(),
+                    ],
+                  )
 
               ),
 
               Positioned(
-                child:Align(
+                child: Align(
                   alignment: FractionalOffset.center,
-              child:showMap(context),
-              ),
+                  child: showMap(context),
+                ),
               ),
 
               Positioned(
                   child: Align(
                       alignment: FractionalOffset.bottomCenter,
                       child:
-                         Column(
-                           mainAxisAlignment: MainAxisAlignment.end,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           confirmButton(),
                           CommonWidgets.spacer(gapHeight: 10.0),
@@ -209,4 +242,5 @@ class _State extends State<GeoLocateProvider> {
           navigation: CustomBottomNavigation(context: context, index: 4),
         ));
   }
+
 }

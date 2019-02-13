@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,10 +8,13 @@ import 'package:medicaid/utils/screen_transition_animation.dart';
 import 'package:medicaid/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:medicaid/screens/all_information_confirmed_details.dart';
 
 class GeoLocateProvider extends StatefulWidget {
   static const String routeName = "/geoLocateProvider";
+  double lat,lng;
 
+  GeoLocateProvider({this.lat,this.lng});
 //  CheckInVerificationCodeModel receivedVerificationCode;
   @override
   _State createState() => new _State();
@@ -18,26 +22,28 @@ class GeoLocateProvider extends StatefulWidget {
 
 class _State extends State<GeoLocateProvider> {
 
-//  Map<String,double> currentLocation;
-//  var location;
+ // Map<String,double> currentLocation=new Map();
+  var currentLocation = <String, double>{};
+  StreamSubscription<Map<String,double>> locationSubscription;
+  var location=new Location();
+  LocationData locationData;
+  double dummyLatitude, dummyLongitude;
 
   @override
   void initState() {
-//    getCurrentLocation();
+  //getCurrentLocation();
+getLocation();
   }
 
-//  Future<Map<String,double>> getCurrentLocation() async {
-//
-//   // currentLocation = <String, double>{};
-//    location = new Location();
-//    try {
-//      currentLocation = await location.getLocation();
-//    }
-//    catch(e) {
-//      currentLocation = null;
-//    }
-//    print("location:${currentLocation["latitude"]},${currentLocation["longitude"]}");
-//    }
+
+  Future<Map<String,double>> getCurrentLocation() async {
+
+    print("initial location:${currentLocation["latitude"]},${currentLocation["longitude"]}");
+
+      locationData = await location.getLocation();
+
+    print("user location:${locationData.latitude},${locationData.longitude}");
+    }
 
 
   Widget logo() {
@@ -49,7 +55,6 @@ class _State extends State<GeoLocateProvider> {
     );
   }
 
-  // defining the instructional text widget
   Widget instructionalText() {
     return Padding(
         padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
@@ -110,13 +115,16 @@ class _State extends State<GeoLocateProvider> {
     );
   }
 
-  Widget confirmButton() {
+  Widget confirmButton(BuildContext context) {
     return Container(
       height: 50.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed: null,
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> new AllInformationConfirmedDetails())
+          );
+        },
         child: Text(
           "Confirm",
           style: TextStyle(fontSize: 18.0, color: Colors.white),
@@ -170,25 +178,30 @@ class _State extends State<GeoLocateProvider> {
             .size
             .width / 1.1,
         child: GoogleMap(
+          myLocationEnabled: true,
+          trackCameraPosition: true,
           initialCameraPosition: CameraPosition(
               target:
-              LatLng(23.7811619, 90.4138226), zoom: 18.0),
-             // LatLng(currentLocation["latitude"], currentLocation["longitude"]), zoom: 18.0),
+              LatLng(widget.lat,widget.lng), zoom: 15.0),
           onMapCreated: (GoogleMapController controller) {
             controller.addMarker(
                 MarkerOptions(position:
-                LatLng(23.7811619, 90.4138226)));
-               // LatLng(currentLocation["latitude"], currentLocation["longitude"])));
+                LatLng(widget.lat,widget.lng)));
+
           },
         ),
       ),
     );
   }
 
+  void getLocation() async {
+    final response= await getCurrentLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
 
-  //  getCurrentLocation();
+//    getLocation();
     // TODO: implement build
     return Scaffold(
 //        appBar: CustomAppBar(
@@ -212,7 +225,9 @@ class _State extends State<GeoLocateProvider> {
               Positioned(
                 child: Align(
                   alignment: FractionalOffset.center,
-                  child: showMap(context),
+                  child:
+
+                  showMap(context),
                 ),
               ),
 
@@ -223,7 +238,7 @@ class _State extends State<GeoLocateProvider> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          confirmButton(),
+                          confirmButton(context),
                           CommonWidgets.spacer(gapHeight: 10.0),
                           notCorrectLocation(context),
                         ],

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1016655022328",
+    "firebase_url": "https://bhold-medicaid.firebaseio.com",
+    "project_id": "bhold-medicaid",
+    "storage_bucket": "bhold-medicaid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016655022328:android:406d2c8f4c8c8efd",
+        "android_client_info": {
+          "package_name": "com.bholdhealth.medicaid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016655022328-t0dn96i10a0gt116nphstajsqs2gfeob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpRDMZAV80-nM_32-Xod9nHbgZIkwxTlQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

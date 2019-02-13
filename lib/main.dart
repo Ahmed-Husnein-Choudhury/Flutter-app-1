@@ -28,7 +28,7 @@ Future<void> main() async {
         FirebaseAnalyticsObserver(analytics: analytics),
       ],
       //home:FacialRecognitionSetup(healthPlanName: "Square",)
-      home:GeoLocateProvider()
+      home:LandingPage()
   ));
 }
 //g

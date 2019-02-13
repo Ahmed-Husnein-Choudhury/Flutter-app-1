@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:medicaid/api_and_tokens/api_info.dart';
 import 'package:medicaid/api_and_tokens/authentication_token.dart';
 import 'package:medicaid/models/check_in_verification_code_model.dart';
+import 'package:app_settings/app_settings.dart';
 
 class CheckInVerificationCode extends StatefulWidget {
   static const String routeName = "/checkInVerificationCode";
@@ -22,8 +23,7 @@ class CheckInVerificationCode extends StatefulWidget {
   _State createState() => new _State();
 }
 
-class _State extends State<CheckInVerificationCode>{
-
+class _State extends State<CheckInVerificationCode> {
   String fcmTopic;
   CheckInVerificationCodeModel receivedVerificationCode;
 
@@ -31,13 +31,13 @@ class _State extends State<CheckInVerificationCode>{
 
   @override
   void initState() {
-addFcmTopic();
+    addFcmTopic();
   }
 
   void addFcmTopic() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString("member number")!=null) {
-      fcmTopic=prefs.getString("member number");
+    if (prefs.getString("member number") != null) {
+      fcmTopic = prefs.getString("member number");
       firebaseCloudMessaging_Listeners();
     }
 
@@ -47,7 +47,7 @@ addFcmTopic();
   void firebaseCloudMessaging_Listeners() {
     if (Platform.isIOS) iOS_Permission();
 
-    _firebaseMessaging.getToken().then((token){
+    _firebaseMessaging.getToken().then((token) {
       print(token);
     });
 
@@ -55,16 +55,17 @@ addFcmTopic();
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');//called when app is active
-        Navigator.pushNamed(context, GeoLocateProvider.routeName);
+        print('on message $message'); //called when app is active
+        //Navigator.pushNamed(context, GeoLocateProvider.routeName);
+        startMap(context);
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
-        Navigator.pushNamed(context, GeoLocateProvider.routeName);
+        startMap(context);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');
-        Navigator.pushNamed(context, GeoLocateProvider.routeName);
+        startMap(context);
       },
     );
   }
@@ -78,14 +79,11 @@ addFcmTopic();
     _firebaseMessaging.subscribeToTopic(fcmTopic);
   }
 
-
   void iOS_Permission() {
     _firebaseMessaging.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true)
-    );
+        IosNotificationSettings(sound: true, badge: true, alert: true));
     _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings)
-    {
+        .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
   }
@@ -193,8 +191,9 @@ addFcmTopic();
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
-        onPressed:
-        (){startMap(context);},
+        onPressed: () {
+          startMap(context);
+        },
         child: Text(
           "Skip this step",
           style: TextStyle(fontSize: 18.0, color: Colors.white),
@@ -238,14 +237,16 @@ addFcmTopic();
       children: <Widget>[
         Align(
           alignment: Alignment.center,
-          child: Text("Verification Code:",
-          style: TextStyle(fontSize: 16.0),),
+          child: Text(
+            "Verification Code:",
+            style: TextStyle(fontSize: 16.0),
+          ),
         ),
         CommonWidgets.spacer(gapHeight: 5.0),
         Align(
           alignment: Alignment.center,
           child: Text(receivedVerificationCode.verificationCode,
-              style: TextStyle(fontSize: 30.0,color: Colors.blueGrey)),
+              style: TextStyle(fontSize: 30.0, color: Colors.blueGrey)),
         ),
       ],
     );
@@ -258,7 +259,7 @@ addFcmTopic();
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
+            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
             child: Column(
               children: <Widget>[
                 logo(),
@@ -286,15 +287,21 @@ addFcmTopic();
         ));
   }
 
-  Future <Null> startMap(BuildContext context) async {
-    String message="PermissionStatus.allow";
-  var locationPermission= await Permission.requestPermissions([PermissionName.Location]);
-  if(message=="${locationPermission[0].permissionStatus}")  Navigator.of(context).pushNamed(GeoLocateProvider.routeName);
+  Future<Null> startMap(BuildContext context) async {
+    String message = "PermissionStatus.allow";
+    var locationPermission =
+        await Permission.requestPermissions([PermissionName.Location]);
+    if (message == "${locationPermission[0].permissionStatus}") {
+
+      AppSettings.openLocationSettings();
+
+      Navigator.of(context).pushNamed(GeoLocateProvider.routeName);
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
-
     // TODO: implement build
     return FutureBuilder(
       future: getVerificationCode(),
@@ -308,6 +315,4 @@ addFcmTopic();
       },
     );
   }
-
-
 }

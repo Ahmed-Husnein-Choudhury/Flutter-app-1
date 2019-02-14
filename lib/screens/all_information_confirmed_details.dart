@@ -86,7 +86,7 @@ class AllInformationConfirmedDetails extends StatelessWidget {
     return Padding(padding: EdgeInsets.only(top: pixels));
   }
 
-  Widget checkInComplete() {
+  Widget checkInCompleteImage() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -98,6 +98,12 @@ class AllInformationConfirmedDetails extends StatelessWidget {
         )),
         Text("Check-in Complete.",
         style: TextStyle(fontSize: 20.0),
+        ),
+        padding(20.0),
+        Container(
+          height: 1.5,
+          color: Colors.grey
+            ,
         )
       ],
     );
@@ -113,8 +119,8 @@ class AllInformationConfirmedDetails extends StatelessWidget {
         child: SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 10.0, left: 10.0),
           child: Column(children: <Widget>[
-            checkInComplete(),
-            padding(40),
+            checkInCompleteImage(),
+            padding(15),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,

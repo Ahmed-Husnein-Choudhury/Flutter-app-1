@@ -25,9 +25,9 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   // defining the login button widget
   bool isRegistered = false;
-  double lat,lng;
+  double lat, lng;
 
-  Map<String,dynamic> data;
+  Map<String, dynamic> data;
 
   String fcmTopic;
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -59,24 +59,17 @@ class _LandingPageState extends State<LandingPage> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('on message $message'); //called when app is active
-       // data=json.decode(message.toString());
-      //  String data=message["data"];
-//        lat= data["lat"];
-//        lng=  data["lng"];
-//        print("location info:$lat,$lng");
-        startMap(context,message);
+
+        onMessageNotification(message);
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
-        //data=json.decode(message.toString());
-//        lat=  message["lat"];
-//        lng=  message["lng"];
-//        print("location info:$lat,$lng");
-        startMap(context,message);
+
+        onResumeNotification(message);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');
-        startMap(context,message);
+        onMessageNotification(message);
       },
     );
   }
@@ -178,25 +171,47 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Future<Null> startMap(BuildContext context,Map<String,dynamic> message) async {
-     data=new Map<String,dynamic>.from(message["data"]);
-//    String latd=data["lat"];
-//     String lngd=data["lng"];
-    lat=double.parse(data["lat"]);
-    lng=double.parse(data["lng"]);
-     print("location info:$lat,$lng");
+  void onMessageNotification(Map<String, dynamic> message) {
+    data = new Map<String, dynamic>.from(message["data"]);
+    lat = double.parse(data["lat"]);
+    lng = double.parse(data["lng"]);
+    print("location info:$lat,$lng");
     print("location info:$data");
+    startMap(context);
+  }
 
+
+  void onResumeNotification(Map<String,dynamic> message){
+    lat = double.parse(message["lat"]);
+    lng = double.parse(message["lng"]);
+    print("location info:$lat,$lng");
+   // print("location info:$message");
+    startMap(context);
+  }
+
+  void onLaunchNotification(Map<String,dynamic> message){
+    lat = double.parse(data["lat"]);
+    lng = double.parse(data["lng"]);
+    print("location info:$lat,$lng");
+    print("location info:$data");
+    startMap(context);
+  }
+
+  Future<Null> startMap(BuildContext context) async {
     String pMessage = "PermissionStatus.allow";
     var locationPermission =
         await Permission.requestPermissions([PermissionName.Location]);
     if (pMessage == "${locationPermission[0].permissionStatus}") {
-
-    //  AppSettings.openLocationSettings();
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>GeoLocateProvider(lat: lat,lng: lng,)));
+        AppSettings.openLocationSettings();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => GeoLocateProvider(
+                    lat: lat,
+                    lng: lng,
+                  )));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

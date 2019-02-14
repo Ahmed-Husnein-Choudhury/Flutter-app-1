@@ -182,11 +182,13 @@ getLocation();
           trackCameraPosition: true,
           initialCameraPosition: CameraPosition(
               target:
-              LatLng(widget.lat,widget.lng), zoom: 15.0),
+           //   LatLng(widget.lat,widget.lng), zoom: 15.0),
+              LatLng(23.781832,90.413211), zoom: 15.0),
           onMapCreated: (GoogleMapController controller) {
             controller.addMarker(
                 MarkerOptions(position:
-                LatLng(widget.lat,widget.lng)));
+              //  LatLng(widget.lat,widget.lng)));
+                LatLng(23.781832,90.413211)));
 
           },
         ),

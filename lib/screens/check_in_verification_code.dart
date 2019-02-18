@@ -128,7 +128,7 @@ class _State extends State<CheckInVerificationCode> {
     return Padding(
         padding: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
         child: Text(
-          "Please show this page to the provider's office staff.",
+          "Scan the code to complete the check-in verification process.",
           style: TextStyle(
             fontSize: 16.0,
           ),
@@ -227,7 +227,7 @@ class _State extends State<CheckInVerificationCode> {
     return Padding(
         padding: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
         child: Text(
-          "Is your provider unable to accept verification code?",
+          "If your practice does not have a scanner",
           style: TextStyle(fontSize: 16.0),
         ));
   }

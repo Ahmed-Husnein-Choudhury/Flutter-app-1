@@ -169,9 +169,6 @@ class _CameraState extends State<BiometricCamera>{
         setState(() {
           imagePath = filePath;
         });
-     //   if (filePath != null) showInSnackBar('Picture saved to $filePath');
-
-        //loadingScreen();
 
         widget.process=="Facial Registration"?
         _registerFace(imagePath): _verifyFace(imagePath);

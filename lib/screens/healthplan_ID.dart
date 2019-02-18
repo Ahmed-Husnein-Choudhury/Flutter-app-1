@@ -81,6 +81,7 @@ class HealthPlanID extends StatelessWidget{
       appBar: CustomAppBar(title: "Health Plan ID Card",),
         body: SingleChildScrollView(
           child: Container(
+            color: Colors.white,
             padding: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
             child: Column(
               children: <Widget>[

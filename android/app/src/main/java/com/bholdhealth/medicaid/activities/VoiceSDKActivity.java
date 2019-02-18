@@ -288,7 +288,7 @@ public class VoiceSDKActivity extends FlutterActivity {
                         } else if (counter == 1) {
 
                             //showLoader()
-                            if (checkVoiceMatch(recordObject, voices[0], engineManager) > 0.8) {
+                            if (checkVoiceMatch(recordObject, voices[0], engineManager) > 0.7) {
                                 VoiceSDKActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -320,7 +320,7 @@ public class VoiceSDKActivity extends FlutterActivity {
                             counter = 2;
 
 
-                            if (checkVoiceMatch(recordObject, voices[1], engineManager) > 0.8) {
+                            if (checkVoiceMatch(recordObject, voices[1], engineManager) > 0.7) {
 
                                 VoiceSDKActivity.this.runOnUiThread(new Runnable() {
                                     @Override

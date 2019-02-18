@@ -175,7 +175,7 @@ class _RegisteringMemberInformationState extends State<RegisteringMemberInformat
           spacer(gapHeight: 5.0),
           Text(
             "${this.member.location.streetAddressOne}\n${this.member.location.addressCity}"
-                "\n${this.member.location.addressState}, ${this.member.location.addressZip.substring(0,5)}"
+                " ${this.member.location.addressState}, ${this.member.location.addressZip.substring(0,5)}"
           )
         ],
       ),
@@ -252,7 +252,7 @@ class _RegisteringMemberInformationState extends State<RegisteringMemberInformat
               ),
               children: [
                 TextSpan(
-                  text: "If it is incorrect, please contact our ${this.member.medicaidInfo.memberPlan.planName.toUpperCase()} Customer Service Team"
+                  text: "If it is incorrect, please contact ${this.member.medicaidInfo.memberPlan.planName.toUpperCase()} Customer Service Team"
                       " directly at ",
                   style: new TextStyle(color: Colors.black),
                 ),
@@ -321,7 +321,7 @@ class _RegisteringMemberInformationState extends State<RegisteringMemberInformat
             instructionalText(),
             spacer(gapHeight: 20.0),
             memberNameInfoLabel(),
-            spacer(gapHeight: 10.0),
+            spacer(gapHeight: 5.0),
             memberNameInfo(),
             spacer(gapHeight: 20.0),
             memberDateOfBirth(),

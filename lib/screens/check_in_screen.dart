@@ -79,7 +79,7 @@ class CheckInScreen extends StatelessWidget {
 
   Widget checkInButton(BuildContext context) {
     return Container(
-      height: 50.0,
+      height: 70.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
@@ -88,7 +88,7 @@ class CheckInScreen extends StatelessWidget {
         },
         child: Text(
           "Check In Now",
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
+          style: TextStyle(fontSize: 20.0, color: Colors.white),
         ),
         shape: StadiumBorder(
           side: BorderSide(
@@ -118,10 +118,18 @@ class CheckInScreen extends StatelessWidget {
                   CommonWidgets.spacer(gapHeight: 20.0),
                   instructionalText(),
                   CommonWidgets.spacer(gapHeight: 20.0),
-                  checkInButton(context),
+                 // checkInButton(context),
                 ],
               ),
             )),
+
+            Positioned(
+              child: Align(
+                alignment: FractionalOffset.center,
+                child: checkInButton(context),
+              ),
+            ),
+
             Positioned(
                 child: Align(
                     alignment: FractionalOffset.bottomLeft,

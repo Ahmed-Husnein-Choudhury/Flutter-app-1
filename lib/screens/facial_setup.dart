@@ -145,7 +145,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 
   Widget getStartedButton() {
     return Container(
-      height: 50.0,
+      height: 70.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
@@ -155,7 +155,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
         onPressed: requestCameraPermission,
         child: Text(
           "Let's get started",
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
+          style: TextStyle(fontSize: 20.0, color: Colors.white),
         ),
         shape: StadiumBorder(
           side: BorderSide(
@@ -208,13 +208,19 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
           children: <Widget>[
             CommonWidgets.spacer(gapHeight: 20.0),
             logo(),
-            CommonWidgets.spacer(gapHeight: 30.0),
+            CommonWidgets.spacer(gapHeight: 50.0),
             instructionalText(),
             CommonWidgets.spacer(gapHeight: 30.0),
-            getStartedButton(),
+           // getStartedButton(),
           ],
         ),
       )),
+      Positioned(
+        child: Align(
+          alignment: FractionalOffset.center,
+          child: getStartedButton(),
+        ),
+      ),
       Positioned(
           child: Align(
               alignment: FractionalOffset.bottomLeft,

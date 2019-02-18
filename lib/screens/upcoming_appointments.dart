@@ -76,7 +76,7 @@ class _UpcomingAppointmentsState extends State<UpcomingAppointments> {
         color: Color(0XFFF3F3F3),
         padding: EdgeInsets.only(left: 10.0, right: 10.0),
         child: ListView.builder(
-          itemCount: 15,
+          itemCount: 1,
           itemBuilder: (context, index) {
             return appointmentListTile();
           }

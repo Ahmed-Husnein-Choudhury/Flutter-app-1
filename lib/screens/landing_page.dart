@@ -26,6 +26,7 @@ class _LandingPageState extends State<LandingPage> {
   // defining the login button widget
   bool isRegistered = false;
   double lat, lng;
+  String providerAddress;
 
   Map<String, dynamic> data;
 
@@ -175,8 +176,9 @@ class _LandingPageState extends State<LandingPage> {
     data = new Map<String, dynamic>.from(message["data"]);
     lat = double.parse(data["lat"]);
     lng = double.parse(data["lng"]);
-    print("location info:$lat,$lng");
-    print("location info:$data");
+    providerAddress=data["address"];
+    print("location info:$lat,$lng,$providerAddress");
+//    print("location info:$data");
     startMap(context);
   }
 
@@ -184,7 +186,8 @@ class _LandingPageState extends State<LandingPage> {
   void onResumeNotification(Map<String,dynamic> message){
     lat = double.parse(message["lat"]);
     lng = double.parse(message["lng"]);
-    print("location info:$lat,$lng");
+    providerAddress=data["address"];
+    print("location info:$lat,$lng,$providerAddress");
    // print("location info:$message");
     startMap(context);
   }
@@ -192,8 +195,8 @@ class _LandingPageState extends State<LandingPage> {
   void onLaunchNotification(Map<String,dynamic> message){
     lat = double.parse(data["lat"]);
     lng = double.parse(data["lng"]);
+    providerAddress=data["address"];
     print("location info:$lat,$lng");
-    print("location info:$data");
     startMap(context);
   }
 
@@ -209,6 +212,7 @@ class _LandingPageState extends State<LandingPage> {
               builder: (context) => GeoLocateProvider(
                     lat: lat,
                     lng: lng,
+                providerAddress: providerAddress,
                   )));
     }
   }

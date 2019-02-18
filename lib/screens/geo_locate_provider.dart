@@ -13,8 +13,9 @@ import 'package:medicaid/screens/all_information_confirmed_details.dart';
 class GeoLocateProvider extends StatefulWidget {
   static const String routeName = "/geoLocateProvider";
   double lat,lng;
+  String providerAddress;
 
-  GeoLocateProvider({this.lat,this.lng});
+  GeoLocateProvider({this.lat,this.lng,this.providerAddress});
 //  CheckInVerificationCodeModel receivedVerificationCode;
   @override
   _State createState() => new _State();
@@ -31,7 +32,6 @@ class _State extends State<GeoLocateProvider> {
 
   @override
   void initState() {
-  //getCurrentLocation();
 getLocation();
   }
 
@@ -166,6 +166,7 @@ getLocation();
     );
   }
 
+
   Widget showMap(BuildContext context) {
     return Center(
       child: Container(
@@ -188,7 +189,10 @@ getLocation();
             controller.addMarker(
                 MarkerOptions(position:
               //  LatLng(widget.lat,widget.lng)));
-                LatLng(23.781832,90.413211)));
+                LatLng(23.781832,90.413211),
+
+  infoWindowText: InfoWindowText(widget.providerAddress, ""),
+                ));
 
           },
         ),
@@ -203,12 +207,8 @@ getLocation();
   @override
   Widget build(BuildContext context) {
 
-//    getLocation();
     // TODO: implement build
     return Scaffold(
-//        appBar: CustomAppBar(
-//          title: "Check In",
-//        ),
         body: Container(
           padding: EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 20.0),
           child: Stack(

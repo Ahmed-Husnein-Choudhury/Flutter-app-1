@@ -86,7 +86,7 @@ class AllInformationConfirmedDetails extends StatelessWidget {
     return Padding(padding: EdgeInsets.only(top: pixels));
   }
 
-  Widget checkInCompleteImage() {
+  Widget checkInCompleteImage(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -102,6 +102,7 @@ class AllInformationConfirmedDetails extends StatelessWidget {
         padding(20.0),
         Container(
           height: 1.5,
+          width: MediaQuery.of(context).size.width,
           color: Colors.grey
             ,
         )
@@ -115,17 +116,16 @@ class AllInformationConfirmedDetails extends StatelessWidget {
       appBar: CustomAppBar(title: "Information Confirmed"),
       body: Container(
         color: Color(0XFFF3F3F3),
-        padding: EdgeInsets.only(left: 10.0),
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: 10.0, left: 10.0),
           child: Column(children: <Widget>[
-            checkInCompleteImage(),
+            checkInCompleteImage(context),
             padding(15),
-            Column(
+            Padding(padding: EdgeInsets.only(bottom: 10.0, left: 20.0),
+            child:Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(padding: EdgeInsets.only(bottom: 10.0, left: 10.0)),
+                Padding(padding: EdgeInsets.only(bottom: 10.0, left: 20.0)),
                 rowStack(
                     "DATE",
                     DateFormat('yyyy-MM-dd').format(DateTime.now()),
@@ -155,7 +155,8 @@ class AllInformationConfirmedDetails extends StatelessWidget {
                 singleInfoTile(
                     "OTHER COVERAGE", "No other health plans on file"),
               ],
-            ),
+            )
+        ),
           ]),
         ),
       ),

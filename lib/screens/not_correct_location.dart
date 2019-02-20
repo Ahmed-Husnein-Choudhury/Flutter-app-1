@@ -26,7 +26,7 @@ class Screen extends StatelessWidget {
   static final SORRY_WE_DID_NOT_GET_IT_RIGHT =
       "Sorry we did not get that right.";
   static final IN_ORDER_FOR_US_TO_PROVIDE =
-      "Please enter your doctor's name below or hand your device to the practice administrator who can enter their unique NIP or TIN numbers";
+      "Please enter your doctor's name below or hand your device to the practice staff member who can enter their unique NPI or TIN numbers";
   static final CANNOT_FIND_YOUR_PRACTICE =
       "If you can not find your practice, please call us to confirm your status at: 888-555-1234";
 

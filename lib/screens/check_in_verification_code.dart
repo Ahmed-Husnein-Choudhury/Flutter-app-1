@@ -41,7 +41,7 @@ class _State extends State<CheckInVerificationCode> {
       firebaseCloudMessaging_Listeners();
     }
 
-    print("stored member number:${prefs.getString("member number")}");
+    print("stored member number for fcm topic:${prefs.getString("member number")}");
   }
 
   void firebaseCloudMessaging_Listeners() {
@@ -92,6 +92,7 @@ class _State extends State<CheckInVerificationCode> {
     String url = ApiInfo.getBaseUrl();
     SharedPreferences pref = await SharedPreferences.getInstance();
     String memberId = pref.getString("member number");
+    print("api being called:$memberId");
     final response = await get(
       url + "/api/v1/members/get_check_in_verification_code/$memberId",
       headers: {

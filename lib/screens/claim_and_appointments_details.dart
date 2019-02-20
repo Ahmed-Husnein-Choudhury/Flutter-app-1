@@ -91,7 +91,7 @@ class _ClaimAndAppointmentsDetailsState extends State<ClaimAndAppointmentsDetail
                 Container(
                   width: 10.0,
                   height: 10.0,
-                  margin: EdgeInsets.only(left: 100.0),
+                  margin: EdgeInsets.only(left: 110.0),
                   alignment: Alignment.topRight,
                   decoration: BoxDecoration(
                     color: Color(0XFF00AFDF),

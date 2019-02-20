@@ -114,7 +114,7 @@ class MedicalEmergency extends StatelessWidget {
 
   Widget continueButton(BuildContext context) {
     return Container(
-      height: 50.0,
+      height: 60.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
@@ -126,7 +126,7 @@ class MedicalEmergency extends StatelessWidget {
         },
         child: Text(
           "Continue",
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
+          style: TextStyle(fontSize: 20.0, color: Colors.white),
         ),
         shape: StadiumBorder(
           side: BorderSide(
@@ -153,8 +153,15 @@ class MedicalEmergency extends StatelessWidget {
                   CommonWidgets.spacer(gapHeight: 30.0),
                   instructionalText(),
                   CommonWidgets.spacer(gapHeight: 30.0),
-                  continueButton(context),
                 ]))),
+
+        Positioned(
+          child: Align(
+            alignment: FractionalOffset.center,
+            child: continueButton(context),
+          ),
+        ),
+
         Positioned(
             child: Align(
                 alignment: FractionalOffset.bottomLeft,

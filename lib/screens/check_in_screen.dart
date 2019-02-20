@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:medicaid/utils/common_widgets.dart';
 import 'package:medicaid/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:medicaid/screens/check_in_verification_code.dart';
+
 
 class CheckInScreen extends StatelessWidget {
   static const String routeName = "/checkInScreen";
@@ -79,7 +82,7 @@ class CheckInScreen extends StatelessWidget {
 
   Widget checkInButton(BuildContext context) {
     return Container(
-      height: 70.0,
+      height: 60.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
@@ -99,6 +102,7 @@ class CheckInScreen extends StatelessWidget {
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -145,7 +145,7 @@ class _FacialRecognitionSetupState extends State<FacialRecognitionSetup> {
 
   Widget getStartedButton() {
     return Container(
-      height: 70.0,
+      height: 60.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),

@@ -92,7 +92,7 @@ public class VoiceSDKActivity extends FlutterActivity {
     String name="CasandraPagac";
     String phoneNumber="123456789";
     TextView record, phrase, registrationCompleteTv1, registrationCompleteTv2, stepsTv;
-    LinearLayout linearLayoutCounter;
+    LinearLayout linearLayoutCounter,regCompleteLinearLayout;
     ConstraintLayout constraintLayoutRegistration;
     Spinner spinner;
     private String[] strings;
@@ -191,6 +191,7 @@ public class VoiceSDKActivity extends FlutterActivity {
         continueCardView = findViewById(R.id.continue_card);
         Glide.with(this).load(R.drawable.logo).into(logo);
         folder = new com.bholdhealth.medicaid.Utils.Folders(VoiceSDKActivity.this);
+        regCompleteLinearLayout=findViewById(R.id.reg_complete_linearLayout);
 
     }
 
@@ -293,7 +294,7 @@ public class VoiceSDKActivity extends FlutterActivity {
                                     @Override
                                     public void run() {
                                         Log.d(TAG, "score is: " + checkVoiceMatch(recordObject, voices[0], engineManager));
-                                        String message = String.format("Recording #%d successfully complete!", counter + 1);
+                                        String message = String.format("Recording #%d successful!", counter + 1);
                                         Toasty.success(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                                         hideLoader();
                                         startRecordButton.setText("Start Recording (Step 3)");
@@ -373,9 +374,11 @@ public class VoiceSDKActivity extends FlutterActivity {
         constraintLayoutRegistration.setVisibility(GONE);
 
         // loaderView.setVisibility(View.GONE);
-        registrationCompleteTv1.setVisibility(View.VISIBLE);
-        registrationCompleteTv2.setVisibility(View.VISIBLE);
-        continueCardView.setVisibility(View.VISIBLE);
+//        registrationCompleteTv1.setVisibility(View.VISIBLE);
+//        registrationCompleteTv2.setVisibility(View.VISIBLE);
+//        continueCardView.setVisibility(View.VISIBLE);
+
+        regCompleteLinearLayout.setVisibility(View.VISIBLE);
 
         continuetoNextPage(continueButton,username);
     }

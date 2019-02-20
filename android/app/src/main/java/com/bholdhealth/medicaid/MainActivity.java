@@ -22,6 +22,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 public class MainActivity extends FlutterActivity {
     static Context context;
     Image image;
+    int faceRegStepNumber;
     String name, pictureFilePath, phoneNumber;
     public static String CHANNEL = "biometric authentication";
     static MethodChannel.Result methodResult;
@@ -68,8 +69,10 @@ public class MainActivity extends FlutterActivity {
 
                 else if (methodCall.method.equals("register face")) {
                     pictureFilePath = methodCall.argument("file path");
+                    faceRegStepNumber=methodCall.argument("step number");
                     Intent in = new Intent(MainActivity.this, FaceSDKActivity.class);
                     in.putExtra("file path", pictureFilePath);
+                    in.putExtra("step number",faceRegStepNumber);
                     startActivity(in);
 
                 } else if (methodCall.method.equals("verify face")) {

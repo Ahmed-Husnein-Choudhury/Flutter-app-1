@@ -1,8 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:medicaid/utils/utils.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class YourPlanDetails extends StatefulWidget {
 
@@ -14,7 +15,7 @@ class YourPlanDetails extends StatefulWidget {
 
 class _State extends State<YourPlanDetails> {
   final String GREEN_COLOR = "#9ED151";
-  final String FOR_CARE_ON = "For care on September 18, 2018";
+  final String FOR_CARE_ON = "For care on $date";
   final String startDate = "January 1, 2019";
   final String endDate = "December 31st, 2019";
   final String firstName = "Ben";
@@ -22,6 +23,8 @@ class _State extends State<YourPlanDetails> {
   final double copay = 100.00;
   final double deductible = 500.00;
   final double outOfPocketMax = 1000.00;
+
+  static var date=new DateFormat.yMMMd("en_US").format(new DateTime.now());
 
   double getCopayPercentage(double copay) {
     double tempValue = copay / 200;

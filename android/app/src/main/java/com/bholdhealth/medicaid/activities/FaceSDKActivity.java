@@ -36,6 +36,7 @@ public class FaceSDKActivity extends FlutterActivity {
     byte[] profile;
     Gson gson;
     String json;
+    int stepNumber;
     IDEngine idEngine;
     EnrollResultContainer enrollResultContainer;
     MultiEvent multiEvent;
@@ -45,6 +46,7 @@ public class FaceSDKActivity extends FlutterActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         filePath = getIntent().getStringExtra("file path");
+        stepNumber=getIntent().getIntExtra("step number",0);
         Log.d(TAG, "face activity called: " + filePath);
 
         // MainActivity.stopNative();
@@ -140,7 +142,7 @@ public class FaceSDKActivity extends FlutterActivity {
             saveFace(savedFaceArray);
             Log.d(TAG, "finished profile: " + savedFaceArray);
 
-            Toasty.success(getApplicationContext(), "Enrollment Successful", Toast.LENGTH_LONG).show();
+            Toasty.success(getApplicationContext(), "Picture #"+stepNumber+" Successful", Toast.LENGTH_LONG).show();
 
             finishPlatformChannelEnrolled(true);
 

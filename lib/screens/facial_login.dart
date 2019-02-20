@@ -41,20 +41,25 @@ class _FacialLoginState extends State<FacialLogin> {
       "provider": "members"
     };
 
-    final response = await post(url,
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        },
-        body: json.encode(body));
+    try {
+      final response = await post(url,
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+          body: json.encode(body));
 
-    print("response code:${response.statusCode}");
+      print("response code:${response.statusCode}");
 
-    if (response.statusCode == 200) {
-      String accessToken = json.decode(response.body)["access_token"];
-      String tokenType = json.decode(response.body)["token_type"];
-      AuthenticationToken.setToken(tokenType, accessToken);
-    } else {
+      if (response.statusCode == 200) {
+        String accessToken = json.decode(response.body)["access_token"];
+        String tokenType = json.decode(response.body)["token_type"];
+        AuthenticationToken.setToken(tokenType, accessToken);
+      } else {
+        _openDialogConnectionFailed();
+      }
+    }
+    catch(e){
       _openDialogConnectionFailed();
     }
   }
@@ -137,7 +142,7 @@ class _FacialLoginState extends State<FacialLogin> {
 
   Widget continueButton() {
     return Container(
-      height: 50.0,
+      height: 60.0,
       width: 250.0,
       child: RaisedButton(
         color: Color(0XFF00AFDF),
@@ -147,7 +152,7 @@ class _FacialLoginState extends State<FacialLogin> {
         onPressed: requestCameraPermission,
         child: Text(
           "Continue",
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
+          style: TextStyle(fontSize: 20.0, color: Colors.white),
         ),
         shape: StadiumBorder(
           side: BorderSide(
@@ -227,9 +232,16 @@ class _FacialLoginState extends State<FacialLogin> {
                     CommonWidgets.spacer(gapHeight: 30.0),
                     instructionalText(),
                     CommonWidgets.spacer(gapHeight: 30.0),
-                    continueButton(),
                   ],
                 ))),
+
+        Positioned(
+          child: Align(
+            alignment: FractionalOffset.center,
+            child: continueButton(),
+          ),
+        ),
+
         Positioned(
             child: Align(
                 alignment: FractionalOffset.bottomLeft,

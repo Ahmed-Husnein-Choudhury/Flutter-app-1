@@ -39,6 +39,7 @@ class _CameraState extends State<BiometricCamera>{
   var image;
   bool isCaptured;
   int pictureNumber = 3;
+  int stepNumber=1;
   bool isCameraOpened;
 
   CameraController controller;
@@ -70,17 +71,17 @@ class _CameraState extends State<BiometricCamera>{
       Container(
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
-                child: Center(
+//                child: Center(
                   child: _cameraPreviewWidget(),
-                ),
+//                ),
               ),
-              decoration: BoxDecoration(
+          /*    decoration: BoxDecoration(
                 color: Colors.black,
                 border: Border.all(
                   color: Colors.grey,
                   width: 3.0,
                 ),
-              ),
+              ),*/
             )
        //   :CircularProgressIndicator(strokeWidth: 2.0,)
           ),
@@ -93,40 +94,42 @@ class _CameraState extends State<BiometricCamera>{
 
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _cameraPreviewWidget() {
-    if (controller == null || !controller.value.isInitialized) {
-      return const Text(
-        'Tap a camera',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 24.0,
-          fontWeight: FontWeight.w900,
-        ),
-      );
-    } else {
       return AspectRatio(
         aspectRatio: controller.value.aspectRatio,
         child: CameraPreview(controller),
       );
-    }
+
   }
 
 
-  /// Display the control bar with buttons to take pictures and record videos.
   Widget _captureControlRowWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        IconButton(
-          icon: const Icon(Icons.camera_alt),
-          color: Colors.blue,
-          onPressed: controller != null &&
-              controller.value.isInitialized
-              ? onTakePictureButtonPressed
-              : null,
-        ),
-      ],
+    return
+      Container(
+        color: Colors.green,
+        width: MediaQuery.of(context).size.width/1.05,
+     height: MediaQuery.of(context).size.height/5,
+     child: RaisedButton(onPressed: controller!=null && controller.value.isInitialized
+    ? onTakePictureButtonPressed : null,
+      child:Icon(Icons.camera_alt,
+        size: 90,
+      )
+    )
     );
+
+//      Row(
+//      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//      mainAxisSize: MainAxisSize.max,
+//      children: <Widget>[
+//        IconButton(
+//          icon: const Icon(Icons.camera_alt),
+//          color: Colors.blue,
+//          onPressed: controller != null &&
+//              controller.value.isInitialized
+//              ? onTakePictureButtonPressed
+//              : null,
+//        ),
+//      ],
+//    );
   }
 
 
@@ -208,7 +211,7 @@ class _CameraState extends State<BiometricCamera>{
   Future<Null> _registerFace(String fileName) async {
 
     response = await _faceRecognitionMethodChannel
-        .invokeMethod("register face", {"file path": fileName});
+        .invokeMethod("register face", {"file path": fileName,"step number":stepNumber});
     print("file has been sent to native: $response");
 
     //this.isCameraOpened = true;
@@ -216,6 +219,7 @@ class _CameraState extends State<BiometricCamera>{
     if (response) {
       print("response: $response");
       pictureNumber--;
+      stepNumber++;
       _openCameraDialogEnrolled(pictureNumber);
     } else {
       print("response: $response");
@@ -308,7 +312,7 @@ class _CameraState extends State<BiometricCamera>{
         buttonText = "Continue to Step ${3 - pictureNumber + 1}";
       } else {
         successString = "Congratulations!";
-        dialogBody = "You have successfully registered your face";
+        dialogBody = "You have successfully registered your facial recognition security";
         buttonText = "Continue";
         registrationComplete = true;
       }

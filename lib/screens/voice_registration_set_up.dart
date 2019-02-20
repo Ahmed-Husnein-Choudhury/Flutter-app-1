@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'voice_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:medicaid/screens/facial_login.dart';
+import 'package:medicaid/screens/landing_page.dart';
 
 class VoiceRegistrationSetUp extends StatefulWidget {
   static final String routeName = "/voiceRegistrationSetup";
@@ -35,15 +36,19 @@ class _State extends State<VoiceRegistrationSetUp> {
   Widget instructionalText(String text) {
     return Text(
       text,
+      style: TextStyle(
+        fontSize: 14.0
+      ),
     );
   }
 
   Widget continueButton() {
-    return Padding(
+    return
+      Padding(
         padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
         child: Container(
-            height: 45,
-            width: 200,
+            height: 60,
+            width: 250,
             child: RaisedButton(
                 color: Color(0XFF00AFDF),
                 shape: StadiumBorder(
@@ -53,7 +58,7 @@ class _State extends State<VoiceRegistrationSetUp> {
                   ),
                 ),
                 child: Text("Continue",
-                    style: TextStyle(color: Colors.white, fontSize: 15.0)),
+                    style: TextStyle(color: Colors.white, fontSize: 20.0)),
                 onPressed: requestPermission)));
   }
 
@@ -68,6 +73,10 @@ class _State extends State<VoiceRegistrationSetUp> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool response;
+
+//    fullName="Ahmed";
+//    phoneNumber="264465";
+
     response = await _voiceRecognitionMethodChannel
         .invokeMethod("register voice", {"name": fullName,"phone number":phoneNumber});
     print("native is being called:$response");
@@ -76,7 +85,7 @@ class _State extends State<VoiceRegistrationSetUp> {
 
     response
         ? 
-    Navigator.of(context).pushNamed(FacialLogin.routeName)
+    Navigator.of(context).pushNamed(LandingPage.routeName)
         : "not working";
   }
 
@@ -144,20 +153,21 @@ class _State extends State<VoiceRegistrationSetUp> {
               children: <Widget>[
                 CommonWidgets.spacer(gapHeight: 20.0),
                 CommonWidgets.logo(),
-                CommonWidgets.spacer(gapHeight: 20.0),
-                Text(
-                  "Almost Done! Let's add your second one.",
-                  textAlign: TextAlign.start,
-                ),
-                CommonWidgets.spacer(gapHeight: 20.0),
+                CommonWidgets.spacer(gapHeight: 40.0),
                 instructionalText(
-                    "To register your voice, please allow access to your device's microphone or contact your health plan."),
+                    "Almost Done! Let's add your voice recognition security."),
                 CommonWidgets.spacer(gapHeight: 30.0),
-                continueButton(),
 
               ],
             ),
             )
+              ),
+
+              Positioned(
+                child: Align(
+                  alignment: FractionalOffset.center,
+                  child: continueButton(),
+                ),
               ),
 
               Positioned(
